@@ -1,0 +1,24 @@
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
+
+.tweetList {
+  border-top: solid 2px black;
+  &__text {
+    @include dont-break-out;
+  }
+}
+
+.editControls {
+  &__textBox {
+    height: 5rem;
+    width: 100%;
+  }
+}
+
+.selectedClass {
+  background-color: darkgray;
+}
+
+.notSelectedClass {
+  background-color: white;
+}

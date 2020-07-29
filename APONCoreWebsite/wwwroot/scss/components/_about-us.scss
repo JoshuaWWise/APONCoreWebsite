@@ -1,0 +1,44 @@
+@media screen and (max-width: 767px) {
+  .AboutUsHeader {
+    &__image {
+      max-width: 80vw;
+    }
+
+    &__text {
+      font-size: 1rem;
+      line-height: 1rem;
+      max-width: 80%;
+    }
+  }
+}
+
+//--------------------------Wider than phone screen-------------------------
+@media screen and (min-width: 768px) {
+  .AboutUsHeader {
+    &__image {
+      max-width: 65vw;
+    }
+
+    &__text {
+      font-size: 2rem;
+      line-height: 2rem;
+      max-width: 60%;
+    }
+  }
+}
+
+.AboutUsHeader {
+  display: block;
+  text-align: center;
+  margin-bottom: 1rem;
+
+  &__image {
+    display: inline;
+  }
+
+  &__text {
+    text-align: justify;
+    display: inline-block;
+    text-align-last: center;
+  }
+}

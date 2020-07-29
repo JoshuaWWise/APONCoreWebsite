@@ -1,0 +1,39 @@
+.rotator {
+  position: relative;
+  width: 100vw;
+
+  &__photo {
+    box-shadow: 0 1rem 2rem rgba($color: #000000, $alpha: 0.15);
+    border-radius: 5px;
+    position: absolute;
+    width: 20%;
+    z-index: 10;
+    transition: all 0.2;
+
+    &:hover {
+      transform: scale(1.1);
+      z-index: 11;
+    }
+
+    &--p1 {
+      top: 1vh;
+      left: 3vw;
+    }
+
+    &--p2 {
+      top: 1vh;
+      left: 14vw;
+    }
+
+    &--p3 {
+      top: 10vh;
+      left: 10vw;
+    }
+  }
+
+  &:hover {
+    :not(:hover) {
+      transform: scale(0.8);
+    }
+  }
+}

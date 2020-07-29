@@ -1,0 +1,134 @@
+﻿@page "/{SeriesName}"
+@model APONCoreWebsite.Pages.SeriesModel
+@{
+    ViewData["Title"] = "Series";
+}
+
+<div class="card-border APONtext grid-row">
+    @*<div [ngClass]="showTwitter ? 'col-3-of-4' : 'col-1-of-1'"> @if () 
+        <div class="grid-row">
+            <div *ngIf="series" class="col-1-of-1 seriesContainer">
+                <span>
+                    <img *ngIf="series"
+                         class="seriesContainer__premiumSeriesImage"
+                         [src]="series.splashImageURL" />
+                </span>
+                <img [hidden]="!showTwitterLink()"
+                     src="https://media.allportsopen.org/images/siteImages/TwitterFeedLink.png"
+                     class="twitterfeedLink"
+                     (click)="showHideTwitter()" />
+                <div class="APONText seriesContainer__premiumSeriesDescription"
+                     [innerHTML]="series.description"></div>
+                <div class="grid-row seriesContainer__links">
+                    <div class="col-1-of-4">
+                        <button class="seriesContainer__links--cast" (click)="navToCast()">
+                            Series Cast
+                        </button>
+                    </div>
+                    <div class="col-1-of-4">
+                        <a [href]="series.spotify" target="_blank">
+                            <img class="seriesContainer__links--socialMedia"
+                                 src="https://media.allportsopen.org/images/siteimages/spotifywb.png" />
+                        </a>
+                    </div>
+                    <div class="col-1-of-4">
+                        <a [href]="series.rss" target="_blank">
+                            <img class="seriesContainer__links--socialMedia"
+                                 src="https://media.allportsopen.org/images/siteimages/RSS.png" />
+                        </a>
+                    </div>
+                    <div class="col-1-of-4">
+                        <a [href]="series.iTunes" target="_blank">
+                            <img class="seriesContainer__links--socialMedia"
+                                 src="https://media.allportsopen.org/images/siteimages/iTunes.png" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="isEditor()" class="editorControl">
+            <div>
+                <div class="editorControl__head">
+                    Editor Tools
+                </div>
+
+                <div class="grid-row editorControl__body APONText">
+                    <div class="col-1-of-3">
+                        <button type="button"
+                                (click)="onEditSeries()"
+                                class="APONbtn APONbtnEditor">
+                            Edit
+                        </button>
+                    </div>
+                    <div class="col-1-of-3"></div>
+                    <div class="col-1-of-3"></div>
+                </div>
+            </div>
+        </div>
+
+        <hr />
+        <div class="row" *ngIf="seriesLinks">
+            <div class="col-xs-3 col-md-3" *ngFor="let sl of seriesLinks">
+                <app-series-link [seriesLink]="sl"></app-series-link>
+            </div>
+        </div>
+        <hr />
+
+        <hr />
+        <div class="grid-row">
+            <div class="col-1-of-1">
+                <div *ngIf="Episodes">
+                    <ngb-pagination class="pager d-flex justify-content-center"
+                                    [(page)]="PageNum"
+                                    [pageSize]="pageSize"
+                                    [collectionSize]="Episodes.length"
+                                    [maxSize]="5"
+                                    [rotate]="true"
+                                    [ellipses]="false"
+                                    [boundaryLinks]="true"></ngb-pagination>
+
+                    <div *ngFor="
+              let ep of Episodes
+                | slice
+                  : (PageNum - 1) * pageSize
+                  : (PageNum - 1) * pageSize + pageSize;
+              index as i
+            ">
+                        <div *ngIf="i % 4 == 0" class="grid-row">
+                            <div class="col-1-of-4"
+                                 *ngIf="Episodes.length > i + (PageNum - 1) * pageSize">
+                                <app-episode-list-item [episode]="Episodes[i + (PageNum - 1) * pageSize]">
+                                </app-episode-list-item>
+                            </div>
+                            <div class="col-1-of-4"
+                                 *ngIf="Episodes.length > i + 1 + (PageNum - 1) * pageSize">
+                                <app-episode-list-item [episode]="Episodes[i + 1 + (PageNum - 1) * pageSize]">
+                                </app-episode-list-item>
+                            </div>
+                            <div class="col-1-of-4"
+                                 *ngIf="Episodes.length > i + 2 + (PageNum - 1) * pageSize">
+                                <app-episode-list-item [episode]="Episodes[i + 2 + (PageNum - 1) * pageSize]">
+                                </app-episode-list-item>
+                            </div>
+                            <div class="col-1-of-4"
+                                 *ngIf="Episodes.length > i + 3 + (PageNum - 1) * pageSize">
+                                <app-episode-list-item [episode]="Episodes[i + 3 + (PageNum - 1) * pageSize]">
+                                </app-episode-list-item>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="!series" class="warning">Loading</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-1-of-4" [hidden]="!showFeed()">
+        <button (click)="showHideTwitter()" class="APONbtn APONbtnBlue mt-2">
+            Hide Feed
+        </button>
+        <a class="twitter-timeline" [href]="getTwitterFeed()">
+            Twitter Feed
+        </a>
+    </div>*@
+</div>

@@ -1,0 +1,19 @@
+.seriesListGrid {
+  transition: all 0.2s;
+  &:hover {
+    :not(:hover) {
+      filter: brightness(70%);
+
+      z-index: 5;
+    }
+  }
+
+  &__Card {
+    &:hover {
+      transform: scale(1.1);
+      filter: brightness(110%);
+      z-index: 100;
+      box-shadow: 0 1rem 1rem rgba($color: #000000, $alpha: 0.2);
+    }
+  }
+}

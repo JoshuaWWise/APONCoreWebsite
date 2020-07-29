@@ -1,0 +1,24 @@
+.tagItem {
+  width: 60%;
+}
+
+.tagList {
+  &__head {
+    width: 100%;
+    text-align: center;
+    font-size: 1.8;
+    font-weight: 700;
+    margin-top: 1rem;
+    text-transform: uppercase;
+  }
+
+  &__body {
+    text-align: center;
+
+    &--listItem {
+      width: 100%;
+      position: relative;
+      left: 20%;
+    }
+  }
+}

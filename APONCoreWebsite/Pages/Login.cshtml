@@ -1,0 +1,194 @@
+﻿@page
+@using APONCoreLibrary;
+@using APONCoreLibrary.Models;
+@model APONCoreWebsite.Pages.LoginModel
+
+@{
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+
+        var LoggedIn;
+
+        $(document).ready(function () {
+
+            var myStorage = window.localStorage;
+
+            LoggedIn = @Model.LogInSuccessful.ToString().ToLower();
+            alert(LoggedIn);
+
+            if (LoggedIn) {
+                var jwt = document.getElementById("token").value;
+                var expiration = document.getElementById("expiration");
+
+                myStorage.setItem("userJWT", jwt);
+                myStorage.setItem("userJWTExpiration", expiration);
+                console.log(myStorage.getItem("userJWT"));
+                console.log(myStorage.getItem("userJWTExpiration"));
+            }
+
+        });
+
+    </script>
+}
+
+<div class="centerbox">
+    <div class="LoginCol LeftLoginCol">
+        <div class="LoginColumnHeader">LOGIN</div>
+        <hr />
+        <div class="centerbox__inputArea">
+
+
+            <form method="post">
+                <div class="centerbox__inputArea--text"><label>Username</label></div>
+                <div>
+                    <input type="text"
+                           id="loginUsername"
+                           name="loginUsername"
+                           class="form-control centerbox__inputArea--textBox"
+                           asp-for="LoginUser.UserName"
+                           required />
+                    <div class="loginError"
+                         [hidden]="loginUsername.valid || loginUsername.pristine">
+                        Please enter your Username to Sign in.
+                    </div>
+                </div>
+                <div class="centerbox__inputArea--text">Password</div>
+                <div>
+                    <input type="password"
+                           name="loginPassword"
+                           class="centerbox__inputArea--textBox form-control"
+                           asp-for="LoginUser.Password"
+                           required />
+                    <div class="loginError"
+                         [hidden]="loginPassword.valid || loginPassword.pristine">
+                        Please enter your password to login.
+                    </div>
+                </div>
+                <div>
+                    <button class="APONbtn APONbtnOrange centerbox__inputArea--submitButton"
+                            type="submit" asp-page-handler="Login">
+                        Log In
+                    </button>
+                </div>
+                <div>
+                    Login Message: @Model.LoginMessage
+                </div>
+            </form>
+            <div>
+                <form #restetPWForm="ngForm" (ngSubmit)="sendResetEmail()">
+                    <button class="APONbtn APONbtnOrange centerbox__inputArea--submitButton"
+                            (click)="showReset = true">
+                        Forgot your Info?
+                    </button>
+                    <div [hidden]="!showReset" class="centerbox__inputArea--text">
+                        Please enter your email address:
+                        <input type="text"
+                               name="resetEmailbox"
+                               class="centerbox__inputArea--textBox form-control"
+                               [(ngModel)]="resetEmail"
+                               required
+                               email
+                               #resetEmailbox="ngModel" />
+                        <div class="loginError"
+                             [hidden]="resetEmailbox.valid || resetEmailbox.pristine">
+                            Please enter a vaild email address to reset your password.
+                        </div>
+                        <button [hidden]="!resetEmailbox.valid"
+                                class="APONbtn APONbtnOrange centerbox__inputArea--submitButton"
+                                type="submit">
+                            Reset Password
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="LoginCol">
+        <div class="LoginColumnHeader">Register</div>
+        <hr />
+        <div class="centerbox__inputArea">
+            <form #registerForm="ngForm" (submit)="onRegisterSubmit()">
+                <div class="centerbox__inputArea--text">Username</div>
+                <div>
+                    <input type="text"
+                           id="registerUsername"
+                           name="registerUsername"
+                           class="form-control centerbox__inputArea--textBox"
+                           [(ngModel)]="registerUser.username"
+                           required
+                           minlength="6"
+                           #registerUsername="ngModel" />
+                    <div class="loginError"
+                         [hidden]="registerUsername.valid || registerUsername.pristine">
+                        Please enter a Username of at least six characters to Sign Up.
+                    </div>
+                </div>
+                <div class="centerbox__inputArea--text">Email Address</div>
+                <div>
+                    <input type="text"
+                           name="registerEmail"
+                           class="centerbox__inputArea--textBox form-control"
+                           [(ngModel)]="registerUser.emailAddress"
+                           required
+                           email
+                           #registerEmail="ngModel" />
+                </div>
+                <div class="loginError"
+                     [hidden]="registerEmail.valid || registerEmail.pristine">
+                    Please enter a valid email address to register
+                </div>
+                <div class="centerbox__inputArea--text">Password</div>
+                <div>
+                    <input type="password"
+                           name="registerPassword1"
+                           class="centerbox__inputArea--textBox form-control"
+                           [(ngModel)]="registerUser.password1"
+                           required
+                           minlength="6"
+                           #registerPassword1="ngModel" />
+                    <div class="loginError"
+                         [hidden]="registerPassword1.valid || registerPassword1.pristine">
+                        Please enter a password of at least six characters to register.
+                    </div>
+                </div>
+                <div class="centerbox__inputArea--text">Repeat Password</div>
+                <div>
+                    <input type="password"
+                           name="registerPassword2"
+                           class="centerbox__inputArea--textBox form-control"
+                           [(ngModel)]="registerUser.password2"
+                           required
+                           minlength="6"
+                           #registerPassword2="ngModel" />
+                    <div class="loginError"
+                         [hidden]="
+              registerPassword1.pristine ||
+              registerPassword2.pristine ||
+              registerPasswordsMatch()
+            ">
+                        Please enter a matching password to register.
+                    </div>
+                </div>
+                <div>
+                    <button [hidden]="!registerForm.valid || !registerPasswordsMatch()"
+                            class="APONbtn APONbtnOrange centerbox__inputArea--submitButton">
+                        Register
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    if (@Model.SavedURT != null)
+    {
+    @Html.HiddenFor(model => model.SavedURT.Token, new { id = "token" });
+    @Html.HiddenFor(model => model.TokenExpDate, new { id = "Expiration" });
+
+
+    }
+</div>

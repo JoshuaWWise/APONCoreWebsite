@@ -1,0 +1,30 @@
+.Ad-box {
+  margin: 0px;
+}
+
+.ad-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 98vw;
+  height: 15vw;
+  z-index: 100;
+  // animation: 2s logoMoveIn;
+  // backface-visibility: hidden; //Keeps animation from shaking
+}
+
+.ad-img-wide {
+  width: 100vw;
+  border-radius: 0;
+}
+
+.ad-image {
+  width: 15vw;
+  border-radius: 5px;
+}
+
+.ad-bottom {
+  border-radius: 3px;
+  min-height: 3rem;
+  background-color: #fff;
+}

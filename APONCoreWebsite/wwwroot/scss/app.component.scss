@@ -1,0 +1,243 @@
+@import "styles.scss";
+@import "base/base";
+@import "base/animations";
+@import "base/typography";
+@import "base/utilities";
+@import "icon-font.css";
+
+@import "components/about-us";
+@import "components/ad-styles";
+@import "components/auth";
+@import "components/authorShield";
+@import "components/badges";
+@import "components/buttons";
+@import "components/cast";
+@import "components/editor";
+@import "components/episode";
+@import "components/features";
+@import "components/fourms";
+@import "components/front-image-rotation";
+@import "components/frontPage";
+@import "components/login";
+@import "components/rotatorCards";
+@import "components/series";
+@import "components/seriesList";
+@import "components/social-media";
+@import "components/tags";
+@import "components/twitterAdmin";
+@import "themes/themes";
+@import "components/user";
+
+@import "nav-styles.scss";
+@import "abstracts/mixins";
+@import "abstracts/functions";
+@import "abstracts/variables";
+
+@import "layout/generalLayout";
+@import "layout/grid";
+@import "layout/tableLayouts";
+
+@import "images-styles.scss";
+
+@import "social-media.scss";
+
+h2 {
+  color: var(--text-color);
+}
+//OLDER
+
+.APONText {
+  color: var(--text-color);
+}
+
+.APONHeadline {
+  stroke: var(--accent-color);
+  font-size: x-large;
+}
+.mainContainer {
+  background-color: var(--main-background-color);
+}
+.side-sticky {
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 4rem;
+}
+
+.middle-section {
+  box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.521);
+}
+
+/* Buttons */
+
+/*
+
+MAIN IMAGE VIEWER FORMATTING
+
+
+*/
+
+//LOGIN WINDOW
+
+.generalText {
+  color: var(--text-color);
+}
+
+.CloseWindowX {
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 1rem;
+  position: absolute;
+  top: 3px;
+  right: 3vw;
+  text-align: center;
+  cursor: pointer;
+  background-color: gray;
+  color: black;
+  vertical-align: center;
+  font-size: 0.9rem;
+}
+
+//Images
+
+/* Tags */
+.APONTag {
+  display: block;
+  background-color: #c25e2c;
+  border-radius: 5px;
+  border: 2px solid #2c8dc2;
+  color: white;
+}
+
+.APONTag:hover {
+  background-color: #2c8dc2;
+  border-color: #c25e2c;
+}
+
+/* Page Banners */
+
+.top-banner {
+  background-color: #2c8dc2;
+  border-radius: 5px;
+  color: white;
+}
+
+.col-login {
+  background-color: var(--primary-color);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 1em;
+  color: white;
+}
+
+.authPageLoginBox {
+  position: fixed;
+  top: 10vh;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 5px;
+  background-color: var(--background-color);
+  padding: 30px 30px 50px 30px;
+  font-size: 1.5rem;
+}
+
+.AponTextBox {
+  border-radius: 5px;
+  box-shadow: 0 4px 6px -5px hsl(0, 0%, 40%);
+}
+
+.APONSmallnav-item {
+  color: #2c8dc2 !important;
+  font-size: 1rem;
+
+  font-weight: 100;
+  text-align: center;
+
+  height: 1rem;
+  display: block;
+  margin-right: 5px;
+}
+
+/* Cards */
+
+.APONCard {
+  background-color: var(--main-background-color);
+  color: var(--text-color);
+  border-radius: 5px;
+}
+
+.pager {
+  background-color: var(--main-background-color);
+  color: var(--secondary-color);
+  z-index: -1;
+
+  .sr-only {
+    z-index: 0;
+  }
+}
+
+.page-item.active {
+  z-index: 0;
+  color: red !important;
+}
+
+.small-card-img-top {
+  max-height: 8em;
+}
+
+.card-border {
+  border-width: 2px;
+  border-color: #2c8dc2;
+}
+
+.card-title {
+  text-align: center;
+}
+
+.card-body {
+  background-color: var(--accent-color);
+}
+
+.RightCol {
+  color: white;
+}
+.header-row {
+  background-color: #2c8dc2;
+  background-position: center;
+  border-width: 2px;
+  border-color: black;
+}
+
+.clickRow {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  border-style: solid;
+  border-color: var(--accent-color);
+  border-width: 2px;
+  text-align: center;
+}
+.page-item.active .page-link {
+  z-index: 1;
+
+  color: #fff;
+
+  background-color: #ff0000;
+
+  border-color: #aeff5e;
+}
+
+.APONForm {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.add-episode-main-box {
+  position: relative;
+  top: 2vh;
+  left: 2vw;
+}
+
+.add-episode-top-box {
+  padding-bottom: 150px;
+  position: relative;
+  top: 6rem;
+}

@@ -1,0 +1,91 @@
+@import "abstracts/mixins";
+@media screen and (max-width: 600px) {
+  .forumUser-image {
+    border-radius: 50px;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+  }
+}
+
+//--------------------------Wider than phone screen-------------------------
+@media screen and (min-width: 600px) {
+  .forumUser-image {
+    border-radius: 500px;
+    width: 10vw;
+    height: 10vw;
+    overflow: hidden;
+  }
+}
+
+//Ad Images
+.ad-image {
+  width: 100vw;
+}
+
+.edit-episode-image {
+  max-width: 30vw;
+}
+
+.SiteLogo {
+  width: 13vw;
+  min-width: 100px;
+  max-width: 250px;
+  animation: 2s logoMoveIn;
+  backface-visibility: hidden; //Keeps animation from shaking
+
+  &:hover {
+    transform: translateY(-3px);
+  }
+}
+
+.main-imageviewer-image {
+  // min-width: 55vw;
+  // max-width: 60vw;
+  height: 50vh;
+  width: auto;
+  height: auto;
+}
+
+.editorImage {
+  max-width: 350px;
+}
+
+.editorSplashImage {
+  max-width: 450px;
+}
+
+.smallBadgeImage {
+  max-width: 75px;
+}
+
+/* Login info */
+.img-shadow {
+  position: relative;
+  max-width: 100%;
+  float: left;
+  border-style: inset;
+  border-width: 1px;
+}
+
+.img-shadow::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.6);
+  -moz-box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.6);
+  -webkit-box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.6);
+}
+
+.img-shadow img {
+  float: left;
+}
+
+.leftImage {
+  width: 20em;
+  border-width: 1px;
+  border-color: white;
+}

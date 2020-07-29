@@ -1,0 +1,113 @@
+@media only screen and (max-width: 767px) {
+  .frontPageImageViewerImageCol {
+    &__Image {
+      width: 100%;
+      height: calc(100vw * 0.5625);
+    }
+  }
+  .frontPageImageViewer {
+    &__rightText {
+      font-size: 1.5rem;
+      line-height: 1.5rem;
+      height: 7rem;
+    }
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 768px) {
+  .frontPageImageViewerImageCol {
+    &__Image {
+      width: 60vw;
+      height: calc(60vw * 0.5625);
+    }
+  }
+  .frontPageImageViewer {
+    &__rightText {
+      font-size: 2rem;
+      line-height: 2rem;
+      height: 100%;
+    }
+  }
+}
+
+.frontPageImageViewer {
+  background-color: var(--accent-color);
+
+  &__rightText {
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    text-align: center;
+  }
+}
+.frontPageImageViewerImageCol {
+  position: relative;
+
+  &__Button {
+    opacity: 20%;
+    width: 10vh;
+    height: 20vh;
+    transform: translateY(-50%);
+    z-index: 10;
+    border: 0;
+    box-shadow: 0px 8px 8px rgba($color: #000000, $alpha: 0.15);
+    background-color: white;
+
+    border-radius: 3px;
+    &:hover {
+      opacity: 100%;
+      background-color: var(--primary-color);
+
+      box-shadow: 0px 10px 10px rgba($color: #000000, $alpha: 0.1);
+      transform: translateY(-53%);
+      border: 0;
+    }
+    &:active {
+      box-shadow: 0px 5px 5px rgba($color: #000000, $alpha: 0.3);
+      transform: translateY(-47%);
+      border: 0;
+    }
+
+    &--back {
+      position: absolute;
+      top: 50%;
+      left: 0;
+    }
+
+    &--forward {
+      position: absolute;
+      top: 50%;
+      right: 0;
+    }
+  }
+}
+
+.imagePicker {
+  float: left;
+  margin-right: 1rem;
+  vertical-align: bottom;
+  &__Image {
+    box-shadow: 10px 0px 10px rgba($color: #000000, $alpha: 0.3);
+
+    &--secondary {
+      margin-top: 1rem;
+      width: 10vw;
+      height: calc(10vw * 0.5625);
+      border-radius: 3px;
+      &:hover {
+        width: 12vw;
+        height: calc(12vw * 0.5625);
+      }
+    }
+
+    &--main {
+      width: 15vw;
+      height: calc(15vw * 0.5625);
+      border-radius: 0px 0px 3px 3px;
+      &:hover {
+        width: 18vw;
+        height: calc(18vw * 0.5625);
+      }
+    }
+  }
+}

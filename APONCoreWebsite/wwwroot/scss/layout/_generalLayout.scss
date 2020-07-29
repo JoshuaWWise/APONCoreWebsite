@@ -1,0 +1,199 @@
+@media screen and (max-width: 600px) {
+  .center-main-box {
+    position: absolute;
+    left: 0;
+    top: 15vh;
+    padding: 0 2vw 0 0;
+    min-height: 90vh;
+    width: 100vw;
+  }
+
+  .social-media-bar-box {
+    top: 0vh;
+    width: 50vw;
+    position: fixed;
+    left: 30vw;
+    z-index: 3;
+  }
+
+  .logo-box {
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    z-index: 3;
+  }
+  .theme-button-box {
+    clear: both;
+    display: inline;
+    position: absolute;
+    left: -1vw;
+    bottom: 2rem;
+
+    font-size: 0.6rem;
+    line-height: 2rem;
+  }
+}
+
+//--------------------------Wider than phone screen-------------------------
+@media screen and (min-width: 600px) {
+  .center-main-box {
+    position: absolute;
+
+    top: 15vh;
+    overflow-x: hidden;
+
+    min-height: 90vh;
+    margin: 0;
+    padding: 0 2vw 0 0;
+  }
+
+  .logo-box {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 3;
+  }
+
+  .social-media-bar-box {
+    top: 0vh;
+    width: 15vw;
+    position: fixed;
+    right: 17vw;
+    z-index: 5;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .social-media-bar-box {
+    top: 0vh;
+
+    width: 20vw;
+    position: fixed;
+    right: 20vw;
+    z-index: 5;
+  }
+
+  .theme-button-box {
+    clear: both;
+    display: inline;
+    position: absolute;
+    left: 1vh;
+    bottom: 2rem;
+
+    font-size: 0.6rem;
+    line-height: 2rem;
+  }
+}
+@media only screen and (min-width: 992px) {
+  .social-media-bar-box {
+    top: -0.5vh;
+
+    width: 20vw;
+    position: fixed;
+    right: 15vw;
+    z-index: 5;
+  }
+}
+
+.outlet {
+  min-height: 80vh;
+  margin: 0;
+  margin-left: 10px;
+  margin-right: 10px;
+  max-width: 99vw;
+}
+
+.page-container {
+  position: relative;
+  min-height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+.top-bar {
+  background-color: var(--top-bar-background-color);
+  border-bottom: 2px solid var(--primary-color);
+  height: 10vh;
+  min-height: 35px;
+  max-height: 55px;
+  box-shadow: 1rem 1rem 1rem rgba(44, 141, 194, 0.5);
+  position: fixed;
+  width: 100vw;
+  z-index: 1;
+}
+
+.right-general-box {
+  top: 15vh;
+  width: 13vw;
+  position: fixed;
+  right: 0;
+}
+
+.bottom-bar {
+  width: 100vw;
+
+  padding-top: 3vh;
+  height: 10vh;
+  min-height: 2rem;
+
+  background-color: var(--bottom-bar-background-color);
+  border-top: 2px solid var(--primary-color);
+  color: var(--text-color);
+  box-shadow: none inset 0px 11px 8px -10px #ccc, inset 0px -11px 8px -10px #ccc;
+}
+
+.new-bottom-bar {
+  position: relative;
+  bottom: 0px;
+  height: 100px;
+  width: 99vw;
+  overflow: hidden;
+  background-color: var(--bottom-bar-background-color);
+  border-top: 2px solid var(--primary-color);
+}
+
+.name-bar {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translate(-50%, 0);
+  text-align: center;
+}
+
+.site-name-top {
+  animation: 1s fadeIn;
+  backface-visibility: hidden; //Keeps animation from shaking
+  line-height: 15px;
+  color: var(--contrast-color);
+  text-transform: uppercase;
+  font-size: 0.6rem;
+  letter-spacing: 3px;
+  font-weight: 400;
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+
+.site-name-bottom {
+  color: var(--text-color);
+  text-transform: lowercase;
+  font-size: 0.5rem;
+  display: block;
+  font-weight: 700;
+  margin-bottom: 0;
+  animation: 3s fadeIn;
+  backface-visibility: hidden; //Keeps animation from shaking
+  animation-delay: 2s;
+animation-iteration-count: 5;
+  
+}
+
+.copyright {
+  text-align: center;
+/*  font-size: min(1.5vw, 10px);*/
+  max-width: 25vw;
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  overflow: wrap;
+}

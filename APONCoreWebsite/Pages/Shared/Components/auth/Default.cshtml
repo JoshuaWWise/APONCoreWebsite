@@ -1,0 +1,25 @@
+﻿@model APONCoreLibrary.Models.UserReturnToken
+
+
+<div class="login-box">
+    <div>
+        @if (Model.UserID != -1)
+        {
+            <a asp-page="/User" asp-route-id=@Model.UserID>
+
+                <img *ngIf="!showLoginButton()"
+                     src=@Model.imageURL
+                     class="loggedin-image" />
+            </a>
+        }
+        else
+        {
+            <a asp-page="/Login">
+                <img *ngIf="showLoginButton()"
+                     src=@Model.imageURL
+                     class="loggedout-image" />
+            </a>
+        }
+    </div>
+</div>
+

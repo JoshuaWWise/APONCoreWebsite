@@ -1,0 +1,47 @@
+@media screen and (max-width: 767px) {
+  .editorControl {
+    max-width: 80vw;
+    height: 25vh;
+    margin-left: 2rem;
+    margin-right: 1rem;
+
+    &__body {
+      &--btn {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+}
+@media screen and (min-width: 768px) {
+  .editorControl {
+    max-width: 50vw;
+    height: 15vh;
+    margin-right: 2rem;
+    &__body {
+      &--btn {
+        margin-right: 2rem;
+      }
+    }
+  }
+}
+.editorControl {
+  border: 3px solid var(--secondary-color);
+
+  border-radius: 5px;
+
+  color: var(--text-color);
+  background-color: rgba($color: #000000, $alpha: 0.4);
+  box-shadow: 10px 0px 10px rgba($color: #000000, $alpha: 0.2);
+  &__head {
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-align: center;
+    margin: 1rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--secondary-color);
+  }
+
+  &__body {
+    text-align: center;
+  }
+}

@@ -1,0 +1,97 @@
+button {
+  padding: 3px 10px;
+  display: inline-block;
+}
+
+//BUTONS
+.APONbtn {
+  text-transform: uppercase;
+  border-radius: 5px;
+  border-style: none;
+  background-color: transparent;
+  text-decoration: none;
+  cursor: pointer;
+
+  @include button-hover-transform(0, -3px);
+  &:hover {
+    color: white;
+    text-decoration: none;
+    box-shadow: 0 10px 20px rgba($color: #000000, $alpha: 0.2);
+  }
+
+  &:active {
+    text-decoration: none;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 10px rgba($color: #000000, $alpha: 0.2);
+  }
+}
+
+.APONbtnEditor {
+  color: black;
+  background-color: white;
+  &:hover {
+    background-color: white;
+    color: green;
+  }
+}
+
+.APONbtnBlue {
+  color: var(--accent-color);
+  &:hover {
+    background-color: var(--primary-color);
+    color: white;
+  }
+}
+
+.APONbtnOrange {
+  color: var(--secondary-color);
+  :disabled,
+  .APONbtnOrange[disabled="disabled"] {
+    color: red;
+    background-color: gray;
+  }
+  &:hover {
+    background-color: var(--secondary-color);
+    color: white;
+  }
+}
+
+.APONbtnRed {
+  background-color: white;
+  color: red;
+  padding: 6px 22px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.APONbtnRed:hover {
+  &:hover {
+    background-color: red;
+    color: white;
+  }
+}
+
+.saveIcon {
+  max-width: 20px;
+}
+
+.formSaveButton {
+  height: 4rem;
+  line-height: 3rem;
+  font-size: 3rem;
+  border-radius: 3px;
+  box-shadow: 10px 0 10px rgba($color: #000000, $alpha: 0.5);
+  background-color: var(--accent-color);
+  color: white;
+  vertical-align: middle;
+  width: 10rem;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 15px 0 15px rgba($color: #000000, $alpha: 0.3);
+  }
+
+  &:active {
+    transform: translateY(3px);
+    box-shadow: 6px 0 6px rgba($color: #000000, $alpha: 0.8);
+  }
+}

@@ -1,0 +1,28 @@
+@import "../abstracts/mixins";
+@import "../abstracts/variables";
+.pageHeader {
+  line-height: 3rem;
+  @include clearfix;
+  font-size: 3rem;
+  color: rgba($color: #000000, $alpha: 0) !important;
+  background-image: linear-gradient(
+    to right,
+    var(--primary-color),
+    var(--accent-color)
+  );
+  display: inline-block;
+  background-clip: text;
+  -webkit-background-clip: text;
+
+  &:hover {
+    transform: translateY(-3px);
+  }
+}
+
+.paragraph {
+  font-size: $default-font-size;
+  line-height: $default-font-size;
+  &:not(:last-child) {
+    margin-bottom: 1.6rem;
+  }
+}

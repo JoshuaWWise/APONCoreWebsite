@@ -1,0 +1,76 @@
+@media screen and (max-width: 600px) {
+  .nav-menu-box {
+    position: fixed;
+    left: 0;
+    top: 45px;
+    z-index: 2;
+    width: 100vw;
+    -webkit-box-shadow: 1rem 1rem 1rem rgba(44, 141, 194, 0.5);
+            box-shadow: 1rem 1rem 1rem rgba(44, 141, 194, 0.5);
+    border-bottom: 2px solid var(--primary-color);
+  }
+  .nav-menu-box::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .nav-menu-box {
+    position: fixed;
+    left: 110px;
+    top: -5px;
+    z-index: 2;
+    max-width: 50vw;
+    -ms-overflow-style: none;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .nav-menu-box {
+    position: fixed;
+    left: 110px;
+    top: -5px;
+    z-index: 2;
+    max-width: 45vw;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .nav-menu-box {
+    position: fixed;
+    left: 250px;
+    top: -5px;
+    z-index: 2;
+    max-width: 55vw;
+  }
+}
+
+.nav-menu {
+  background-color: var(--top-bar-background-color);
+  overflow: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  /* [3] */
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+.nav-menu::-webkit-scrollbar {
+  display: none;
+}
+
+.APONnav-item {
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 14px;
+  text-decoration: none;
+  max-height: 5vh;
+}
+
+.APONnav-item:hover {
+  -webkit-transform: translateX(0);
+          transform: translateX(0);
+  -webkit-transform: translateY(-3px);
+          transform: translateY(-3px);
+}
+/*# sourceMappingURL=nav-styles.css.map */

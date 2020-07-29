@@ -3,43 +3,133 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - APONCoreWebsite</title>
+    <title>@ViewData["Title"] - All Ports Open</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/styles.css" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">APONCoreWebsite</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                    </ul>
+    <div class="page-container">
+        <header>
+
+            <div>
+                <div class="top-bar fixed-top">
+                    <div class="logo-box">
+                        <a asp-page="/Index">
+                            <img class="SiteLogo"
+                                 alt="All Ports Open Network Logo"
+                                 src="https://media.allportsopen.org/Images/LogoSmWText.png" />
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="nav-menu-box">
+                <ul class="nav-menu">
+                    <li class="APONnav-item">
+                        <a asp-page="/Index">Home</a>
+                    </li>
+
+                    <li class="APONnav-item">
+                        <a asp-page="/Podcasts">Podcasts</a>
+                    </li>
+                    <li class="APONnav-item">
+                        <a asp-page="/News">Features</a>
+                    </li>
+                    <li class="APONnav-item">
+                        <a asp-page="/Forums">Forums</a>
+                    </li>
+                    <li routerLinkActive="active" class="APONnav-item">
+                        <a asp-page="/AboutUs">About</a>
+                    </li>
+
+                    <li class="APONnav-item">
+                        <a href="https://www.patreon.com/allportsopen">Support Us</a>
+                    </li>
+                    <li routerLinkActive="active" class="APONnav-item">
+                        <a asp-page="/Editor">Editor Tools</a>
+                    </li>
+                </ul>
+            </div>
+
+            @await Component.InvokeAsync("auth")
+
+
+
+            <div class="social-media-bar-box">
+                <div class="small-grid-row">
+                    <div class="col-1-of-4-small">
+                        <a href="https://twitter.com/allportsopen" target="_blank">
+                            <img class="socialMediaIcon"
+                                 src="https://media.allportsopen.org/images/siteimages/TwitterWB.png" />
+                        </a>
+                    </div>
+                    <div class="col-1-of-4-small">
+                        <a href="https://www.facebook.com/AllPortsOpenNetwork/"
+                           target="_blank">
+                            <img class="socialMediaIcon"
+                                 src="https://facebookbrand.com/wp-content/uploads/2019/04/f_logo_RGB-Hex-Blue_512.png?w=512&h=512" />
+                        </a>
+                    </div>
+                    <div class="col-1-of-4-small">
+                        <a href="https://discord.gg/pQSgzuY" target="_blank">
+                            <img class="socialMediaIcon"
+                                 src="https://discord.com/assets/2c21aeda16de354ba5334551a883b481.png" />
+                        </a>
+                    </div>
+                    <div class="col-1-of-4-small">
+                        <a href="https://www.instagram.com/allportsopen/" target="_blank">
+                            <img class="socialMediaIcon"
+                                 src="https://media.allportsopen.org/images/siteimages/InstaColor.png" />
+                        </a>
+                    </div>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+        </header>
+        <main>
+            <div class="center-main-box">
+                <div class="outlet">
+                    <main role="main" style="overflow: scroll">
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2020 - APONCoreWebsite - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
-    </footer>
+                        @RenderBody()
+                    </main>
+
+                </div>
+                <div class="new-bottom-bar">
+                    <div class="theme-button-box">
+                        <button class="APONbtn APONbtnBlue">
+                            Change Theme
+                        </button>
+                        <button class="APONbtn APONbtnOrange"
+                                (click)="saveTheme()">
+                            <img class="saveIcon"
+                                 src="https://media.allportsopen.org/images/siteimages/saveicon.png" />
+                        </button>
+                    </div>
+                    <div class="name-bar">
+                        <span class="site-name-top">The All Ports Open Network</span>
+                        <span class="site-name-bottom">Take Play Seriously</span>
+
+                    </div>
+                    <div class="copyright">
+                        &copy; 2020 The All Ports Open Network
+
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="showRightAd" class="right-general-box">
+                <app-advertisement [Location]="1"></app-advertisement>
+            </div>
+        </main>
+        @*<div *ngIf="showTopAd" class="ad-bar">
+                <app-ad-horizontal [Delay]="0" [Location]="2"></app-ad-horizontal>
+            </div>*@
+
+
+
+
+
+    </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

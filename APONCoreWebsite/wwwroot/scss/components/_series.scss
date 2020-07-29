@@ -1,0 +1,113 @@
+@media screen and (max-width: 767px) {
+  .seriesLink {
+    &__image {
+      width: 60h;
+      height: 60vh;
+    }
+    &__bottom {
+      width: 60vh;
+    }
+  }
+}
+@media screen and (min-width: 768px) {
+  .seriesLink {
+    text-align: center;
+    &__image {
+      width: 20vw;
+      height: 20vw;
+      display: inline-block;
+    }
+
+    &__bottom {
+      width: 20vw;
+      margin: 0 auto;
+    }
+  }
+
+  .twitterfeedLink {
+    position: absolute;
+    right: 1.7rem;
+    top: 3rem;
+  }
+}
+
+.seriesContainer {
+  text-align: center;
+  &__premiumSeriesImage {
+    margin-left: 15%;
+    margin-right: 15%;
+    width: 70%;
+    border-radius: 3px;
+  }
+
+  &__premiumSeriesDescription {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    margin-left: 15%;
+    margin-right: 15%;
+    font-size: 1.6rem;
+    line-height: 1.6rem;
+  }
+
+  &__links {
+    text-align: center;
+    font-size: 2rem;
+    line-height: 2.5rem;
+
+    &--cast {
+      border-radius: 3px;
+      background-color: var(--accent-color);
+      border: 0px;
+      color: white;
+      height: 100%;
+    }
+
+    &--socialMedia {
+      max-height: 2.5rem;
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+.seriesEditorContainer {
+  &__image {
+    border-radius: 4px;
+    margin-left: 25%;
+    &--main {
+      max-width: 20vw;
+    }
+
+    &--splash {
+      max-width: 25vw;
+    }
+  }
+}
+
+.seriesLink {
+  color: var(--text-color);
+
+  margin: 1rem;
+
+  &__image {
+    border-radius: 4px 4px 0px 0px;
+  }
+
+  &__bottom {
+    background-color: var(--primary-color);
+    padding-bottom: 1rem;
+    border-radius: 0px 0px 4px 4px;
+    height: 10rem;
+    &--headline {
+      font-size: 1.6rem;
+      line-height: 1.6rem;
+      font-weight: 600;
+    }
+    &--description {
+      margin: 0.5rem;
+      text-align: justify;
+      font-size: 1rem;
+      line-height: 1rem;
+      font-weight: 100;
+    }
+  }
+}

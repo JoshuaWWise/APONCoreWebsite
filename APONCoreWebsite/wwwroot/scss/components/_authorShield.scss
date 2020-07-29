@@ -1,0 +1,37 @@
+@media screen and (max-width: 767px) {
+  .authorShield {
+    height: 4rem;
+    width: 16rem;
+  }
+}
+.authorShield {
+  height: 4rem;
+  border-width: 2px;
+  border-style: solid;
+  border-color: var(--primary-color);
+  background-color: var(--accent-color);
+  border-radius: 10px;
+  width: 16rem;
+  clear: both;
+  &:hover {
+    border: 2px var(--secondary-color) solid;
+    cursor: pointer;
+  }
+
+  &__imageCol {
+    float: left;
+    &--image {
+      width: 4rem;
+      height: 3.7rem;
+      border-radius: 10px 0px 0px 10px;
+      position: relative;
+
+      left: -1px;
+      border-right: solid 1px;
+    }
+  }
+  &__rightCol {
+    float: left;
+    width: 12rem;
+  }
+}

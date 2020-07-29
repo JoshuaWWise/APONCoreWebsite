@@ -1,0 +1,18 @@
+.list-item {
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--background-color);
+  background-color: var(--list-item-background);
+  color: var(--list-item-text-color);
+}
+
+.list-left-col {
+  text-align: center;
+}
+
+.list-image {
+  width: 20em;
+  border-style: solid;
+  border-color: white;
+}
+/*# sourceMappingURL=ListItems.css.map */

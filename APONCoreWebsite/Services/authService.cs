@@ -1,5 +1,6 @@
 ﻿using APONCoreLibrary.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace APONCoreWebsite.Services
      
         public Task<UserReturnToken> Login(SignUpUser LoginUser);
 
-        public void Logout();
+        public string Logout();
 
         public bool SignUp(string email, string username, string password);
 
@@ -21,7 +22,7 @@ namespace APONCoreWebsite.Services
 
         public bool HandleAuthentication(UserReturnToken URT);
 
-        public bool AutoLogin();
+        public void AutoLogin(UserReturnToken urt);
 
         public int getUserAuthLevel();
 
@@ -40,15 +41,18 @@ namespace APONCoreWebsite.Services
         HttpClient http { get; set; }
 
         IDataService DS { get; set; }
-        public AuthService(HttpContext context, HttpClient client, IDataService ds)
+
+        IUserInfoService UIS { get; set; }
+        public AuthService(HttpContext context, HttpClient client, IDataService ds, IUserInfoService uis)
         {
             Session = context.Session;
             http = client;
             DS = ds;
+            UIS = uis;
         }
-        public bool AutoLogin()
+        public void AutoLogin(UserReturnToken urt)
         {
-            return false;
+            UIS.setUser(urt);
         }
 
         public void autoLogout()
@@ -109,6 +113,7 @@ namespace APONCoreWebsite.Services
                         Session.SetInt32("UserAuthLevel", int.Parse(URT.AuthLevel));
                         Session.SetInt32("UserTheme", URT.Theme);
                         Session.SetString("JWTToken", URT.Token);
+                        UIS.setUser(URT);
                         //Response.Redirect("/");
                     }
 
@@ -131,16 +136,24 @@ namespace APONCoreWebsite.Services
             return URT;
         }
 
-        public void Logout()
+        public string Logout()
         {
-          
-            Session.Remove("UserID");
-            Session.Remove("UserImageURL");
-            Session.Remove("UserName");
-            Session.Remove("UserAuthLevel");
-            Session.Remove("UserTheme");
-            Session.Remove("JWTToken");
-            Session.Remove("JWTExp");
+
+            try
+            {
+                Session.Remove("UserID");
+                Session.Remove("UserImageURL");
+                Session.Remove("UserName");
+                Session.Remove("UserAuthLevel");
+                Session.Remove("UserTheme");
+                Session.Remove("JWTToken");
+                Session.Remove("JWTExp");
+            }catch(Exception ex)
+            {
+                return ex.Message;
+            }
+
+            return string.Empty;
         }
 
         public void SaveBrowserUserData()

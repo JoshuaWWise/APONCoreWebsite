@@ -13,21 +13,32 @@
 
         var LoggedIn;
 
-        $(document).ready(function () {
+        $(document).ready(
+            function ()
+            {
 
             var myStorage = window.localStorage;
 
             LoggedIn = @Model.LogInSuccessful.ToString().ToLower();
-            alert(LoggedIn);
 
-            if (LoggedIn) {
-                var jwt = document.getElementById("token").value;
-                var expiration = document.getElementById("expiration");
+
+                if (LoggedIn)
+                {
+
+                    var j = new JWT(document.getElementById("login_UserName").value,
+                        document.getElementById("login_UserID").value,
+                        document.getElementById("login_AuthLevel").value,
+                        document.getElementById("login_Token").value,
+                        document.getElementById("login_Expiration").value,
+                        document.getElementById("login_Theme").value,
+                        document.getElementById("login_ImageURL").value);
+
+               
+                    var jwt = JSON.stringify(j);
+                  
 
                 myStorage.setItem("userJWT", jwt);
-                myStorage.setItem("userJWTExpiration", expiration);
-                console.log(myStorage.getItem("userJWT"));
-                console.log(myStorage.getItem("userJWTExpiration"));
+
             }
 
         });
@@ -186,8 +197,15 @@
 
     if (@Model.SavedURT != null)
     {
-    @Html.HiddenFor(model => model.SavedURT.Token, new { id = "token" });
-    @Html.HiddenFor(model => model.TokenExpDate, new { id = "Expiration" });
+    @Html.HiddenFor(model => model.SavedURT.Token, new { id = "login_Token" });
+    @Html.HiddenFor(model => model.TokenExpDate, new { id = "login_Expiration" });
+    @Html.HiddenFor(model => model.SavedURT.UserName, new { id = "login_UserName" });
+    @Html.HiddenFor(model => model.SavedURT.UserID, new { id = "login_UserID" });
+    @Html.HiddenFor(model => model.SavedURT.AuthLevel, new { id = "login_AuthLevel" });
+    @Html.HiddenFor(model => model.SavedURT.imageURL, new { id = "login_ImageURL" });
+    @Html.HiddenFor(model => model.SavedURT.Theme, new { id = "login_Theme" });
+
+
 
 
     }

@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using APONCoreLibrary.Models;
+using APONCoreWebsite.Pages.ViewModels;
 using APONCoreWebsite.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,22 +17,22 @@ using Newtonsoft.Json;
 
 namespace APONCoreWebsite.Pages
 {
-    public class LoginModel : PageModel
+    public class LoginModel : ViewModelBase
     {
         HttpClient http { get; set; }
-        IDataService DS { get; set; }
+     
 
-        IAuthService AuthService { get; set; }
+       // IAuthService AuthService { get; set; }
 
         IConfiguration configuration { get; set; }
   
 
-        public LoginModel(HttpClient client, IDataService dataService, IConfiguration Configuration, IAuthService authService)
+        public LoginModel(HttpClient client,  IConfiguration Configuration, IAuthService authService): base (authService)
         {
             http = client;
-            DS = dataService;
+          
             configuration = Configuration;
-            AuthService = authService;
+            //AuthService = authService;
         
         }
         [BindProperty]
@@ -57,7 +58,7 @@ namespace APONCoreWebsite.Pages
             LoginUser.UserName = Request.Form["loginUsername"];
             LoginUser.Password = Request.Form["loginPassword"];
 
-          UserReturnToken URT = await  AuthService.Login(LoginUser);
+          UserReturnToken URT = await  myAuthService.Login(LoginUser);
 
             if (string.IsNullOrEmpty(URT.Message))
             {

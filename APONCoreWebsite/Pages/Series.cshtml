@@ -5,20 +5,21 @@
 }
 
 <div class="card-border APONtext grid-row">
-    @*<div [ngClass]="showTwitter ? 'col-3-of-4' : 'col-1-of-1'"> @if () 
+    <div id="mainSection" class="col-3-of-4">
         <div class="grid-row">
-            <div *ngIf="series" class="col-1-of-1 seriesContainer">
+            <div  class="col-1-of-1 seriesContainer">
                 <span>
                     <img *ngIf="series"
                          class="seriesContainer__premiumSeriesImage"
-                         [src]="series.splashImageURL" />
+                         src=@Model.currentSeries.ImageURL />
                 </span>
-                <img [hidden]="!showTwitterLink()"
+                <img id="showTwitterLink"
+                     style="visibility: hidden"
                      src="https://media.allportsopen.org/images/siteImages/TwitterFeedLink.png"
                      class="twitterfeedLink"
-                     (click)="showHideTwitter()" />
+                     onclick="switchTwitter()" />
                 <div class="APONText seriesContainer__premiumSeriesDescription"
-                     [innerHTML]="series.description"></div>
+                     [innerHTML]=@Model.currentSeries.Description></div>
                 <div class="grid-row seriesContainer__links">
                     <div class="col-1-of-4">
                         <button class="seriesContainer__links--cast" (click)="navToCast()">
@@ -26,19 +27,19 @@
                         </button>
                     </div>
                     <div class="col-1-of-4">
-                        <a [href]="series.spotify" target="_blank">
+                        <a href=@Model.currentSeries.Spotify target="_blank">
                             <img class="seriesContainer__links--socialMedia"
                                  src="https://media.allportsopen.org/images/siteimages/spotifywb.png" />
                         </a>
                     </div>
                     <div class="col-1-of-4">
-                        <a [href]="series.rss" target="_blank">
+                        <a href=@Model.currentSeries.RSS target="_blank">
                             <img class="seriesContainer__links--socialMedia"
                                  src="https://media.allportsopen.org/images/siteimages/RSS.png" />
                         </a>
                     </div>
                     <div class="col-1-of-4">
-                        <a [href]="series.iTunes" target="_blank">
+                        <a href=@Model.currentSeries.ITunes target="_blank">
                             <img class="seriesContainer__links--socialMedia"
                                  src="https://media.allportsopen.org/images/siteimages/iTunes.png" />
                         </a>
@@ -78,7 +79,7 @@
         <hr />
         <div class="grid-row">
             <div class="col-1-of-1">
-                <div *ngIf="Episodes">
+                <div >
                     <ngb-pagination class="pager d-flex justify-content-center"
                                     [(page)]="PageNum"
                                     [pageSize]="pageSize"
@@ -123,12 +124,48 @@
             </div>
         </div>
     </div>
-    <div class="col-1-of-4" [hidden]="!showFeed()">
-        <button (click)="showHideTwitter()" class="APONbtn APONbtnBlue mt-2">
+    <div id="twitterSection" class="col-1-of-4">
+        <button onclick="switchTwitter()" class="APONbtn APONbtnBlue mt-2">
             Hide Feed
         </button>
-        <a class="twitter-timeline" [href]="getTwitterFeed()">
+        <a class="twitter-timeline" href=@Model.currentSeries.TwitterFeedURL>
             Twitter Feed
         </a>
-    </div>*@
+    </div>
 </div>
+
+@section Scripts{
+
+    <script type="text/javascript">
+
+        var IsTwitterHidden = true;
+
+        $(document).ready(function () {
+            switchTwitter();
+        });
+
+        function switchTwitter() {
+           
+            IsTwitterHidden = !IsTwitterHidden;
+          
+            var mainSection = document.getElementById("mainSection");
+            var twitterSection = document.getElementById("twitterSection");
+
+            //Twitter is hidden
+            if (IsTwitterHidden) {
+                mainSection.classList.remove("col-3-of-4");
+                mainSection.classList.add("col-1-of-1");
+                twitterSection.style.visibility = "hidden";
+                document.getElementById("showTwitterLink").style.visibility = "visible";
+            }
+            else {
+           
+                mainSection.classList.remove("col-1-of-1");
+                mainSection.classList.add("col-3-of-4");
+                twitterSection.style.visibility = "visible";
+                document.getElementById("showTwitterLink").style.visibility = "hidden";
+            }
+        }
+
+    </script>
+}

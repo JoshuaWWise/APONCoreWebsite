@@ -27,6 +27,10 @@ namespace APONCoreWebsite.Pages.Shared
         public int? UserAuthLevel { get; set; }
         public void OnGet()
         {
+            UserID = -1;
+            UserName = "";
+            UserImageURL = "";
+            UserAuthLevel = 5;
 
             try
             {

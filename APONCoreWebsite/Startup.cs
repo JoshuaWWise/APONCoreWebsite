@@ -1,14 +1,12 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
+
 using System.Net.Http;
-using System.Threading.Tasks;
-using APONCoreLibrary.Models;
+
 using APONCoreWebsite.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -39,8 +37,10 @@ namespace APONCoreWebsite
             services.AddSingleton(new HttpClient { BaseAddress = new Uri(baseAddress) });
 
             services.AddSingleton<IDataService, DataService>();
+            services.AddSingleton<IUserInfoService, UserInfoService>();
             services.AddScoped<IAuthService, AuthService>();
 
+            services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

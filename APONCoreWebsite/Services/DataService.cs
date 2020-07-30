@@ -17,6 +17,8 @@ namespace APONCoreWebsite.Services
 
         public Task<HttpResponseMessage> PostAsync(object T, string Endpoint);
 
+        public Task<string> GetAsync(string Endpoint);
+
     }
 
     public class DataService : IDataService
@@ -30,7 +32,12 @@ namespace APONCoreWebsite.Services
             configuration = Configuration;
         }
 
-
+        public async Task<string> GetAsync(string Endpoint)
+        {
+            Uri Uri = new Uri(configuration.GetValue<string>("BaseUrl") + Endpoint);
+     
+            return await http.GetStringAsync(Uri);
+        }
 
         public async Task<HttpResponseMessage> PostAsync(object T, string Endpoint)
         {

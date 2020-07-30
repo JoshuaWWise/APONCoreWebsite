@@ -1,0 +1,97 @@
+﻿@page
+@model APONCoreWebsite.Pages.Shared.UserModel
+@{
+    ViewData["Title"] = "User";
+}
+
+<div class="APONText">
+    test
+    <div class="row">
+        <div class="col-xs-12 col-md-8">
+            <h2 class="pageHeader">@Model.UBWB.User.UserName</h2>
+            @if (@Model.isProfileUser)
+            {
+                <form id="logoutForm" name="logoutForm" asp-page="AutoLogin"  asp-page-handler="Logout">
+                    <button type="button" class="APONbtn APONbtnBlue"
+                            onclick="logout()">
+                        Logout
+                    </button>
+                </form>
+
+            }
+        </div>
+    </div>
+    <div class="grid-row">
+        <div class="col-2-of-4">
+            <div>
+                <div>
+                    <img src=@Model.UBWB.User.ImageURL class="profileImage" />
+                    @if (@Model.isProfileUser)
+                    {
+                        <div *ngIf="ownerProfile">
+                            <input type="text"
+                                   name="txtImgURL"
+                                   asp-for="UBWB.User.ImageURL" />
+                            <button class="APONbtn APONbtnOrange" click="SaveUserImage">
+                                Save Profile Image
+                            </button>
+                        </div>
+                    }
+                    <hr />
+                    <app-user-badge-grid *ngIf="badgesPresent()"
+                                         [badges]="profileUserData.badges"></app-user-badge-grid>
+                </div>
+            </div>
+        </div>
+        <div class="col-1-of-4">
+            <form #PWForm="ngForm"
+                  *ngIf="ownerProfile"
+                  (ngSubmit)="onSubmitPW(PWForm)">
+                <h3>Reset your password</h3>
+                <div class="small-grid-row">
+                    <div class="col-1-of-2">
+                        <label for="OldPW">Old Password</label>
+                    </div>
+                    <div class="col-1-of-2">
+                        <input type="text" id="OldPW" ngModel name="OldPW" />
+                    </div>
+                </div>
+                <div class="small-grid-row">
+                    <div class="col-1-of-2">
+                        <label for="OldPW">New Password</label>
+                    </div>
+                    <div class="col-1-of-2">
+                        <input type="text" id="NewPW" ngModel name="NewPW" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary"
+                            type="submit"
+                            [disabled]="!PWForm.valid">
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script type="text/javascript">
+        function SaveUserImage() {
+
+        }
+
+        function logout() {
+            alert(1);
+            var myStorage = window.localStorage;
+            myStorage.removeItem("userJWT");
+            document.getElementById("logoutForm").submit();
+            logoutRefresh();
+        }
+
+
+    </script>
+
+}

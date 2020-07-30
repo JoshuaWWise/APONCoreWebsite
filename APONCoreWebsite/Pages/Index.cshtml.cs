@@ -10,20 +10,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using APONCoreWebsite.Services;
+using APONCoreWebsite.Pages.ViewModels;
 
 namespace APONCoreWebsite.Pages
 {
-    public class IndexModel : PageModel
+    public class IndexModel : ViewModelBase
     {
-        public IndexModel(ILogger<IndexModel> logger, HttpClient client, IDataService dataService)
+        public IndexModel(ILogger<IndexModel> logger, HttpClient client, IAuthService authService) : base(authService)
         {
             _logger = logger;
             _client = client;
-            _DS = dataService;
+           
         }
         private readonly ILogger<IndexModel> _logger;
         private HttpClient _client;
-        private IDataService _DS;
+      
 
         [BindProperty]
         public List<SplashNews> SplashNews { get; set; }

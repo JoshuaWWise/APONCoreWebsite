@@ -67,5 +67,32 @@
     padding: 14px;
     text-decoration: none;
     max-height: 5vh;
-    @include button-hover-transform(0, -3px);
+    //@include button-hover-transform(0, -3px);
+}
+
+.pagingList {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.pagingListItem{
+    float: left;
+    border-left: 1px solid;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    border-color: lightgray;
+}
+
+.pagingListItemFirst{
+    
+    border-radius: 5px 0px 0px 5px;
+}
+
+.pagingListItemLast {
+    border-radius: 0px 5px 5px 0px;
+    border-right: 1px solid;
+    border-color: lightgray;
 }

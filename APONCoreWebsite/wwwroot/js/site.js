@@ -15,12 +15,26 @@ class JWT {
     }
 }
 
+class SmallEpisode {
+    constructor(epID, serID, title, date, webDesc, imgURL) {
+        this.episodeID = epID;
+        this.seriesID = serID;
+        this.title = title;
+        this.showDate = date;
+        this.webDescription = webDesc;
+        this.epImageURL = imgURL;
+    }
+
+}
+
+
 function autoLoginComplete() {
     alert("Done");
 }
 
 $(document).ready(function () {
 
+    SayHello();
     var userID = document.getElementById("authVCuserID").value;
     console.log("authVCuserID: " + userID);
     //if the user is logged out, look for tokens from the browser

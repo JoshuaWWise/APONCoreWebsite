@@ -1,0 +1,15 @@
+﻿@model APONCoreLibrary.Models.Episode
+
+
+
+
+@{
+    int index = int.Parse(ViewData["index"].ToString());
+
+
+    @Html.HiddenFor(model => model.EpisodeID, new { id = "Episode[" + index + "].EpisodeID" });
+    @Html.HiddenFor(model => model.Title, new { id = "Episode[" + index + "].Title" });
+    @Html.HiddenFor(model => model.EpImageURL, new { id = "Episode[" + index + "].EpImageURL" });
+    @Html.HiddenFor(model => model.ShowDate, new { id = "Episode[" + index + "].ShowDate" });
+    @Html.HiddenFor(model => model.WebDescription, new { id = "Episode[" + index + "].WebDescription" });
+}

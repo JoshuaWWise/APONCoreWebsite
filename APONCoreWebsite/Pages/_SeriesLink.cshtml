@@ -1,0 +1,33 @@
+﻿@*Don't put @page on a partial view...for the love of fuck*@
+
+
+@model APONCoreLibrary.Models.SeriesLink
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+
+
+
+<div class="seriesLink" onclick="navToSubseries()">
+        <div>
+            <img src=@Model.ImgURL class="seriesLink__image" />
+        </div>
+        <div class="seriesLink__bottom">
+            <p class="seriesLink__bottom--headline">
+               @Model.Headline
+            </p>
+            <hr />
+            <p class="seriesLink__bottom--description">
+              @Model.Description
+            </p>
+        </div>
+    </div>
+
+@*@section Scripts {
+    <script type="text/javascript">
+        function navToSubseries() {
+            window.location.assign("../subseries/" + @Model.SeriesLinkID)
+        }
+    </script>
+    }*@

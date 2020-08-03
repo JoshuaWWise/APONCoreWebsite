@@ -7,11 +7,11 @@
 <div class="card-border APONtext grid-row">
     <div id="mainSection" class="col-3-of-4">
         <div class="grid-row">
-            <div  class="col-1-of-1 seriesContainer">
+            <div class="col-1-of-1 seriesContainer">
                 <span>
                     <img *ngIf="series"
                          class="seriesContainer__premiumSeriesImage"
-                         src=@Model.currentSeries.ImageURL />
+                         src=@Model.SPD.Series.ImageURL />
                 </span>
                 <img id="showTwitterLink"
                      style="visibility: hidden"
@@ -19,27 +19,27 @@
                      class="twitterfeedLink"
                      onclick="switchTwitter()" />
                 <div class="APONText seriesContainer__premiumSeriesDescription"
-                     [innerHTML]=@Model.currentSeries.Description></div>
+                     innerHTML=@Model.SPD.Series.Description></div>
                 <div class="grid-row seriesContainer__links">
                     <div class="col-1-of-4">
-                        <button class="seriesContainer__links--cast" (click)="navToCast()">
+                        <button class="seriesContainer__links--cast" onclick="navToCast(@Model.SPD.Series.SeriesID)">
                             Series Cast
                         </button>
                     </div>
                     <div class="col-1-of-4">
-                        <a href=@Model.currentSeries.Spotify target="_blank">
+                        <a href=@Model.SPD.Series.Spotify target="_blank">
                             <img class="seriesContainer__links--socialMedia"
                                  src="https://media.allportsopen.org/images/siteimages/spotifywb.png" />
                         </a>
                     </div>
                     <div class="col-1-of-4">
-                        <a href=@Model.currentSeries.RSS target="_blank">
+                        <a href=@Model.SPD.Series.RSS target="_blank">
                             <img class="seriesContainer__links--socialMedia"
                                  src="https://media.allportsopen.org/images/siteimages/RSS.png" />
                         </a>
                     </div>
                     <div class="col-1-of-4">
-                        <a href=@Model.currentSeries.ITunes target="_blank">
+                        <a href=@Model.SPD.Series.ITunes target="_blank">
                             <img class="seriesContainer__links--socialMedia"
                                  src="https://media.allportsopen.org/images/siteimages/iTunes.png" />
                         </a>
@@ -57,7 +57,7 @@
                 <div class="grid-row editorControl__body APONText">
                     <div class="col-1-of-3">
                         <button type="button"
-                                (click)="onEditSeries()"
+                                onclick="editSeries(@Model.SPD.Series.SeriesID)"
                                 class="APONbtn APONbtnEditor">
                             Edit
                         </button>
@@ -69,66 +69,128 @@
         </div>
 
         <hr />
-        <div class="row" *ngIf="seriesLinks">
-            <div class="col-xs-3 col-md-3" *ngFor="let sl of seriesLinks">
-                <app-series-link [seriesLink]="sl"></app-series-link>
-            </div>
-        </div>
-        <hr />
+
+        @for (int i = 0; i < Model.SPD.SeriesLinks.Count; i++)
+        {
+            if (i % 3 == 0)
+            {
+                <div class="grid-row">
+
+                    @if (Model.SPD.SeriesLinks.Count > i)
+                    {
+                        <div class="col-1-of-3">
+                            @{ await Html.RenderPartialAsync("_SeriesLink", Model.SPD.SeriesLinks[i]);}
+                        </div>
+                    }
+                    @if (Model.SPD.SeriesLinks.Count > i + 1)
+                    {
+                        <div class="col-1-of-3">
+                            @{ await Html.RenderPartialAsync("_SeriesLink", Model.SPD.SeriesLinks[i + 1]);}
+                        </div>
+                    }
+                    @if (Model.SPD.SeriesLinks.Count > i + 2)
+                    {
+                        <div class="col-1-of-3">
+                            @{ await Html.RenderPartialAsync("_SeriesLink", Model.SPD.SeriesLinks[i + 2]);}
+                        </div>
+                    }
+
+                </div>
+            }
+
+
+        }
 
         <hr />
+        @Html.HiddenFor(model => Model.EpCount, new { id = "epCount" });
+        <input type="hidden" id="pageNum" value="0" />
+        <input type="hidden" id="pageCount" value="1" />
+        @for (int i = 0; i < Model.SPD.Episodes.Count; i++)
+        {
+            @Html.HiddenFor(model => model.SPD.Episodes[i].EpisodeID, new { id = "Episode[" + i + "].EpisodeID" });
+            @Html.HiddenFor(model => model.SPD.Episodes[i].Title, new { id = "Episode[" + i + "].Title" });
+            @Html.HiddenFor(model => model.SPD.Episodes[i].EpImageURL, new { id = "Episode[" + i + "].EpImageURL" });
+            @Html.HiddenFor(model => model.SPD.Episodes[i].ShowDate, new { id = "Episode[" + i + "].ShowDate" });
+            @Html.HiddenFor(model => model.SPD.Episodes[i].WebDescription, new { id = "Episode[" + i + "].WebDescription" });
+
+
+        }
+
+
+
         <div class="grid-row">
             <div class="col-1-of-1">
-                <div >
-                    <ngb-pagination class="pager d-flex justify-content-center"
-                                    [(page)]="PageNum"
-                                    [pageSize]="pageSize"
-                                    [collectionSize]="Episodes.length"
-                                    [maxSize]="5"
-                                    [rotate]="true"
-                                    [ellipses]="false"
-                                    [boundaryLinks]="true"></ngb-pagination>
+                <div>
+                    
+                    <ul class="pagingList">
+                        <li class="pagingListItemFirst pagingListItem">
+                            <button class="APONbtnPaging" id="btnPrevBig" onclick="previous(5)">&#171;</button>
+                        </li>
+                        <li class="pagingListItem">
+                            <button class="APONbtnPaging" id="btnPrevSmall" onclick="previous(1)">&#8249;</button>
+                        </li>
 
-                    <div *ngFor="
-              let ep of Episodes
-                | slice
-                  : (PageNum - 1) * pageSize
-                  : (PageNum - 1) * pageSize + pageSize;
-              index as i
-            ">
-                        <div *ngIf="i % 4 == 0" class="grid-row">
-                            <div class="col-1-of-4"
-                                 *ngIf="Episodes.length > i + (PageNum - 1) * pageSize">
-                                <app-episode-list-item [episode]="Episodes[i + (PageNum - 1) * pageSize]">
-                                </app-episode-list-item>
-                            </div>
-                            <div class="col-1-of-4"
-                                 *ngIf="Episodes.length > i + 1 + (PageNum - 1) * pageSize">
-                                <app-episode-list-item [episode]="Episodes[i + 1 + (PageNum - 1) * pageSize]">
-                                </app-episode-list-item>
-                            </div>
-                            <div class="col-1-of-4"
-                                 *ngIf="Episodes.length > i + 2 + (PageNum - 1) * pageSize">
-                                <app-episode-list-item [episode]="Episodes[i + 2 + (PageNum - 1) * pageSize]">
-                                </app-episode-list-item>
-                            </div>
-                            <div class="col-1-of-4"
-                                 *ngIf="Episodes.length > i + 3 + (PageNum - 1) * pageSize">
-                                <app-episode-list-item [episode]="Episodes[i + 3 + (PageNum - 1) * pageSize]">
-                                </app-episode-list-item>
-                            </div>
-                        </div>
-                    </div>
-                    <div *ngIf="!series" class="warning">Loading</div>
+                        <li class="pagingListItem">
+                            <button class="APONbtnPaging" id="btnPageNum"></button>
+                        </li>
+
+                        <li class="pagingListItem">
+                            <button class="APONbtnPaging" id="btnNextSmall" onclick="next(1)">&#8250;</button>
+                        </li>
+                        <li class="pagingListItem pagingListItemLast">
+                            <button class="APONbtnPaging" id="btnNextBig" onclick="next(5)">&#187;</button>
+                        </li>
+                    </ul>
+                    
+
+
                 </div>
             </div>
         </div>
+        @{
+            int start = 0;
+            int end = 4;
+
+            for (int i = 0; i < 2; i++)
+            {
+                <div class="grid-row">
+                    @for (int j = start; j < end; j++)
+                    {
+
+
+                        @*<div id="@($"field{j}")">test @j</div>*@
+                        <div class="col-1-of-4">
+                            <div class="rotatorCard" id="@($"epCard{j}")" (click)="onClick()">
+                                <div class="rotatorCard__side rotatorCard__side--front">
+                                    <img class="rotatorCard__topImage" id="@($"epCard{j}_imageURL")" />
+
+                                    <div class="rotatorCard__bottomName"><span id="@($"epCard{j}_epName")"></span></div>
+                                </div>
+                                <div class="rotatorCard__side rotatorCard__side--back">
+                                    <p class="m-3" id="@($"epCard{j}_showDate")">Show Date: <span></span></p>
+                                    <hr />
+                                    <p class="pt-4 m-3" id="@($"epCard{j}_webDescription")" [innerHTML]="episode.webDescription"></p>
+                                </div>
+                                <input type="hidden" id="@($"epCard{j}_index")" />
+                            </div>
+                        </div>
+
+                    }
+
+                    @{start += 4;
+                        end += 4;
+                    }
+                </div>
+            }
+        }
+
+
     </div>
     <div id="twitterSection" class="col-1-of-4">
         <button onclick="switchTwitter()" class="APONbtn APONbtnBlue mt-2">
             Hide Feed
         </button>
-        <a class="twitter-timeline" href=@Model.currentSeries.TwitterFeedURL>
+        <a class="twitter-timeline" href=@Model.SPD.Series.TwitterFeedURL>
             Twitter Feed
         </a>
     </div>
@@ -140,30 +202,178 @@
 
         var IsTwitterHidden = true;
 
+        var PageCount = 0;
+
         $(document).ready(function () {
             switchTwitter();
+
+            let i = document.getElementById("epCount").value;
+
+            PageCount = i / 8;
+            PageCount = Math.floor(PageCount);
+            console.log("Page Count:" + PageCount);
+
+            if (i % 8 != 0) {
+                PageCount++;
+
+            }
+
+            PageCount--;
+            document.getElementById("pageCount").value = PageCount;
+
+            PopulateEpisodes();
+            updatePagingButtons(0, PageCount);
+
         });
 
+
+        function PopulateEpisodes() {
+
+            let pageNum = 0;
+
+            pageNum = document.getElementById("pageNum").value;
+
+            let currentEp = pageNum * 8;
+            let epCount = parseInt(document.getElementById("epCount").value);
+
+            for (let i = 0; i < 8; i++) {
+
+               
+
+                if (currentEp < epCount) {
+
+                    
+                    let curEp = "Episode[" + currentEp + "].";
+                    document.getElementById("epCard" + i).style.visibility = "visible";
+
+                    document.getElementById("epCard" + i + "_imageURL").src = document.getElementById(curEp + "EpImageURL").value;
+
+                    document.getElementById("epCard" + i + "_epName").textContent = document.getElementById(curEp + "Title").value;
+
+                    document.getElementById("epCard" + i + "_webDescription").innerHTML = document.getElementById(curEp + "WebDescription").value;
+
+                    document.getElementById("epCard" + i + "_showDate").innerHTML = document.getElementById(curEp + "ShowDate").value;
+
+                }
+                else {
+                  
+                    document.getElementById("epCard" + i).style.visibility = "hidden";
+                }
+                currentEp++;
+
+            }
+
+            //Send the list of objects to the partial view to render them with ajax
+
+
+
+
+        }
+
+
+        function previous(num) {
+            let pageNum = 0;
+
+            pageNum = parseInt(document.getElementById("pageNum").value);
+            pageCount = parseInt(document.getElementById("pageCount").value);
+            pageNum -= num;
+
+            if (pageNum < 0) {
+                pageNum = 0;
+            }
+
+
+
+            document.getElementById("pageNum").value = pageNum;
+            PopulateEpisodes();
+            updatePagingButtons(pageNum, pageCount);
+
+        }
+        function next(num) {
+            let pageNum = 0;
+
+            pageNum = parseInt(document.getElementById("pageNum").value);
+            pageCount = parseInt(document.getElementById("pageCount").value);
+            pageNum += num;
+
+            if (pageNum > PageCount) {
+                pageNum = PageCount;
+            }
+
+            document.getElementById("pageNum").value = pageNum;
+            PopulateEpisodes();
+            updatePagingButtons(pageNum, pageCount);
+
+            //add checking for limits
+        }
+
+        function updatePagingButtons(pageNum, pageCount) {
+
+            document.getElementById("btnPageNum").innerText = pageNum;
+            let smallBack = document.getElementById("btnPrevSmall");
+            let bigBack = document.getElementById("btnPrevBig");
+            let smallNext = document.getElementById("btnNextSmall");
+            let bigNext = document.getElementById("btnNextBig");
+
+            if (pageNum == 0) {
+
+                smallBack.disabled = true;
+                bigBack.disabled = true;
+               // smallBack.style.visibility = "hidden";
+               // bigBack.style.visibility = "hidden";
+            }
+            else {
+                smallBack.disabled = false;
+                bigBack.disabled = false;
+              
+            }
+
+            if (pageNum >= pageCount) {
+                smallNext.disabled = true;
+                bigNext.disabled = true;
+     
+            }
+            else {
+
+                smallNext.disabled = false;
+                bigNext.disabled = false;
+
+            }
+        }
+
+        function getCurrentPage() {
+
+        }
+
+        function editSeries(id) {
+            window.location.assign("../EditSeries/" + id)
+        }
+
+        function navToCast(id) {
+            window.location.assign("../Cast/" + id);
+        }
+
         function switchTwitter() {
-           
+
             IsTwitterHidden = !IsTwitterHidden;
-          
+
             var mainSection = document.getElementById("mainSection");
             var twitterSection = document.getElementById("twitterSection");
 
             //Twitter is hidden
             if (IsTwitterHidden) {
+                document.getElementById("showTwitterLink").style.visibility = "visible";
                 mainSection.classList.remove("col-3-of-4");
                 mainSection.classList.add("col-1-of-1");
-                twitterSection.style.visibility = "hidden";
-                document.getElementById("showTwitterLink").style.visibility = "visible";
+                twitterSection.style.display = "none";
+
             }
             else {
-           
+                document.getElementById("showTwitterLink").style.visibility = "hidden";
                 mainSection.classList.remove("col-1-of-1");
                 mainSection.classList.add("col-3-of-4");
-                twitterSection.style.visibility = "visible";
-                document.getElementById("showTwitterLink").style.visibility = "hidden";
+                twitterSection.style.display = "block";
+
             }
         }
 

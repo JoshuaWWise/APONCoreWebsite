@@ -1,0 +1,59 @@
+﻿@using APONCoreLibrary.Models;
+
+@model APONCoreLibrary.Models.ReturnModels.ForumPostInfo
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<div class="grid-row forum-outer forum-post-top">
+    <div *ngIf="!saving">
+        <div class="col-1-of-4">
+            <div class="grid-row">
+                <div class="col-full">
+                    @Model.lastUpdatedInfo.LastUpdatedByName
+                </div>
+
+                <div class="col-full">
+                    @Model.forumPost.PostDate.ToShortDateString()
+                </div>
+
+                <div class="col-full">
+                    <img class="forumUser-image" src=@Model.lastUpdatedInfo.LastUpdatedByImageURL />
+                </div>
+            </div>
+        </div>
+        <div class="col-3-of-4">
+
+            <div class="mt-5" id="forumPostText">@Html.Raw(Model.forumPost.Text)</div>
+            <div class="mt-5" id="forumPostEditor" style="visibility:hidden">
+                TEst
+            </div>
+                @if (Model.CurrentUserID == Model.lastUpdatedInfo.LastUpdatedBy)
+                {
+                    <button type="button" onclick="SwitchToEdit()">Edit</button>
+                }
+            
+        </div>
+    </div>
+</div>
+
+<input type="hidden" value="false" id="editMode" />
+@Model.CurrentUserID;
+@Model.lastUpdatedInfo.LastUpdatedBy;
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        function SwitchToEdit() {
+
+
+            document.getElementById("editMode").value = true;
+            document.getElementById("forumPostText").style.visibility = "hidden";
+            document.getElementById("forumPostEditor").style.visibility = "visible";
+
+        }
+
+
+
+    </script>
+}

@@ -1,0 +1,14 @@
+﻿@model APONCoreLibrary.Models.UserBrief
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<div class="authorShield" *ngIf="Author" ">
+    <div class="authorShield__imageCol">
+        <img class="authorShield__imageCol--image" src=@Model.ImageURL />
+    </div>
+    <div class="authorShield__nameCol">By @Model.UserName</div>
+</div>
+
+@* TODO: Add Click event *@
+@Html.HiddenFor(model => model.UserID, new { id = "authorShield_UserID" })

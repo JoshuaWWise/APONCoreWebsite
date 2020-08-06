@@ -38,6 +38,7 @@ namespace APONCoreWebsite
 
             services.AddSingleton<IDataService, DataService>();
             services.AddSingleton<IUserInfoService, UserInfoService>();
+            services.AddSingleton<IMetaTagService, MetaTagService>();
             services.AddScoped<IAuthService, AuthService>();
 
             services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");

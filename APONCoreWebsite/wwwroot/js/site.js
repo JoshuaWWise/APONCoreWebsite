@@ -84,3 +84,6 @@ function logoutRefresh() {
     var lil = document.getElementById("loginLink");
     lil.href = "/Login";
 }
+
+
+ 

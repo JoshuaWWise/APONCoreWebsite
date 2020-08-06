@@ -1,0 +1,14 @@
+﻿@model APONCoreLibrary.Models.Tag
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<div class="row tagItem mb-1">
+    <div class="col-12">
+        <button class="w-100 APONTag">@Model.Name</button>
+    </div>
+</div>
+
+@Html.HiddenFor(model => model.TagID, new { id = "TagID" })
+
+
+@*TODO: Add click event to navigate to tags page.*@

@@ -1,0 +1,76 @@
+﻿
+@model APONCoreWebsite.Pages.Shared._Forum__PostModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<div class="grid-row forum-outer forum-post-top">
+    <div *ngIf="!saving">
+        <div class="col-1-of-4">
+            <div class="grid-row">
+                <div class="col-full">
+                    @Model.FPI.lastUpdatedInfo.LastUpdatedByName
+                </div>
+
+                <div class="col-full">
+                    @Model.FPI.forumPost.PostDate.ToShortDateString()
+                </div>
+
+                <div class="col-full">
+                    <img class="forumUser-image" src=@Model.FPI.lastUpdatedInfo.LastUpdatedByImageURL />
+                </div>
+            </div>
+        </div>
+        <div class="col-3-of-4">
+
+            <div class="mt-5" id=@("forumPostText" + @Model.FPI.forumPost.ForumPostID)>@Html.Raw(Model.FPI.forumPost.Text)</div>
+            <div id=@("forumPostEditor" + @Model.FPI.forumPost.ForumPostID) style="visibility:hidden;">
+                <textarea id=@("ForumPostTextEditorTextArea" + @Model.FPI.forumPost.ForumPostID)>@Html.Raw(Model.FPI.forumPost.Text)</textarea>
+            </div>
+            @if (Model.FPI.CurrentUserID == Model.FPI.lastUpdatedInfo.LastUpdatedBy)
+            {
+
+                <button type="button" id=@("btnSwitchToForumPostEdit" + @Model.FPI.forumPost.ForumPostID) onclick="SwitchForumPostToEdit(@Model.FPI.forumPost.ForumPostID)">Edit</button>
+                <button type="button" id=@("btnSaveForumPost" + @Model.FPI.forumPost.ForumPostID) onclick="SaveForumPost(@Model.FPI.forumPost.ForumPostID)" style="visibility:hidden">Save</button>
+
+            }
+
+        </div>
+    </div>
+</div>
+
+<input type="hidden" value="false" id=@("editMode" + @Model.FPI.forumPost.ForumPostID) />
+
+
+
+<script src="https://cdn.tiny.cloud/1/ujgllac16mc23ozg3ajgb2k8aylj36wgpjbmx5bgeycpnofe/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+<script type="text/javascript">
+
+    function SwitchForumPostToEdit(fpID) {
+
+
+        document.getElementById("editMode" + fpID).value = true;
+        document.getElementById("forumPostText" + fpID).style.visibility = "hidden";
+        document.getElementById("forumPostEditor" + fpID).style.visibility = "visible";
+        document.getElementById("btnSwitchToForumPostEdit" + fpID).style.visibility = "hidden";
+        document.getElementById("btnSaveForumPost" + fpID).style.visibility = "visible";
+        tinymce.init({
+            selector: 'textarea', width: 700, height: 200,
+            menubar: false,
+            toolbar: 'undo redo | bold italic underline strikethrough |  image media  link   | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print  | ltr rtl',
+            toolbar_sticky: true,
+            plugins: 'image link media' 
+        });
+
+    }
+    function SaveForumPost(id) {
+
+        //tinymce.get("ForumPostTextEditorTextArea" + id).setContent("<p><img src='https://thumbs.gfycat.com/PointedDampApisdorsatalaboriosa-size_restricted.gif' /></p>")
+
+        
+        var myContent = tinymce.get("ForumPostTextEditorTextArea" + id).getContent();
+
+        alert(myContent);
+    }
+</script>

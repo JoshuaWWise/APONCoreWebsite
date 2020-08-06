@@ -1,0 +1,74 @@
+﻿@page "/Series/Episode/{EpisodeID}"
+@model APONCoreWebsite.Pages.Series.EpisodeModel
+@{
+    ViewData["Title"] = "Episode";
+}
+
+
+<div class="top-banner">
+    <div class="grid-row">
+        <div class="col-1-of-2">
+            <img class="top-banner-image"
+                 src=@Model.Episode.EpImageURL
+                 id="ShowImage" />
+            <div class="player">
+                <audio controls>
+                    <source id="audioSource" src=@Model.FileURL />
+                </audio>
+            </div>
+            <partial name="_TagList" model=@Model.Tags />
+        </div>
+        <div class="col-1-of-2 episodeInfoColumn">
+            <div (click)="onClickName()" class="row">
+                <h1>@Model.SeriesName</h1>
+            </div>
+            <div class="episodeInfoColumn__title">
+                @Model.Episode.Title
+            </div>
+            <div class="row">
+                <h4 *ngIf="Episode">@Model.Episode.ShowDate.ToShortDateString()</h4>
+            </div>
+            <div class="editorControl">
+                <div>
+                    <div class="editorControl__head">
+                        Editor Tools
+                    </div>
+
+                    <div class="grid-row editorControl__body">
+                        <button type="button"
+                                class="APONbtn APONbtnEditor editorControl__body--btn">
+                            Edit
+                        </button>
+
+                        <button type="Button"
+                                class="APONbtn APONbtnEditor editorControl__body--btn">
+                            Add to Subseries
+                        </button>
+
+                        <button type="button"
+                                class="APONbtn APONbtnEditor editorControl__body--btn">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-row">
+                <div class="col-1-of-2">
+                    <partial name="_AuthorShield" model=@Model.Author.User />
+                </div>
+            </div>
+            <div class="grid-row mt-3">
+                <div class="episodeInfoColumn__description"
+                     id="episodeDescription">
+                    @Html.Raw(Model.Episode.WebDescription)
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <hr />
+</div>
+@Html.HiddenFor(model => model.FileURL, new { id = "audioFileURL" });
+<partial name="_ForumView" model=@Model.fvm />
+

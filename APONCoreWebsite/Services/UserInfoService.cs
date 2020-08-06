@@ -43,7 +43,14 @@ namespace APONCoreWebsite.Services
 
         public int getUserID()
         {
-            return URT.UserID;
+            if (URT != null)
+            {
+                return URT.UserID;
+            }
+            else
+            {
+                return -1;
+            }
         }
 
         public UserReturnToken getUser()

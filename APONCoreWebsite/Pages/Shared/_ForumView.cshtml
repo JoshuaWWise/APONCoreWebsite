@@ -1,0 +1,62 @@
+﻿
+@model APONCoreWebsite.Pages.Shared._ForumViewModel
+@using System.Web
+@using System.Web.Optimization
+
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+
+<div class="w-100 block">
+    <div class="forum-frame">
+        @*<div  class="row top-banner">
+                <div class="col-md-4">
+                   <img [src]="FAP.forum.imageURL"
+                         class="img img-fluid top-banner-image rounded" />
+                </div>
+                <div class="col-md-8 RightCol">
+                    <div class="row">
+                        <h1>{{ FAP.forum.forumName }}</h1>
+                    </div>
+                    <hr />
+                    <div class="row"></div>
+                </div>
+            </div>*@
+
+        <div>
+
+            @foreach (_Forum__PostModel fp in Model.Posts)
+            {
+                <partial name="_Forum__Post" model=fp />
+
+            }
+            <div class="row">
+                <div class="col-md-12">
+                    Add a comment!
+                </div>
+                <div class="col-md-12">
+                    Please sign in to comment.
+                </div>
+            </div>
+            <div class="row" *ngIf="!saving">
+                <div class="col-md-12">
+
+
+                    <button [hidden]="userID == null || userID == -1"
+                            (click)="onSubmit()"
+                            class="APONbtn APONbtnBlue">
+                        Submit
+                    </button>
+                </div>
+            </div>
+            <div class="row" *ngIf="saving">
+                Saving comment...
+            </div>
+        </div>
+
+        <ng-template #noforumYet>
+            <div>Loading Forum...</div>
+        </ng-template>
+    </div>
+</div>

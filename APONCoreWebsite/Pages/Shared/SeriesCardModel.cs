@@ -6,9 +6,9 @@ namespace APONCoreWebsite.Pages.Shared
 {
     public class SeriesCardModel
     {
-        [Parameter] public Series Series { get; set; }
+        [Parameter] public APONCoreLibrary.Models.Series Series { get; set; }
 
-        public SeriesCardModel(Series series)
+        public SeriesCardModel(APONCoreLibrary.Models.Series series)
         {
             this.Series = series;
         }

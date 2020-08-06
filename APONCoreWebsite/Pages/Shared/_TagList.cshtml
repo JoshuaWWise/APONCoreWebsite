@@ -1,0 +1,17 @@
+﻿@model List<APONCoreLibrary.Models.Tag>
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+
+<div class="row pl-4 pr-4 tagList">
+    <h3 class="tagList__head">Tags</h3>
+    <div class="col-12 tagList__body">
+        <div class="tagList__body--listItem">
+            @foreach (APONCoreLibrary.Models.Tag t in Model)
+            {
+                <partial name="_TagView" model=t />
+            }
+        </div>
+    </div>
+</div>

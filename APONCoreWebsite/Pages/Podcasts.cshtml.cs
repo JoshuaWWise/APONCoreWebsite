@@ -17,7 +17,7 @@ namespace APONCoreWebsite.Pages
         private HttpClient _client;
 
 
-        public List<Series> Series { get; set; }
+        public List<APONCoreLibrary.Models.Series> Series { get; set; }
 
 
         public PodcastModel(HttpClient client, IAuthService authService): base (authService)
@@ -29,7 +29,7 @@ namespace APONCoreWebsite.Pages
         {
 
             var result = await _client.GetStringAsync("https://api.allportsopen.org/api/Series");
-            Series = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Series>>(result);
+            Series = Newtonsoft.Json.JsonConvert.DeserializeObject<List<APONCoreLibrary.Models.Series>>(result);
 
             return Page();
         }

@@ -14,9 +14,15 @@ namespace APONCoreWebsite.Pages.ViewModels
         public UserReturnToken myURT { get; set; }
         public IAuthService myAuthService { get; set; }
 
-        public ViewModelBase(IAuthService authService)
+       public _metaTagsModel MetaTagsModel { get; set; }
+
+        public IMetaTagService IMTS { get; set; }
+
+        public ViewModelBase(IAuthService authService, IMetaTagService imts)
         {
             myAuthService = authService;
+            MetaTagsModel = new _metaTagsModel(imts);
+            IMTS = imts;
         }
 
         public IActionResult OnPost()

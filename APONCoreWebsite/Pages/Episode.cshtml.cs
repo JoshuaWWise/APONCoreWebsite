@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using APONCoreLibrary.Models;
 using APONCoreLibrary.Models.RequestModels;
 using APONCoreLibrary.Models.ReturnModels;
+using APONCoreWebsite.Models;
 using APONCoreWebsite.Pages.Shared;
 using APONCoreWebsite.Pages.ViewModels;
 using APONCoreWebsite.Services;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.CodeAnalysis;
 
 namespace APONCoreWebsite.Pages.Series
 {
@@ -38,7 +40,7 @@ namespace APONCoreWebsite.Pages.Series
         public IUserInfoService UIS { get; set; }
 
         public Shared._ForumViewModel fvm { get; set; }
-        public EpisodeModel(IMetaTagService mts, IDataService ds, IAuthService authService, IUserInfoService uis) : base(authService)
+        public EpisodeModel(IMetaTagService mts, IDataService ds, IAuthService authService, IUserInfoService uis, IMetaTagService imts) : base(authService, imts)
         {
             MTS = mts;
             DS = ds;
@@ -82,6 +84,14 @@ namespace APONCoreWebsite.Pages.Series
             }
             fvm.CurrentUserID = UIS.getUserID();
             fvm.ShowTop = false;
+
+            metaData md = new metaData();
+            md.description = Episode.Description;
+            md.image = Episode.EpImageURL;
+            md.title = Episode.Title;
+            md.type = "article";
+            md.URL = "https://www.allportsopen.com/series/Episode/" + Episode.EpisodeID;
+
             return Page();
         }
     }

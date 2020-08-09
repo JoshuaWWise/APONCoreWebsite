@@ -16,11 +16,13 @@ namespace APONCoreWebsite.Services
 
         public string Logout();
 
-        public bool SignUp(string email, string username, string password);
+        public Task<string> SignUp(string email, string username, string password);
 
-        public bool GetPassworResetLink(ResetPW resetPW);
+        public Task<bool> GetPassworResetLink(string email);
 
         public bool HandleAuthentication(UserReturnToken URT);
+
+        public void SaveUserSessionData(UserReturnToken URT);
 
         public void AutoLogin(UserReturnToken urt);
 
@@ -60,9 +62,15 @@ namespace APONCoreWebsite.Services
             throw new NotImplementedException();
         }
 
-        public bool GetPassworResetLink(ResetPW resetPW)
+        public async Task<bool> GetPassworResetLink(string email)
         {
-            throw new NotImplementedException();
+
+            HttpResponseMessage LoginResult = await DS.PostAsync(null, "user/GetPasswordResetLink/" + email);
+
+
+            string s = LoginResult.RequestMessage.ToString();
+
+            return true;
         }
 
         public int getUserAuthLevel()
@@ -107,13 +115,7 @@ namespace APONCoreWebsite.Services
                     {
 
 
-                        Session.SetInt32("UserID", URT.UserID);
-                        Session.SetString("UserImageURL", URT.imageURL);
-                        Session.SetString("UserName", URT.UserName);
-                        Session.SetInt32("UserAuthLevel", int.Parse(URT.AuthLevel));
-                        Session.SetInt32("UserTheme", URT.Theme);
-                        Session.SetString("JWTToken", URT.Token);
-                        UIS.setUser(URT);
+                        SaveUserSessionData(URT);
                         //Response.Redirect("/");
                     }
 
@@ -134,6 +136,20 @@ namespace APONCoreWebsite.Services
 
 
             return URT;
+        }
+
+
+        public void SaveUserSessionData(UserReturnToken URT)
+        {
+            Session.SetInt32("UserID", URT.UserID);
+            Session.SetString("UserImageURL", URT.imageURL);
+            Session.SetString("UserName", URT.UserName);
+            Session.SetInt32("UserAuthLevel", int.Parse(URT.AuthLevel));
+            Session.SetInt32("UserTheme", URT.Theme);
+            Session.SetString("JWTToken", URT.Token);
+            DS.SetAuthToken(URT.Token);
+            UIS.setUser(URT);
+
         }
 
         public string Logout()
@@ -161,9 +177,36 @@ namespace APONCoreWebsite.Services
             throw new NotImplementedException();
         }
 
-        public bool SignUp(string email, string username, string password)
+        public async Task<string> SignUp(string email, string username, string password)
         {
-            throw new NotImplementedException();
+
+            SignUpUser SUU = new SignUpUser();
+            SUU.Email = email.ToLower();
+            SUU.UserName = username;
+            SUU.Password = password;
+
+            var signUpResponse = await DS.PostAsync(SUU, "user/SignUp");
+            if (signUpResponse.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                var responseJSON = await signUpResponse.Content.ReadAsStringAsync();
+
+                UserReturnToken URT = Newtonsoft.Json.JsonConvert.DeserializeObject<UserReturnToken>(responseJSON);
+                if (string.IsNullOrEmpty( URT.Message))
+                {
+
+                    SaveUserSessionData(URT);
+                    return "";
+                }
+
+                else
+                {
+                    return URT.Message;
+                }
+
+            }
+
+            return signUpResponse.Content.ToString();
+
         }
     }
 }

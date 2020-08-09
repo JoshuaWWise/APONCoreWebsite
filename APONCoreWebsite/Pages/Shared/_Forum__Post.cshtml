@@ -47,23 +47,7 @@
 
 <script type="text/javascript">
 
-    function SwitchForumPostToEdit(fpID) {
-
-
-        document.getElementById("editMode" + fpID).value = true;
-        document.getElementById("forumPostText" + fpID).style.visibility = "hidden";
-        document.getElementById("forumPostEditor" + fpID).style.visibility = "visible";
-        document.getElementById("btnSwitchToForumPostEdit" + fpID).style.visibility = "hidden";
-        document.getElementById("btnSaveForumPost" + fpID).style.visibility = "visible";
-        tinymce.init({
-            selector: 'textarea', width: 700, height: 200,
-            menubar: false,
-            toolbar: 'undo redo | bold italic underline strikethrough |  image media  link   | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print  | ltr rtl',
-            toolbar_sticky: true,
-            plugins: 'image link media' 
-        });
-
-    }
+    
     function SaveForumPost(id) {
 
         //tinymce.get("ForumPostTextEditorTextArea" + id).setContent("<p><img src='https://thumbs.gfycat.com/PointedDampApisdorsatalaboriosa-size_restricted.gif' /></p>")
@@ -71,6 +55,14 @@
         
         var myContent = tinymce.get("ForumPostTextEditorTextArea" + id).getContent();
 
-        alert(myContent);
+        //Save the Content
+
+        //Update the field
+
+        //Hide and Show Fields
+
+        //Remove the TINYMCE
+
+        RemoveTinyMCE(id);
     }
 </script>

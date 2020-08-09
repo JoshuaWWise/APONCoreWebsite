@@ -48,14 +48,14 @@ $(document).ready(function () {
         if (userJWTInfo.length > 0) {
             $.ajax({
                 type: "POST",
-                url: 'AutoLogin/?handler=URT',
+                url: '/AutoLogin/?handler=URT',
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
                 },
                 contentType: "application/json; charset=utf-8",
                 data: userJWTInfo
             });
-          
+
             var lii = document.getElementById("loginImage");
             lii.src = jwt.imageurl;
             lii.classList.remove("loggedout-image");
@@ -67,7 +67,7 @@ $(document).ready(function () {
 
         }
         else {
-        
+
         }
 
 
@@ -85,5 +85,39 @@ function logoutRefresh() {
     lil.href = "/Login";
 }
 
+function SwitchForumPostToEdit(fpID) {
 
- 
+
+    document.getElementById("editMode" + fpID).value = true;
+    document.getElementById("forumPostText" + fpID).style.visibility = "hidden";
+    document.getElementById("forumPostEditor" + fpID).style.visibility = "visible";
+    document.getElementById("btnSwitchToForumPostEdit" + fpID).style.visibility = "hidden";
+    document.getElementById("btnSaveForumPost" + fpID).style.visibility = "visible";
+
+    var textAreaName = "ForumPostTextEditorTextArea" + fpID;
+
+    var myTinyMCE = new tinymce.Editor(textAreaName, {selector: textAreaName,
+        width: 700, height: 200,
+        menubar: false,
+        toolbar: 'undo redo | bold italic underline strikethrough |  image media  link   | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print  | ltr rtl',
+        toolbar_sticky: true,
+        plugins: 'image link media'
+    }, tinymce.EditorManager);
+    myTinyMCE.render();
+
+    //tinymce.init({
+    //    selector: textAreaName, width: 700, height: 200,
+    //    menubar: false,
+    //    toolbar: 'undo redo | bold italic underline strikethrough |  image media  link   | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print  | ltr rtl',
+    //    toolbar_sticky: true,
+    //    plugins: 'image link media' 
+    //});
+
+}
+
+function RemoveTinyMCE(fpID) {
+    var textAreaName = "#ForumPostTextEditorTextArea" + fpID;
+    tinymce.remove(textAreaName);
+
+
+}

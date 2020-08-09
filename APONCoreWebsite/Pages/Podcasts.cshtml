@@ -19,79 +19,30 @@
     {
         @if (i % 4 == 0)
         {
-            <div class="grid-row  scrolly seriesListGrid">
+            <div class="grid-row  scrolly">
                 <div class="col-1-of-4">
-                    <div class="rotatorCard">
-                        @*<a href='@string.Format("/Series/{0}", @Model.Series[i].SeriesID)'>*@
-                        <a href="/Series/WeepingCedars"> @*This won't work, need a series router from id to names*@
-                            <div class="rotatorCard__side rotatorCard__side--front">
-                                <img class="rotatorCard__topImage" src=@Model.Series[i].ImageURL />
-
-                                <div class="rotatorCard__bottomName">
-                                    <label>@Model.Series[i].Name</label>
-                                </div>
-                            </div>
-                            <div class="rotatorCard__side rotatorCard__side--back">
-                                <p class="pt-5 m-3" [innerHTML]=@Model.Series[i].Description></p>
-                            </div>
-                        </a>
-                    </div>
+                    <partial name="_SeriesCard" model=@Model.Series[i] />
                 </div>
                 <div class="col-1-of-4">
 
                     @if (Model.Series.Count > i + 1)
                     {
-                        <div class="rotatorCard">
+                        <partial name="_SeriesCard" model=@Model.Series[i+1] />
 
-                            <div class="rotatorCard__side rotatorCard__side--front">
-                                <img class="rotatorCard__topImage" src=@Model.Series[i+1].ImageURL />
-
-                                <div class="rotatorCard__bottomName">
-                                    <label>@Model.Series[i + 1].Name</label>
-                                </div>
-                            </div>
-                            <div class="rotatorCard__side rotatorCard__side--back">
-                                <p class="pt-5 m-3" [innerHTML]=@Model.Series[i+1].Description></p>
-                            </div>
-                        </div>
                     }
 
                 </div>
                 <div class="col-1-of-4">
                     @if (Model.Series.Count > i + 2)
                     {
-                        <div class="rotatorCard">
-
-                            <div class="rotatorCard__side rotatorCard__side--front">
-                                <img class="rotatorCard__topImage" src=@Model.Series[i+2].ImageURL />
-
-                                <div class="rotatorCard__bottomName">
-                                    <label>@Model.Series[i + 2].Name</label>
-                                </div>
-                            </div>
-                            <div class="rotatorCard__side rotatorCard__side--back">
-                                <p class="pt-5 m-3" [innerHTML]=@Model.Series[i+2].Description></p>
-                            </div>
-                        </div>
+                        <partial name="_SeriesCard" model=@Model.Series[i+2] />
                     }
 
                 </div>
                 <div class="col-1-of-4">
                     @if (Model.Series.Count > i + 3)
                     {
-                        <div class="rotatorCard">
-
-                            <div class="rotatorCard__side rotatorCard__side--front">
-                                <img class="rotatorCard__topImage" src=@Model.Series[i+3].ImageURL />
-
-                                <div class="rotatorCard__bottomName">
-                                    <label>@Model.Series[i + 3].Name</label>
-                                </div>
-                            </div>
-                            <div class="rotatorCard__side rotatorCard__side--back">
-                                <p class="pt-5 m-3" [innerHTML]=@Model.Series[i+3].Description></p>
-                            </div>
-                        </div>
+                        <partial name="_SeriesCard" model=@Model.Series[i+3] />
                     }
 
                 </div>

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,12 +20,22 @@ namespace APONCoreWebsite.Services
 
         public Task<string> GetAsync(string Endpoint);
 
+        public void SetAuthToken(string token);
+
     }
 
     public class DataService : IDataService
     {
         public HttpClient http { get; set; }
         private IConfiguration configuration { get; set; }
+
+        private string token { get; set; }
+
+        public void SetAuthToken(string token)
+        {
+            this.token = token;
+           
+        }
 
         public DataService(HttpClient httpClient, IConfiguration Configuration)
         {
@@ -34,7 +45,11 @@ namespace APONCoreWebsite.Services
 
         public async Task<string> GetAsync(string Endpoint)
         {
+
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
+
             Uri Uri = new Uri(configuration.GetValue<string>("BaseUrl") + Endpoint);
+            
      
             return await http.GetStringAsync(Uri);
         }

@@ -20,20 +20,20 @@ namespace APONCoreWebsite.Pages
     public class LoginModel : ViewModelBase
     {
         HttpClient http { get; set; }
-     
 
-       // IAuthService AuthService { get; set; }
+
+        // IAuthService AuthService { get; set; }
 
         IConfiguration configuration { get; set; }
-  
 
-        public LoginModel(HttpClient client,  IConfiguration Configuration, IAuthService authService): base (authService)
+
+        public LoginModel(HttpClient client, IConfiguration Configuration, IAuthService authService, IMetaTagService imts) : base(authService, imts)
         {
             http = client;
-          
+
             configuration = Configuration;
             //AuthService = authService;
-        
+
         }
         [BindProperty]
         public SignUpUser LoginUser { get; set; }
@@ -45,12 +45,46 @@ namespace APONCoreWebsite.Pages
 
         [BindProperty]
         public bool UserSaved { get; set; }
-       
+
         public UserReturnToken SavedURT { get; set; }
 
         public string LoginMessage { get; set; }
+
+        public string RegisterMessage { get; set; }
         public void OnGet()
         {
+        }
+
+        public async Task<IActionResult> OnPostSignUpAsync()
+        {
+          
+            LoginUser.UserName = Request.Form["registerUsername"];
+            LoginUser.Email = Request.Form["registerEmail"];
+            LoginUser.Password = Request.Form["registerPassword1"];
+
+
+
+         string signUpMessage =    await myAuthService.SignUp( LoginUser.Email, LoginUser.UserName, LoginUser.Password);
+
+            if (string.IsNullOrEmpty(signUpMessage))
+            {
+                //user is registerd and signed in, all is good.
+                LogInSuccessful = true;
+            }
+            else
+            {
+                RegisterMessage = signUpMessage;
+            }
+
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostResetPasswordAsync()
+        {
+            LoginUser.Email = Request.Form["resetEmail"];
+
+            bool b = await myAuthService.GetPassworResetLink(LoginUser.Email);
+            return Page();
         }
 
         public async Task<IActionResult> OnPostLoginAsync()
@@ -58,7 +92,7 @@ namespace APONCoreWebsite.Pages
             LoginUser.UserName = Request.Form["loginUsername"];
             LoginUser.Password = Request.Form["loginPassword"];
 
-          UserReturnToken URT = await  myAuthService.Login(LoginUser);
+            UserReturnToken URT = await myAuthService.Login(LoginUser);
 
             if (string.IsNullOrEmpty(URT.Message))
             {

@@ -28,7 +28,7 @@ namespace APONCoreWebsite.Pages.Shared
         [BindProperty]
         public bool isProfileUser { get; set; }
 
-        public UserModel(IAuthService authService, IDataService ds, IUserInfoService userInfoService): base (authService)
+        public UserModel(IAuthService authService, IDataService ds, IUserInfoService userInfoService, IMetaTagService imts) : base(authService, imts)
         {
             AuthService = AuthService;
             DS = ds;

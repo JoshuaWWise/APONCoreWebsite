@@ -18,11 +18,12 @@ namespace APONCoreWebsite.Pages
 
 
 
-
+        public IDataService DS { get; set; }
         public IUserInfoService UIS { get; set; }
-        public AutoLoginModel(IUserInfoService uis, IAuthService authService) : base(authService)
+        public AutoLoginModel(IUserInfoService uis, IAuthService authService, IDataService ds, IMetaTagService imts) : base(authService, imts)
         {
             UIS = uis;
+            DS = ds;
         }
         public JsonResult OnGet()
         {
@@ -46,8 +47,9 @@ namespace APONCoreWebsite.Pages
                 return Page();
             }
             URT = new UserReturnToken(j);
-
+            DS.SetAuthToken(URT.Token);
             UIS.setUser(URT);
+            
             return Page();
         }
     }

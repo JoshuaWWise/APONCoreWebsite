@@ -1,0 +1,34 @@
+﻿@model int
+
+
+<div class="nav-menu-box">
+    <ul class="nav-menu">
+        <li class="APONnav-item">
+            <a asp-page="/Index">Home</a>
+        </li>
+
+        <li class="APONnav-item">
+            <a asp-page="/Podcasts">Podcasts</a>
+        </li>
+        <li class="APONnav-item">
+            <a asp-page="/News">Features</a>
+        </li>
+        <li class="APONnav-item">
+            <a asp-page="/Forums">Forums</a>
+        </li>
+        <li routerLinkActive="active" class="APONnav-item">
+            <a asp-page="/AboutUs">About</a>
+        </li>
+
+        <li class="APONnav-item">
+            <a href="https://www.patreon.com/allportsopen">Support Us</a>
+        </li>
+
+        @if (Model < 4)
+        {
+            <li routerLinkActive="active" class="APONnav-item">
+                <a asp-page="/Editor">Editor Tools</a>
+            </li>
+        }
+    </ul>
+</div>

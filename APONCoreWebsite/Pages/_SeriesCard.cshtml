@@ -1,0 +1,18 @@
+﻿@model APONCoreLibrary.Models.Series
+
+<div class="rotatorCard">
+   
+    <a href=@Model.NavLinkName>
+        @*This won't work, need a series router from id to names*@
+        <div class="rotatorCard__side rotatorCard__side--front">
+            <img class="rotatorCard__topImage" src=@Model.ImageURL />
+
+            <div class="rotatorCard__bottomName">
+                <label>@Model.Name</label>
+            </div>
+        </div>
+        <div class="rotatorCard__side rotatorCard__side--back">
+            <p class="pt-5 m-3" >@Html.Raw(Model.Description)</p>
+        </div>
+    </a>
+</div>

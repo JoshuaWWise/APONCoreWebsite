@@ -6,45 +6,6 @@
 @{
 }
 
-@section Scripts
-{
-    <script type="text/javascript">
-
-
-        var LoggedIn;
-
-        $(document).ready(
-            function ()
-            {
-
-            var myStorage = window.localStorage;
-
-            LoggedIn = @Model.LogInSuccessful.ToString().ToLower();
-
-
-                if (LoggedIn)
-                {
-
-                    var j = new JWT(document.getElementById("login_UserName").value,
-                        document.getElementById("login_UserID").value,
-                        document.getElementById("login_AuthLevel").value,
-                        document.getElementById("login_Token").value,
-                        document.getElementById("login_Expiration").value,
-                        document.getElementById("login_Theme").value,
-                        document.getElementById("login_ImageURL").value);
-
-               
-                    var jwt = JSON.stringify(j);
-                  
-
-                myStorage.setItem("userJWT", jwt);
-
-            }
-
-        });
-
-    </script>
-}
 
 <div class="centerbox">
     <div class="LoginCol LeftLoginCol">
@@ -53,7 +14,7 @@
         <div class="centerbox__inputArea">
 
 
-            <form method="post">
+            <form id="frmLogin" name="frmLogin" method="post">
                 <div class="centerbox__inputArea--text"><label>Username</label></div>
                 <div>
                     <input type="text"
@@ -90,27 +51,25 @@
                 </div>
             </form>
             <div>
-                <form #restetPWForm="ngForm" (ngSubmit)="sendResetEmail()">
-                    <button class="APONbtn APONbtnOrange centerbox__inputArea--submitButton"
-                            (click)="showReset = true">
-                        Forgot your Info?
-                    </button>
-                    <div [hidden]="!showReset" class="centerbox__inputArea--text">
+                <button class="APONbtn APONbtnOrange centerbox__inputArea--submitButton"
+                        onclick="ShowResetPasswordSection()" type="button">
+                    Forgot your Info?
+                </button>
+                <form method="post">
+
+                    <div id="ResetPasswordSection" style="visibility:hidden" class="centerbox__inputArea--text">
                         Please enter your email address:
                         <input type="text"
-                               name="resetEmailbox"
+                               name="resetEmail"
                                class="centerbox__inputArea--textBox form-control"
-                               [(ngModel)]="resetEmail"
                                required
-                               email
-                               #resetEmailbox="ngModel" />
-                        <div class="loginError"
-                             [hidden]="resetEmailbox.valid || resetEmailbox.pristine">
+                               email />
+                        <div class="loginError">
                             Please enter a vaild email address to reset your password.
                         </div>
-                        <button [hidden]="!resetEmailbox.valid"
-                                class="APONbtn APONbtnOrange centerbox__inputArea--submitButton"
-                                type="submit">
+
+                        <button class="APONbtn APONbtnOrange centerbox__inputArea--submitButton"
+                                type="submit" asp-page-handler="ResetPassword">
                             Reset Password
                         </button>
                     </div>
@@ -123,70 +82,52 @@
         <div class="LoginColumnHeader">Register</div>
         <hr />
         <div class="centerbox__inputArea">
-            <form #registerForm="ngForm" (submit)="onRegisterSubmit()">
+            <form name="frmRegistration" id="frmRegistration" method="post">
                 <div class="centerbox__inputArea--text">Username</div>
                 <div>
                     <input type="text"
                            id="registerUsername"
                            name="registerUsername"
                            class="form-control centerbox__inputArea--textBox"
-                           [(ngModel)]="registerUser.username"
                            required
-                           minlength="6"
-                           #registerUsername="ngModel" />
-                    <div class="loginError"
-                         [hidden]="registerUsername.valid || registerUsername.pristine">
-                        Please enter a Username of at least six characters to Sign Up.
-                    </div>
+                           minlength="6" />
+
                 </div>
                 <div class="centerbox__inputArea--text">Email Address</div>
                 <div>
                     <input type="text"
+                           id="registerEmail"
                            name="registerEmail"
                            class="centerbox__inputArea--textBox form-control"
-                           [(ngModel)]="registerUser.emailAddress"
                            required
-                           email
-                           #registerEmail="ngModel" />
+                           email />
                 </div>
-                <div class="loginError"
-                     [hidden]="registerEmail.valid || registerEmail.pristine">
-                    Please enter a valid email address to register
-                </div>
+
                 <div class="centerbox__inputArea--text">Password</div>
                 <div>
                     <input type="password"
+                           id="registerPassword1"
                            name="registerPassword1"
                            class="centerbox__inputArea--textBox form-control"
-                           [(ngModel)]="registerUser.password1"
                            required
-                           minlength="6"
-                           #registerPassword1="ngModel" />
-                    <div class="loginError"
-                         [hidden]="registerPassword1.valid || registerPassword1.pristine">
-                        Please enter a password of at least six characters to register.
-                    </div>
+                           minlength="6" />
+
                 </div>
                 <div class="centerbox__inputArea--text">Repeat Password</div>
                 <div>
                     <input type="password"
+                           id="registerPassword2"
                            name="registerPassword2"
                            class="centerbox__inputArea--textBox form-control"
-                           [(ngModel)]="registerUser.password2"
                            required
                            minlength="6"
-                           #registerPassword2="ngModel" />
-                    <div class="loginError"
-                         [hidden]="
-              registerPassword1.pristine ||
-              registerPassword2.pristine ||
-              registerPasswordsMatch()
-            ">
-                        Please enter a matching password to register.
-                    </div>
+                           data-rule-equalto="#registerPassword1" />
+
                 </div>
+                <div><strong>@Model.RegisterMessage</strong></div>
                 <div>
-                    <button [hidden]="!registerForm.valid || !registerPasswordsMatch()"
+                    <button type="submit"
+                            asp-page-handler="SignUp"
                             class="APONbtn APONbtnOrange centerbox__inputArea--submitButton">
                         Register
                     </button>
@@ -209,4 +150,59 @@
 
 
     }
+
+   
 </div>
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+
+        var LoggedIn;
+
+        $(document).ready(
+            function ()
+            {
+
+            var myStorage = window.localStorage;
+
+            LoggedIn = @Model.LogInSuccessful.ToString().ToLower();
+
+
+                if (LoggedIn)
+                {
+
+                    var j = new JWT(document.getElementById("login_UserName").value,
+                        document.getElementById("login_UserID").value,
+                        document.getElementById("login_AuthLevel").value,
+                        document.getElementById("login_Token").value,
+                        document.getElementById("login_Expiration").value,
+                        document.getElementById("login_Theme").value,
+                        document.getElementById("login_ImageURL").value);
+
+
+                    var jwt = JSON.stringify(j);
+
+
+                    myStorage.setItem("userJWT", jwt);
+
+
+                    window.location.href = "/Index";
+
+
+                }
+
+
+               
+            });
+
+
+
+        function ShowResetPasswordSection() {
+            document.getElementById("ResetPasswordSection").style.visibility = "visible";
+        }
+
+    </script>
+}

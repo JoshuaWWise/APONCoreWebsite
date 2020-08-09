@@ -20,7 +20,7 @@ namespace APONCoreWebsite.Pages
         public List<APONCoreLibrary.Models.Series> Series { get; set; }
 
 
-        public PodcastModel(HttpClient client, IAuthService authService): base (authService)
+        public PodcastModel(HttpClient client, IAuthService authService, IMetaTagService imts) : base(authService, imts)
         {
             _client = client;
         }

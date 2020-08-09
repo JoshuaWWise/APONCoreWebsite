@@ -16,7 +16,7 @@ namespace APONCoreWebsite.Pages
 {
     public class IndexModel : ViewModelBase
     {
-        public IndexModel(ILogger<IndexModel> logger, HttpClient client, IAuthService authService) : base(authService)
+        public IndexModel(ILogger<IndexModel> logger, HttpClient client, IAuthService authService, IMetaTagService imts) : base(authService, imts)
         {
             _logger = logger;
             _client = client;

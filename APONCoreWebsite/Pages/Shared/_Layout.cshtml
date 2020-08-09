@@ -17,6 +17,7 @@
     <link rel="stylesheet"
           type="text/css"
           href="//fonts.googleapis.com/css?family=Lato:300,400,500,700,900" />
+    <partial name="_metaTags" model=@Model.MetaTagsModel />
 </head>
 <body>
     <button class="continue" type="button">spiderman</button>
@@ -35,33 +36,7 @@
                 </div>
 
             </div>
-            <div class="nav-menu-box">
-                <ul class="nav-menu">
-                    <li class="APONnav-item">
-                        <a asp-page="/Index">Home</a>
-                    </li>
-
-                    <li class="APONnav-item">
-                        <a asp-page="/Podcasts">Podcasts</a>
-                    </li>
-                    <li class="APONnav-item">
-                        <a asp-page="/News">Features</a>
-                    </li>
-                    <li class="APONnav-item">
-                        <a asp-page="/Forums">Forums</a>
-                    </li>
-                    <li routerLinkActive="active" class="APONnav-item">
-                        <a asp-page="/AboutUs">About</a>
-                    </li>
-
-                    <li class="APONnav-item">
-                        <a href="https://www.patreon.com/allportsopen">Support Us</a>
-                    </li>
-                    <li routerLinkActive="active" class="APONnav-item">
-                        <a asp-page="/Editor">Editor Tools</a>
-                    </li>
-                </ul>
-            </div>
+           @await Component.InvokeAsync("nav") 
 
             @await Component.InvokeAsync("auth")
 
@@ -148,6 +123,7 @@
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/ts/TSMain.js"></script>

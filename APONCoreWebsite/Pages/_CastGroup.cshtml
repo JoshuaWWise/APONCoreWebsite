@@ -1,0 +1,33 @@
+﻿
+@model APONCoreWebsite.Pages._CastGroupModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<H2>{{ castType.name }}</H2>
+<section class="cast-grid APONText mt-5">
+    <div *ngFor="let c of cast; index as i">
+        <div *ngIf="i % 4 == 0" class="grid-row">
+            <div *ngIf="cast.length > i" class="col-1-of-4">
+                <app-cast [castMember]="cast[i]"
+                          [socialMedia]="getSocialMediaForCastMember(cast[i].castID)"
+                          [seriesID]="seriesID"></app-cast>
+            </div>
+            <div *ngIf="cast.length > i + 1" class="col-1-of-4">
+                <app-cast [castMember]="cast[i + 1]"
+                          [socialMedia]="getSocialMediaForCastMember(cast[i + 1].castID)"
+                          [seriesID]="seriesID"></app-cast>
+            </div>
+            <div *ngIf="cast.length > i + 2" class="col-1-of-4">
+                <app-cast [castMember]="cast[i + 2]"
+                          [socialMedia]="getSocialMediaForCastMember(cast[i + 2].castID)"
+                          [seriesID]="seriesID"></app-cast>
+            </div>
+            <div *ngIf="cast.length > i + 3" class="col-1-of-4">
+                <app-cast [castMember]="cast[i + 3]"
+                          [socialMedia]="getSocialMediaForCastMember(cast[i + 3].castID)"
+                          [seriesID]="seriesID"></app-cast>
+            </div>
+        </div>
+    </div>
+</section>
+<hr />

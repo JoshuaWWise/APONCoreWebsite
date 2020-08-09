@@ -1,0 +1,23 @@
+﻿@page
+@model APONCoreWebsite.Pages.CastListModel
+@{
+    ViewData["Title"] = "Cast";
+}
+
+<h1>Cast</h1>
+
+<div *ngIf="series" style="margin-top: 2rem;">
+    <h2>
+        <span class="pageHeader">Cast List for {{ series.name }}</span>
+    </h2>
+    <div *ngIf="isAdmin()"><button (click)="goToAddCast()"></button></div>
+</div>
+
+<div *ngIf="cast">
+    <div class="grid-row mt-5" *ngFor="let ct of castTypes; index as i">
+        <app-cast-type [cast]="cast"
+                       [castType]="ct"
+                       [socialMedia]="socialMedia"
+                       [seriesID]="seriesID"></app-cast-type>
+    </div>
+</div>

@@ -34,7 +34,7 @@ function autoLoginComplete() {
 
 $(document).ready(function () {
 
-    SayHello();
+  
     var userID = document.getElementById("authVCuserID").value;
     console.log("authVCuserID: " + userID);
     //if the user is logged out, look for tokens from the browser
@@ -121,3 +121,23 @@ function RemoveTinyMCE(fpID) {
 
 
 }
+
+function submitImage(evt, formdata) {
+    console.log("PIrate");
+    evt.preventDefault();
+    $.ajax({
+        type: "POST",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+        },
+        url: '../ImageHandler/?handler=Image',
+        data: formdata,
+        contentType: false,
+        processData: false,
+    
+        success: function () {
+            alert('Uploaded by jQuery');
+        }
+    });
+}
+

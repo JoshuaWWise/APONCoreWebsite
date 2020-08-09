@@ -75,7 +75,16 @@ namespace APONCoreWebsite.Services
 
         public int getUserAuthLevel()
         {
-            throw new NotImplementedException();
+            UserReturnToken urt = UIS.getUser();
+            int authLevel = 5;
+
+            if (urt.UserID != -1)
+            {
+                authLevel = int.Parse(urt.AuthLevel);
+            }
+
+            return authLevel;
+            
         }
 
         public bool HandleAuthentication(UserReturnToken URT)

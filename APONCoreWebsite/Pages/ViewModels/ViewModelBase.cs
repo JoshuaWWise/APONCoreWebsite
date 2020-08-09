@@ -18,11 +18,15 @@ namespace APONCoreWebsite.Pages.ViewModels
 
         public IMetaTagService IMTS { get; set; }
 
+        public int UserAuthLevel { get; set; }
+
         public ViewModelBase(IAuthService authService, IMetaTagService imts)
         {
             myAuthService = authService;
             MetaTagsModel = new _metaTagsModel(imts);
             IMTS = imts;
+
+            UserAuthLevel = authService.getUserAuthLevel();
         }
 
         public IActionResult OnPost()

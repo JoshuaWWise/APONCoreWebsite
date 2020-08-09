@@ -1,0 +1,28 @@
+﻿@page
+@model APONCoreWebsite.Pages.Admin.AddCastModel
+@{
+    ViewData["Title"] = "AddCast";
+}
+
+<h1>AddCast</h1>
+
+
+
+
+
+@section Scripts
+{
+<script type="text/javascript">
+
+    var accessLevel = 5;
+    $(document).ready(function () {
+
+        accessLevel = @Model.UserAuthLevel;
+
+        if (accessLevel > 2) {
+            window.location.href = "/Index";
+        }
+    }
+</script>
+}
+

@@ -1,0 +1,148 @@
+﻿@page "{FeatureID:int?}"
+@model APONCoreWebsite.Pages.Admin.AddFeatureModel
+@{
+    ViewData["Title"] = "AddFeature";
+}
+
+<h1>AddFeature</h1>
+
+<div class="row APONText">
+    <div class="col-12 APONText">
+        <hr />
+        <div class="row APONText">
+            <div class="col-12 w-100">
+                <form id="frmAddNews" name="frmAddNews">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="form-control" for="headline">Headline</label>
+
+                                <input type="text"
+                                       class="form-control w100"
+                                       id="headline"
+                                       required
+                                       asp-for="Feature.Headline"
+                                       name="headline" />
+                            </div>
+                            @*<div class="form-group">
+                                    <label for="statusSelect"
+                                           class="form-label"
+                                           (change)="onStatusChange()">Draft Status</label>
+                                    <select class="form-control"
+                                            id="statusSelect"
+                                            name="statusSelect"
+                                            [(ngModel)]="statusValue">
+                                        <option *ngFor="let s of statusList" [value]="s.key">
+                                            {{ s.value }}
+                                        </option>
+                                    </select>
+                                </div>*@
+                            <div class="form-group">
+                                <label for="shortDescription">Short Description</label>
+
+                                <textarea class="form-control"
+                                          id="shortDeescription"
+                                          name="shortDeescription"
+                                          required
+                                          asp-for="Feature.Text"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="webDescription">News Text</label>
+
+                                @*Add the text area here that converts to the TinyMCE*@
+                            </div>
+
+                            <div class="form-group">
+                                <label for="myDatepicker">Post Date and Time</label>
+                                <br />
+                                <input type="datetime"
+                                       asp-for="Feature.PostDate"
+                                       name="myDatePicker" />
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="addToTweet">Add To Tweet</label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="addToTweet"
+                                       name="addToTweet" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="tweetPreview">Tweet Preview</label>
+                                <span id="tweetPreview"></span>
+                            </div>
+
+                            @*CREATE TAG CONSOLE AND FUNCTIONALITY*@
+                            <app-tag-console #myTagConsole></app-tag-console>
+
+                            <label for="imageURL">Image Location</label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="smallImageInput"
+                                   name="smallImageInput" />
+                            <input type="file"
+                                   id="smallImageURLInput"
+                                   accept=".png,.jpg"
+                                   #smallImageURLInput
+                                   (change)="ImgURLUpload($event)" />
+                            <img [src]="getSmallImage()"
+                                 class="img img-fluid"
+                                 onerror="this.src='../../../assets/img/whitesquare.jpg'" />
+
+                            <hr />
+                            <label for="splashImageURL">Splash Image Location</label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   id="splashImageURL"
+                                   name="splashImageURL"
+                                   [(ngModel)]="splashImageURL" />
+                            <input type="file"
+                                   id="splashImgURLInput"
+                                   accept=".png,.jpg"
+                                   #splashImgURLInput
+                                   (change)="splashImgURLUpload($event)" />
+                            <img [src]="getSplashImage()"
+                                 class="img img-fluid"
+                                 onerror="this.src='../../../assets/img/whitesquare.jpg'" />
+                        </div>
+                    </div>
+                    <button type="button"
+                            [disabled]="newsSubmitted"
+                            class="btn btn-success"
+                            (click)="onSubmit()">
+                        Submit
+                    </button>
+                </form>
+                <form id="frmAddImage" name="frmAddImage">
+                    <input type="file" id="imgFile" />
+                    <button type="button" name="submitImage" id="submitImage" onclick="startImageSubmit(event);"></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+
+<script type="text/javascript">
+    $(document).ready(function () {
+     
+        CheckIfEditor(@Model.UserAuthLevel);
+
+    });
+
+    function startImageSubmit(evt) {
+        let fd = new FormData();
+        fd.append("File", document.getElementById("imgFile").files[0])
+
+        console.log(fd);
+        submitImage(evt, fd);
+    }
+   
+</script>
+}

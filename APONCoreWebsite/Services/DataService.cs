@@ -1,9 +1,11 @@
 ﻿using APONCoreLibrary.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -17,6 +19,8 @@ namespace APONCoreWebsite.Services
 
 
         public Task<HttpResponseMessage> PostAsync(object T, string Endpoint);
+
+        public Task<HttpResponseMessage> PostImageAsync(IFormFile T, string Endpoint);
 
         public Task<string> GetAsync(string Endpoint);
 
@@ -34,7 +38,7 @@ namespace APONCoreWebsite.Services
         public void SetAuthToken(string token)
         {
             this.token = token;
-           
+
         }
 
         public DataService(HttpClient httpClient, IConfiguration Configuration)
@@ -49,8 +53,8 @@ namespace APONCoreWebsite.Services
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
 
             Uri Uri = new Uri(configuration.GetValue<string>("BaseUrl") + Endpoint);
-            
-     
+
+
             return await http.GetStringAsync(Uri);
         }
 
@@ -64,11 +68,42 @@ namespace APONCoreWebsite.Services
                 Content = new StringContent(JsonConvert.SerializeObject(T), Encoding.UTF8, "application/json")
             });
 
+        }
 
+        public async Task<HttpResponseMessage> PostImageAsync(IFormFile T, string Endpoint)
+        {
+            Uri Uri = new Uri(configuration.GetValue<string>("BaseUrl") + Endpoint);
 
+            MultipartFormDataContent form = new MultipartFormDataContent();
+            byte[] imageBytes;
+            using (var memoryStream = new MemoryStream())
+            {
+                await T.CopyToAsync(memoryStream);
+                imageBytes = memoryStream.ToArray();
 
+            }
 
+            ByteArrayContent byteArrayContent = new ByteArrayContent(imageBytes);
+
+            MultipartFormDataContent multipartContent = new MultipartFormDataContent();
+            multipartContent.Add(byteArrayContent, T.ContentType, T.FileName);
+            multipartContent.Headers.Add("Authoriazation", this.token);
+
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
+
+            //Add JWT Token Header to Post Requests and Get Requests
+            return await http.SendAsync(new HttpRequestMessage(HttpMethod.Post, Uri)
+            {
+                Content = multipartContent
+                //Content = new FormUrlEncodedContent(new[]
+                //{
+
+                //})
+            });
 
         }
+
+
+
     }
 }

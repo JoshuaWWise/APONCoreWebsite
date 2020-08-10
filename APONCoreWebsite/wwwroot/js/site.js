@@ -34,7 +34,7 @@ function autoLoginComplete() {
 
 $(document).ready(function () {
 
-  
+
     var userID = document.getElementById("authVCuserID").value;
     console.log("authVCuserID: " + userID);
     //if the user is logged out, look for tokens from the browser
@@ -96,7 +96,8 @@ function SwitchForumPostToEdit(fpID) {
 
     var textAreaName = "ForumPostTextEditorTextArea" + fpID;
 
-    var myTinyMCE = new tinymce.Editor(textAreaName, {selector: textAreaName,
+    var myTinyMCE = new tinymce.Editor(textAreaName, {
+        selector: textAreaName,
         width: 700, height: 200,
         menubar: false,
         toolbar: 'undo redo | bold italic underline strikethrough |  image media  link   | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print  | ltr rtl',
@@ -122,22 +123,47 @@ function RemoveTinyMCE(fpID) {
 
 }
 
-function submitImage(evt, formdata) {
-    console.log("PIrate");
+function updateImg(senderObjectID, targetObjectID) {
+
+    document.getElementById(targetObjectID).src = document.getElementById(senderObjectID).value;
+}
+
+function submitImage(evt, formdata, targetFolder, InputUpdateField, ImageUpdateField, filename) {
+    var handler = "Image";
+    var imageURL = "https://media.allportsopen.org/images/";
+    
+    console.log(formdata);
+    switch (targetFolder) {
+        case "news": handler = "NewsImage";
+            imageURL += "News/" + filename;
+            break;
+        case "episode": handler = "EpisodeImage";
+            imageURL += "EpImages/" + filename;
+            break;
+    }
     evt.preventDefault();
     $.ajax({
         type: "POST",
         beforeSend: function (xhr) {
             xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
         },
-        url: '../ImageHandler/?handler=Image',
+        url: '../ImageHandler/?handler=' + handler,
         data: formdata,
         contentType: false,
         processData: false,
-    
-        success: function () {
-            alert('Uploaded by jQuery');
+
+        success: function (resp) {
+           
+            if (resp == "") {
+                document.getElementById(InputUpdateField).value = imageURL;
+                document.getElementById(ImageUpdateField).src = imageURL;
+            }
+            else {
+                alert("There was a problem uploading the image.");
+            }
         }
     });
+
+   
 }
 

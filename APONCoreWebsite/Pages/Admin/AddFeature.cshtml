@@ -88,7 +88,7 @@
                                    accept=".png,.jpg"
                                    #smallImageURLInput
                                    (change)="ImgURLUpload($event)" />
-                            <img [src]="getSmallImage()"
+                            <img 
                                  class="img img-fluid"
                                  onerror="this.src='../../../assets/img/whitesquare.jpg'" />
 
@@ -119,7 +119,9 @@
                 </form>
                 <form id="frmAddImage" name="frmAddImage">
                     <input type="file" id="imgFile" />
-                    <button type="button" name="submitImage" id="submitImage" onclick="startImageSubmit(event);"></button>
+                    <button type="button" name="submitImage" id="submitImage" onclick="startImageSubmit(event, 'txtUploadImageURL', 'imgUploadImage');"></button>
+                    <img src="" id="imgUploadImage" style="max-width: 300px" />
+                    <input type="text" id="txtUploadImageURL" onchange="updateImg(this.id, 'imgUploadImage')" />
                 </form>
             </div>
         </div>
@@ -136,12 +138,14 @@
 
     });
 
-    function startImageSubmit(evt) {
+    function startImageSubmit(evt, txtUpdateField, imgUpdateField) {
         let fd = new FormData();
+       
         fd.append("File", document.getElementById("imgFile").files[0])
+        var filename = document.getElementById("imgFile").files[0].name;
 
-        console.log(fd);
-        submitImage(evt, fd);
+        
+        submitImage(evt, fd, "news", txtUpdateField, imgUpdateField, filename);
     }
    
 </script>

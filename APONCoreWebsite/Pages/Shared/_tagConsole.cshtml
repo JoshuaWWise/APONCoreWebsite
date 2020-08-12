@@ -8,36 +8,60 @@
 <table>
     <tr>
         <td>
-            Input your Tag Here
-            <input type="text" id="txtTagFilter" oninput="filterTagList()" />
+            <div>
+                Input your Tag Here
+            </div>
+
+            <div>
+                <input type="text" id="txtTagFilter" oninput="filterTagList()" />
+            </div>
+            <div>
+                <button type="button" onclick="addNewTag()">Add Tag</button>
+            </div>
+
         </td>
         <td>
-            Tags Will Show up here
-            <select id="TagSelector" size="6" style="width: 300px"></select>
+
+            <select id="TagSelector" size="6" style="width: 300px" onchange="AddTagToList(this)"></select>
+        </td>
+        <td>
+            <ul id="tagList">
+            </ul>
         </td>
     </tr>
 </table>
+<input type="hidden" id="selectedTagIndicies" />
+@Html.HiddenFor(model => model.Tags.Count, new { id = "TagModelCount" })
 
-@{
-    string array = "[";
-    for (int i = 0; i < Model.Tags.Count; i++)
-    {
-    @Html.HiddenFor(model => model.Tags[i].TagID, new { id = "Tag[" + i + "].id" })
-    @Html.HiddenFor(model => model.Tags[i].Name, new { id = "Tag[" + i + "].name" })
+<div id="hiddenTagInfo">
 
-        if (i !=0)
+    @{
+        string array = "[";
+
+
+        for (int i = 0; i < Model.Tags.Count; i++)
         {
-            array += ", ";
+            <input type="hidden" id=@("Tag[" + i + "].id") name=@("TagID_" + Model.Tags[i].TagID + "_") value=@Model.Tags[i].TagID>
+            <input type="hidden" id=@("Tag[" + i + "].name") value="@Model.Tags[i].Name" name=@("TagID_" + Model.Tags[i].TagID + "_Name")>
+
+            @*@Html.HiddenFor(model => model.Tags[i].TagID, new { id = "Tag[" + i + "].id", name = "TagID_" + Model.Tags[i].TagID })
+                @Html.HiddenFor(model => model.Tags[i].Name, new { id = "Tag[" + i + "].name" })*@
+
+            if (i != 0)
+            {
+                array += ", ";
+            }
+
+            array += @"'" + Model.Tags[i].Name + "'";
         }
 
-        array += @"'" + Model.Tags[i].Name + "'";
+        array += "]";
     }
-
-    array += "]";
-
-    <input id="arrayfield" type="hidden" value=@array />
+</div>
+<input id="arrayfield" type="hidden" value=@array />
 
 }
+
 
 
 

@@ -162,35 +162,7 @@
 
     });
 
-        function filterTagList() {
-            var filterText = document.getElementById("txtTagFilter").value;
-             var selector = document.getElementById("TagSelector");
-
-            console.log(filterText);
-        var i = 0;
-            var Length = selector.options.length - 1;
-            console.log("Length: " + Length);
-
-        for (i = Length; i >= 0; i--)
-        {
-            console.log(i);
-            selector.remove(i);
-        }
-        var tagCount = @Model.TCM.Tags.Count;
-
-        //Populate the tag console
-        for (i = 0; i < tagCount; i++) {
-
-            var selectOption = document.createElement("OPTION");
-            selectOption.text = document.getElementById("Tag[" + i + "].name").value;
-            if (filterText == "" || selectOption.text.toLowerCase().includes( filterText.toLowerCase())) {
-                selectOption.value = document.getElementById("Tag[" + i + "].id").value;
-                selector.appendChild(selectOption);
-
-            }
-
-        }
-        }
+      
 
     function startImageSubmit(evt, senderObj, txtUpdateField, imgUpdateField) {
         let fd = new FormData();

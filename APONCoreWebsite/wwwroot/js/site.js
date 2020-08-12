@@ -155,8 +155,10 @@ function submitImage(evt, formdata, targetFolder, InputUpdateField, ImageUpdateF
         success: function (resp) {
            
             if (resp == "") {
+                document.getElementById(InputUpdateField).innerHTML = imageURL;
                 document.getElementById(InputUpdateField).value = imageURL;
                 document.getElementById(ImageUpdateField).src = imageURL;
+           
             }
             else {
                 alert("There was a problem uploading the image.");
@@ -165,5 +167,21 @@ function submitImage(evt, formdata, targetFolder, InputUpdateField, ImageUpdateF
     });
 
    
+}
+
+//Tags
+
+function filterTagList(textboxID, selectorID, arrayFieldID) {
+
+    var filterCriteria = document.getElementById(textboxID).value;
+    let array = document.getElementById(arrayFieldID).value;
+    console.log(array);
+}
+
+
+function filterItems(arr, query) {
+    return arr.filter(function (el) {
+        return el.toLowerCase().indexOf(query.toLowerCase()) !== -1
+    })
 }
 

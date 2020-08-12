@@ -6,16 +6,16 @@
 
 <h1>AddFeature</h1>
 
-<div class="row APONText">
-    <div class="col-12 APONText">
+<div class="row ">
+    <div class="col-12 ">
         <hr />
-        <div class="row APONText">
+        <div class="row ">
             <div class="col-12 w-100">
                 <form id="frmAddNews" name="frmAddNews">
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">
-                                <label class="form-control" for="headline">Headline</label>
+                                <label for="headline">Headline</label>
 
                                 <input type="text"
                                        class="form-control w100"
@@ -24,19 +24,7 @@
                                        asp-for="Feature.Headline"
                                        name="headline" />
                             </div>
-                            @*<div class="form-group">
-                                    <label for="statusSelect"
-                                           class="form-label"
-                                           (change)="onStatusChange()">Draft Status</label>
-                                    <select class="form-control"
-                                            id="statusSelect"
-                                            name="statusSelect"
-                                            [(ngModel)]="statusValue">
-                                        <option *ngFor="let s of statusList" [value]="s.key">
-                                            {{ s.value }}
-                                        </option>
-                                    </select>
-                                </div>*@
+
                             <div class="form-group">
                                 <label for="shortDescription">Short Description</label>
 
@@ -50,13 +38,28 @@
                             <div class="form-group">
                                 <label for="webDescription">News Text</label>
 
+                                <textarea id="tinyMCETextArea" name="tinyMCETextArea">
+
+</textarea>
                                 @*Add the text area here that converts to the TinyMCE*@
+                            </div>
+                            <div>
+                                Upload images for the story.
+                                <input type="file" id="imgFile" accept="image/png, image/jpeg" onchange="startImageSubmit(event, 'imgFile', 'lblTINYUploadedImageURL', 'imgTINYUploadImage');" />
+                                <div> Here's the link of the image you just uploaded. You can add this to the feature.</div>
+                                <div>
+
+                                    <strong>  <label id="lblTINYUploadedImageURL"></label></strong>
+                                </div>
+
+                                @*<input type="text" id="txtUploadImageURL" onchange="updateImg(this.id, 'imgUploadImage')" />*@
+                                <img src="" id="imgTINYUploadImage" style="max-width: 300px" />
                             </div>
 
                             <div class="form-group">
                                 <label for="myDatepicker">Post Date and Time</label>
                                 <br />
-                                <input type="datetime"
+                                <input type="datetime-local"
                                        asp-for="Feature.PostDate"
                                        name="myDatePicker" />
 
@@ -75,7 +78,9 @@
                                 <span id="tweetPreview"></span>
                             </div>
 
-                            @*CREATE TAG CONSOLE AND FUNCTIONALITY*@
+                            TAGS
+                            <partial name="_tagConsole" model=@Model.TCM />
+
                             <app-tag-console #myTagConsole></app-tag-console>
 
                             <label for="imageURL">Image Location</label>
@@ -85,11 +90,11 @@
                                    name="smallImageInput" />
                             <input type="file"
                                    id="smallImageURLInput"
+                                   name="smallImageURLInput"
                                    accept=".png,.jpg"
                                    #smallImageURLInput
-                                   (change)="ImgURLUpload($event)" />
-                            <img 
-                                 class="img img-fluid"
+                                   onchange="startImageSubmit(event, 'smallImageURLInput', 'smallImageInput', 'imgFeatureSmallImageURL');" />
+                            <img class="img img-fluid" id="imgFeatureSmallImageURL"
                                  onerror="this.src='../../../assets/img/whitesquare.jpg'" />
 
                             <hr />
@@ -98,15 +103,13 @@
                             <input type="text"
                                    class="form-control"
                                    id="splashImageURL"
-                                   name="splashImageURL"
-                                   [(ngModel)]="splashImageURL" />
+                                   name="splashImageURL" />
                             <input type="file"
                                    id="splashImgURLInput"
                                    accept=".png,.jpg"
                                    #splashImgURLInput
                                    (change)="splashImgURLUpload($event)" />
-                            <img [src]="getSplashImage()"
-                                 class="img img-fluid"
+                            <img class="img img-fluid"
                                  onerror="this.src='../../../assets/img/whitesquare.jpg'" />
                         </div>
                     </div>
@@ -117,36 +120,91 @@
                         Submit
                     </button>
                 </form>
-                <form id="frmAddImage" name="frmAddImage">
-                    <input type="file" id="imgFile" />
-                    <button type="button" name="submitImage" id="submitImage" onclick="startImageSubmit(event, 'txtUploadImageURL', 'imgUploadImage');"></button>
-                    <img src="" id="imgUploadImage" style="max-width: 300px" />
-                    <input type="text" id="txtUploadImageURL" onchange="updateImg(this.id, 'imgUploadImage')" />
-                </form>
+                @*<form id="frmAddImage" name="frmAddImage">
+                        <input type="file" id="imgFile" accept="image/png, image/jpeg" onchange="startImageSubmit(event, 'lblUploadedImageURL', 'imgUploadImage');" />
+                        Here's the link of the image you just uploaded. You can add this to the feature.
+                        <label id="lblUploadedImageURL"></label>
+                        <input type="text" id="txtUploadImageURL" onchange="updateImg(this.id, 'imgUploadImage')" />
+                        <img src="" id="imgUploadImage" style="max-width: 300px" />
+                    </form>*@
             </div>
         </div>
     </div>
 </div>
+<input type="search" id="tagSearch" class="form-control" />
+<button class="mdb-autocomplete-clear">
+    <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="https://www.w3.org/2000/svg">
+        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+        <path d="M0 0h24v24H0z" fill="none" />
+    </svg>
+</button>
 
 @section Scripts
 {
 
-<script type="text/javascript">
+    <script type="text/javascript">
     $(document).ready(function () {
-     
+
         CheckIfEditor(@Model.UserAuthLevel);
+
+        var myTinyMCE = new tinymce.Editor('tinyMCETextArea', {
+            selector: 'tinyMCETextArea',
+            width: 1000, height: 500,
+            menubar: false,
+            toolbar: 'undo redo | bold italic underline strikethrough |  image media  link   | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print  | ltr rtl',
+            toolbar_sticky: true,
+            plugins: 'image link media'
+        }, tinymce.EditorManager);
+        myTinyMCE.render();
+
+        filterTagList();
+
 
     });
 
-    function startImageSubmit(evt, txtUpdateField, imgUpdateField) {
-        let fd = new FormData();
-       
-        fd.append("File", document.getElementById("imgFile").files[0])
-        var filename = document.getElementById("imgFile").files[0].name;
+        function filterTagList() {
+            var filterText = document.getElementById("txtTagFilter").value;
+             var selector = document.getElementById("TagSelector");
 
-        
+            console.log(filterText);
+        var i = 0;
+            var Length = selector.options.length - 1;
+            console.log("Length: " + Length);
+
+        for (i = Length; i >= 0; i--)
+        {
+            console.log(i);
+            selector.remove(i);
+        }
+        var tagCount = @Model.TCM.Tags.Count;
+
+        //Populate the tag console
+        for (i = 0; i < tagCount; i++) {
+
+            var selectOption = document.createElement("OPTION");
+            selectOption.text = document.getElementById("Tag[" + i + "].name").value;
+            if (filterText == "" || selectOption.text.toLowerCase().includes( filterText.toLowerCase())) {
+                selectOption.value = document.getElementById("Tag[" + i + "].id").value;
+                selector.appendChild(selectOption);
+
+            }
+
+        }
+        }
+
+    function startImageSubmit(evt, senderObj, txtUpdateField, imgUpdateField) {
+        let fd = new FormData();
+
+        fd.append("File", document.getElementById(senderObj).files[0])
+        var filename = document.getElementById(senderObj).files[0].name;
+
+
         submitImage(evt, fd, "news", txtUpdateField, imgUpdateField, filename);
-    }
-   
-</script>
+
+
+        }
+
+
+
+    </script>
 }

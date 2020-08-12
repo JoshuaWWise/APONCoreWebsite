@@ -121,7 +121,7 @@
         <div class="grid-row">
             <div class="col-1-of-1">
                 <div>
-                    
+
                     <ul class="pagingList">
                         <li class="pagingListItemFirst pagingListItem">
                             <button class="APONbtnPaging" id="btnPrevBig" onclick="previous(5)">&#171;</button>
@@ -141,7 +141,7 @@
                             <button class="APONbtnPaging" id="btnNextBig" onclick="next(5)">&#187;</button>
                         </li>
                     </ul>
-                    
+
 
 
                 </div>
@@ -159,20 +159,23 @@
 
 
                         @*<div id="@($"field{j}")">test @j</div>*@
-                        <div class="col-1-of-4">
-                            <div class="rotatorCard" id="@($"epCard{j}")" (click)="onClick()">
-                                <div class="rotatorCard__side rotatorCard__side--front">
-                                    <img class="rotatorCard__topImage" id="@($"epCard{j}_imageURL")" />
 
-                                    <div class="rotatorCard__bottomName"><span id="@($"epCard{j}_epName")"></span></div>
+                        <div class="col-1-of-4">
+                            <a id="@($"epCard{j}_link")">
+                                <div class="rotatorCard" id="@($"epCard{j}")">
+                                    <div class="rotatorCard__side rotatorCard__side--front">
+                                        <img class="rotatorCard__topImage" id="@($"epCard{j}_imageURL")" />
+
+                                        <div class="rotatorCard__bottomName"><span id="@($"epCard{j}_epName")"></span></div>
+                                    </div>
+                                    <div class="rotatorCard__side rotatorCard__side--back">
+                                        <p class="m-3" id="@($"epCard{j}_showDate")">Show Date: <span></span></p>
+                                        <hr />
+                                        <p class="pt-4 m-3" id="@($"epCard{j}_webDescription")" [innerHTML]="episode.webDescription"></p>
+                                    </div>
+                                    <input type="hidden" id="@($"epCard{j}_index")" />
                                 </div>
-                                <div class="rotatorCard__side rotatorCard__side--back">
-                                    <p class="m-3" id="@($"epCard{j}_showDate")">Show Date: <span></span></p>
-                                    <hr />
-                                    <p class="pt-4 m-3" id="@($"epCard{j}_webDescription")" [innerHTML]="episode.webDescription"></p>
-                                </div>
-                                <input type="hidden" id="@($"epCard{j}_index")" />
-                            </div>
+                            </a>
                         </div>
 
                     }
@@ -238,13 +241,17 @@
 
             for (let i = 0; i < 8; i++) {
 
-               
+
 
                 if (currentEp < epCount) {
 
-                    
+
                     let curEp = "Episode[" + currentEp + "].";
                     document.getElementById("epCard" + i).style.visibility = "visible";
+
+                  
+
+                    document.getElementById("epCard" + i + "_link").href = "/series/episode/" + document.getElementById(curEp + "EpisodeID").value;
 
                     document.getElementById("epCard" + i + "_imageURL").src = document.getElementById(curEp + "EpImageURL").value;
 
@@ -256,7 +263,7 @@
 
                 }
                 else {
-                  
+
                     document.getElementById("epCard" + i).style.visibility = "hidden";
                 }
                 currentEp++;
@@ -319,19 +326,19 @@
 
                 smallBack.disabled = true;
                 bigBack.disabled = true;
-               // smallBack.style.visibility = "hidden";
-               // bigBack.style.visibility = "hidden";
+                // smallBack.style.visibility = "hidden";
+                // bigBack.style.visibility = "hidden";
             }
             else {
                 smallBack.disabled = false;
                 bigBack.disabled = false;
-              
+
             }
 
             if (pageNum >= pageCount) {
                 smallNext.disabled = true;
                 bigNext.disabled = true;
-     
+
             }
             else {
 

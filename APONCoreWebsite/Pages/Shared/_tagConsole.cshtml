@@ -1,0 +1,46 @@
+﻿
+@model APONCoreWebsite.Pages.Shared._tagConsoleModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+
+<table>
+    <tr>
+        <td>
+            Input your Tag Here
+            <input type="text" id="txtTagFilter" oninput="filterTagList()" />
+        </td>
+        <td>
+            Tags Will Show up here
+            <select id="TagSelector" size="6" style="width: 300px"></select>
+        </td>
+    </tr>
+</table>
+
+@{
+    string array = "[";
+    for (int i = 0; i < Model.Tags.Count; i++)
+    {
+    @Html.HiddenFor(model => model.Tags[i].TagID, new { id = "Tag[" + i + "].id" })
+    @Html.HiddenFor(model => model.Tags[i].Name, new { id = "Tag[" + i + "].name" })
+
+        if (i !=0)
+        {
+            array += ", ";
+        }
+
+        array += @"'" + Model.Tags[i].Name + "'";
+    }
+
+    array += "]";
+
+    <input id="arrayfield" type="hidden" value=@array />
+
+}
+
+
+
+
+
+

@@ -23,6 +23,7 @@
                                        required
                                        asp-for="Feature.Headline"
                                        name="headline"
+                                       
                                        oninput="UpdateTweet()" />
                             </div>
 
@@ -62,7 +63,9 @@
                                 <br />
                                 <input type="datetime-local"
                                        asp-for="Feature.PostDate"
-                                       name="myDatePicker" />
+                                       name="myDatePicker"
+                                       required
+                                       value=@DateTime.Now.ToString("o")/>
 
                             </div>
 
@@ -90,6 +93,7 @@
                             <input type="text"
                                    class="form-control"
                                    id="smallImageInput"
+                                   required
                                    oninput="updateImg('smallImageInput', 'imgFeatureSmallImageURL')"
                                    name="smallImageInput" />
                             <input type="file"
@@ -106,6 +110,7 @@
                             <input type="text"
                                    class="form-control"
                                    id="splashImageInput"
+                                   required
                                    oninput="updateImg('splashImageInput', 'imgSplashImage')"
                                    name="splashImageInput" />
                             <input type="file"

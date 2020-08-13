@@ -22,6 +22,8 @@ namespace APONCoreWebsite.Pages.Admin
             this.IUIS = iuis;
         }
 
+        public bool FeatureSaved { get; set; }
+
         public ITagService tagService { get; set; }
 
         public IUserInfoService IUIS;
@@ -55,26 +57,47 @@ namespace APONCoreWebsite.Pages.Admin
         public async Task<IActionResult> OnPostFeatureAsync()
         {
             News N = new News();
-
+            NewsWithTags NWT = new NewsWithTags();
+            NWT.tags = new List<Tag>();
 
             N.Headline = Request.Form["headline"];
             N.LongText = Request.Form["tinymcetextarea"];
             N.Text = Request.Form["shortDescription"];
             N.PostDate = DateTime.Parse(Request.Form["myDatePicker"]);
             N.TempTweet = Request.Form["addToTweet"];
-
-
-            //AddTags
-
             N.ImageURL = Request.Form["smallImageInput"];
             N.SplashImageURL = Request.Form["splashImageInput"];
 
             N.AuthorID = IUIS.getUserID();
             //If the ID is 0, add them.
+            N.Status = 2;
+
+            NWT.News = N;
+
+            //AddTags
+            string Tags = Request.Form["selectedTagIDs"];
+            if (Tags.Length > 0)
+            {
+                if (Tags.Substring(0, 1) == ",")
+                {
+                    Tags = Tags.Substring(1, Tags.Length - 1);
+                }
+                string splitter = ",";
+                string[] taglist = Tags.Split(splitter);
+
+                for (int i = 0; i < taglist.Length; i++)
+                {
+                    Tag t = new Tag();
+                    t.TagID = int.Parse(taglist[i]);
+                    NWT.tags.Add(t);
+                }
+            }
 
 
+            TCM = new _tagConsoleModel(tagService);
+            TCM.Tags = new List<Tag>();
             //IF the ID is not 0, update them
-
+            FeatureSaved = true;
             return Page();
         }
 

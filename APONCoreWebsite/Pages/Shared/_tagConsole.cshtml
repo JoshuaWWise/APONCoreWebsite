@@ -36,7 +36,7 @@
 <div id="hiddenTagInfo">
 
     @{
-        string array = "[";
+      
 
 
         for (int i = 0; i < Model.Tags.Count; i++)
@@ -47,18 +47,13 @@
             @*@Html.HiddenFor(model => model.Tags[i].TagID, new { id = "Tag[" + i + "].id", name = "TagID_" + Model.Tags[i].TagID })
                 @Html.HiddenFor(model => model.Tags[i].Name, new { id = "Tag[" + i + "].name" })*@
 
-            if (i != 0)
-            {
-                array += ", ";
-            }
-
-            array += @"'" + Model.Tags[i].Name + "'";
+     
         }
 
-        array += "]";
+     
     }
 </div>
-<input id="arrayfield" type="hidden" value=@array />
+
 
 }
 

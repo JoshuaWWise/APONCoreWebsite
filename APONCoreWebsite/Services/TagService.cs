@@ -62,7 +62,7 @@ namespace APONCoreWebsite.Services
             t.CreatedBy = this.IUIS.getUserID();
             
 
-            //HttpResponseMessage httpResponseMessage = await DS.PostAsync(t, "Tag/AddTag");
+            HttpResponseMessage httpResponseMessage = await DS.PostAsync(t, "Tag/AddTag");
 
             //if the message said the tag was added, refresh the tag list. 
 

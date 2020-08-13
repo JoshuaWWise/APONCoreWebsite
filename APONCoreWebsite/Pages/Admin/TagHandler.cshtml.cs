@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using APONCoreLibrary.Models;
 using System.ComponentModel;
+using Microsoft.AspNetCore.Http;
+using System.Web.Helpers;
 
 namespace APONCoreWebsite.Pages.Admin
 {
@@ -21,9 +23,12 @@ namespace APONCoreWebsite.Pages.Admin
             this.TS = tagService;
         }
 
-        public async Task<IActionResult> OnPostTagAsync()
+        public async Task<IActionResult> OnPostTagAsync(string newTagName)
         {
-           List<Tag> tags = await TS.AddTag(TagName);
+
+            
+
+            List<Tag> tags = await TS.AddTag(newTagName);
 
             return new JsonResult(tags);
 

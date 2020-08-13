@@ -2,28 +2,34 @@
 
 
 function filterTagList() {
+ 
     var filterText = document.getElementById("txtTagFilter").value;
     var selector = document.getElementById("TagSelector");
 
- 
+  
     var i = 0;
     var Length = selector.options.length - 1;
 
-
+  
     for (i = Length; i >= 0; i--) {
     
         selector.remove(i);
     }
     var tagCount = parseInt(document.getElementById("TagModelCount").value);
-
+ 
     //Populate the tag console
     for (i = 0; i < tagCount; i++) {
-
+     
      
         var selectOption = document.createElement("OPTION");
+      
         var nameFieldElement = document.getElementById("Tag[" + i + "].name");
+        console.log(nameFieldElement.value);
+    
         selectOption.text = nameFieldElement.value;
+  
         if (filterText == "" || selectOption.text.toLowerCase().includes(filterText.toLowerCase())) {
+            console.log("Tag[" + i + "].id");
             var idField = document.getElementById("Tag[" + i + "].id");
             var idFieldValue = idField.value;
 
@@ -70,7 +76,7 @@ function populateSelectedTagList() {
                 li.addEventListener("click", removeSelectedTag);
                 li.classList.add("APONbtnBlue");
                 li.classList.add("APONbtn");
-                console.log("Tag_" + TagList[i] + "_Name");
+              
                 var TagName = document.getElementsByName("TagID_" + TagList[i] + "_Name")[0].value;
                 //var TagName = document.getElementById('Tag[' + TagList[i] + '].name').value;
                 li.appendChild(document.createTextNode(TagName));
@@ -103,35 +109,51 @@ function removeSelectedTag(item) {
 
 
 function addNewTag() {
-    var newTag = document.getElementById("txtTagFilter").value;
-
+   
+    var value = document.getElementById("txtTagFilter").value;
     $.ajax({
         type: "POST",
+    
+        url: '../Admin/TagHandler/?handler=tag',
+        data: { newTagName:value},
+      
         beforeSend: function (xhr) {
             xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
         },
-        url: '../Admin/TagHandler/?handler=tag',
-        data: newTag,
-        contentType: false,
-        processData: false,
 
         success: function (resp) {
-            console.log("stff");
-            console.log(resp);
+           
             var containerElement = document.getElementById("hiddenTagInfo");
             containerElement.innerHTML = "";
 
+            document.getElementById("TagModelCount").value = resp.length;
 
-            var arrayString = "";
 
             for (var j = 0; j < resp.length; j++) {
                 var newEl = document.createElement("input");
-                newEl.id = 'Tag[' + j + '].id';
+              
+               
+               newEl.setAttribute("id", "Tag[" + j + "].id");
+              
+               // newEl.id = id;
                 newEl.type = "hidden";
                 newEl.value = resp[j].tagID;
+                newEl.name = "'TagID_" + resp[j].tagID + "_'";
 
                 containerElement.appendChild(newEl);
+
+                newEl = document.createElement("input");
+                newEl.type = "hidden";
+                var nameTagID = "Tag[" + j + "].name";
+                newEl.id = nameTagID;
+                newEl.name = "'TagID_" + resp[j].tagID + "_Name'";
+                newEl.value = resp[j].name;
+                containerElement.appendChild(newEl);
+           
             }
+          
+            document.getElementById("txtTagFilter").value = "";
+            filterTagList();
         }
     });
 

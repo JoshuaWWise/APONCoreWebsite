@@ -30,27 +30,29 @@
         </td>
     </tr>
 </table>
-<input type="hidden" id="selectedTagIndicies" />
+<input type="text" id="selectedTagIndicies" />
+<input type="text" id="selectedTagIDs" />
 @Html.HiddenFor(model => model.Tags.Count, new { id = "TagModelCount" })
 
 <div id="hiddenTagInfo">
 
     @{
-      
+
 
 
         for (int i = 0; i < Model.Tags.Count; i++)
         {
-            <input type="hidden" id=@("Tag[" + i + "].id") name=@("TagID_" + Model.Tags[i].TagID + "_") value=@Model.Tags[i].TagID>
-            <input type="hidden" id=@("Tag[" + i + "].name") value="@Model.Tags[i].Name" name=@("TagID_" + Model.Tags[i].TagID + "_Name")>
+           
+            <input type="hidden" id="@("Tag[" + i + "].Index")" value="@Model.Tags[i].TagID" />
+            <input type="hidden" id="@("Tag[" + i + "].Name")" value="@Model.Tags[i].Name" />
+         
 
-            @*@Html.HiddenFor(model => model.Tags[i].TagID, new { id = "Tag[" + i + "].id", name = "TagID_" + Model.Tags[i].TagID })
-                @Html.HiddenFor(model => model.Tags[i].Name, new { id = "Tag[" + i + "].name" })*@
+          
 
-     
+
         }
 
-     
+
     }
 </div>
 

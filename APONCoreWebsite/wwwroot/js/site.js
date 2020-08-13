@@ -124,7 +124,8 @@ function RemoveTinyMCE(fpID) {
 }
 
 function updateImg(senderObjectID, targetObjectID) {
-
+    console.log("target: " + targetObjectID + ": " + document.getElementById(targetObjectID).src);
+    console.log(document.getElementById(senderObjectID).value);
     document.getElementById(targetObjectID).src = document.getElementById(senderObjectID).value;
 }
 

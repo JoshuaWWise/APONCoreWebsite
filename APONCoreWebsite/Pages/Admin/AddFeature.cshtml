@@ -11,9 +11,9 @@
         <hr />
         <div class="row ">
             <div class="col-12 w-100">
-                <form id="frmAddNews" name="frmAddNews">
+                <form id="frmAddNews" asp-page-handler="Feature" name="frmAddNews" method="post" onsubmit="SubmitForm()">
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-12 ">
                             <div class="form-group">
                                 <label for="headline">Headline</label>
 
@@ -22,15 +22,16 @@
                                        id="headline"
                                        required
                                        asp-for="Feature.Headline"
-                                       name="headline" />
+                                       name="headline"
+                                       oninput="UpdateTweet()" />
                             </div>
 
                             <div class="form-group">
                                 <label for="shortDescription">Short Description</label>
 
                                 <textarea class="form-control"
-                                          id="shortDeescription"
-                                          name="shortDeescription"
+                                          id="shortDescription"
+                                          name="shortDescription"
                                           required
                                           asp-for="Feature.Text"></textarea>
                             </div>
@@ -70,23 +71,26 @@
                                 <input type="text"
                                        class="form-control"
                                        id="addToTweet"
-                                       name="addToTweet" />
+                                       name="addToTweet"
+                                       oninput="UpdateTweet()" />
                             </div>
 
                             <div class="form-group">
                                 <label for="tweetPreview">Tweet Preview</label>
                                 <span id="tweetPreview"></span>
+                                <span id="tweetCharCount"></span>/280
                             </div>
 
                             TAGS
                             <partial name="_tagConsole" model=@Model.TCM />
 
-                            <app-tag-console #myTagConsole></app-tag-console>
+
 
                             <label for="imageURL">Image Location</label>
                             <input type="text"
                                    class="form-control"
                                    id="smallImageInput"
+                                   oninput="updateImg('smallImageInput', 'imgFeatureSmallImageURL')"
                                    name="smallImageInput" />
                             <input type="file"
                                    id="smallImageURLInput"
@@ -94,55 +98,53 @@
                                    accept=".png,.jpg"
                                    #smallImageURLInput
                                    onchange="startImageSubmit(event, 'smallImageURLInput', 'smallImageInput', 'imgFeatureSmallImageURL');" />
-                            <img class="img img-fluid" id="imgFeatureSmallImageURL"
-                                 onerror="this.src='../../../assets/img/whitesquare.jpg'" />
+                            <img class="img img-fluid" id="imgFeatureSmallImageURL" />
 
                             <hr />
                             <label for="splashImageURL">Splash Image Location</label>
 
                             <input type="text"
                                    class="form-control"
-                                   id="splashImageURL"
-                                   name="splashImageURL" />
+                                   id="splashImageInput"
+                                   oninput="updateImg('splashImageInput', 'imgSplashImage')"
+                                   name="splashImageInput" />
                             <input type="file"
                                    id="splashImgURLInput"
+                                   name="splashImgURLInput"
                                    accept=".png,.jpg"
                                    #splashImgURLInput
-                                   (change)="splashImgURLUpload($event)" />
-                            <img class="img img-fluid"
-                                 onerror="this.src='../../../assets/img/whitesquare.jpg'" />
+                                   onchange="startImageSubmit(event, 'splashImgURLInput', 'splashImageInput', 'imgSplashImage');" />
+
+
+                            <img class="img img-fluid" id="imgSplashImage" />
                         </div>
                     </div>
-                    <button type="button"
-                            [disabled]="newsSubmitted"
-                            class="btn btn-success"
-                            (click)="onSubmit()">
+                    <button type="submit"
+                            onclick="SubmitForm()"
+                            class="btn btn-success">
                         Submit
                     </button>
                 </form>
-                @*<form id="frmAddImage" name="frmAddImage">
-                        <input type="file" id="imgFile" accept="image/png, image/jpeg" onchange="startImageSubmit(event, 'lblUploadedImageURL', 'imgUploadImage');" />
-                        Here's the link of the image you just uploaded. You can add this to the feature.
-                        <label id="lblUploadedImageURL"></label>
-                        <input type="text" id="txtUploadImageURL" onchange="updateImg(this.id, 'imgUploadImage')" />
-                        <img src="" id="imgUploadImage" style="max-width: 300px" />
-                    </form>*@
+
             </div>
         </div>
     </div>
 </div>
-<input type="search" id="tagSearch" class="form-control" />
-<button class="mdb-autocomplete-clear">
-    <svg fill="#000000" height="24" viewBox="0 0 24 24" width="24" xmlns="https://www.w3.org/2000/svg">
-        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
-        <path d="M0 0h24v24H0z" fill="none" />
-    </svg>
-</button>
+
 
 @section Scripts
 {
 
     <script type="text/javascript">
+        function SubmitForm() {
+            var myForm = document.getElementById("frmAddNews");
+            let FD = new FormData(myForm);
+
+            FD.append('featureText', tinymce.get("tinyMCETextArea").getContent())
+
+            return true;
+        }
+
     $(document).ready(function () {
 
         CheckIfEditor(@Model.UserAuthLevel);
@@ -162,7 +164,31 @@
 
     });
 
-      
+        function UpdateTweet() {
+            console.log("batman");
+            var headline = document.getElementById('headline').value;
+            var headlineLength = headline.length;
+            var addToTweet = document.getElementById('addToTweet').value;
+            console.log(addToTweet);
+            var addToTweetLength = addToTweet.length;
+
+            var URLLength = 52;
+
+            var TweetLength = headlineLength + addToTweetLength + URLLength;
+
+            if (TweetLength > 280) {
+                var difference = TweetLength - 280;
+
+                var keepAddToTweet = addToTweetLength - difference;
+                addToTweet = addToTweet.substring(0, keepAddToTweet);
+                document.getElementById('addToTweet').value = addToTweet;
+                addToTweetLength = addToTweet.length;
+            }
+
+            document.getElementById("tweetPreview").innerHTML = headline + " " + addToTweet + " https://media.allportsopen.com/series/episode/samp";
+                document.getElementById("tweetCharCount").innerHTML = (headlineLength + addToTweetLength + URLLength);
+        }
+
 
     function startImageSubmit(evt, senderObj, txtUpdateField, imgUpdateField) {
         let fd = new FormData();

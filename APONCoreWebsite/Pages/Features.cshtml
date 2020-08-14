@@ -4,5 +4,209 @@
     ViewData["Title"] = "Features";
 }
 
-<h1>Features</h1>
 
+    <div class="APONText">
+        <span class="pageHeader">Features</span>
+
+        <partial name="_Paging" />
+        <div class="grid-row mt-5">
+            <div class="col-1-of-1">
+                @for (int i = 0; i < 5; i++)
+                {
+
+                    <div class="row list-item" id='@($"News{i}")'>
+                        <div class="col-1-of-4 list-left-col">
+                            <a id=@($"News{i}_link") href=@("/Feature/" + Model.News[i].NewsID)>
+                                <img class="list-image img img-fluid" id=@($"News{i}_imgURL") src='@Model.News[i].ImageURL' />
+                            </a>
+                        </div>
+                        <div class="col-3-of-4">
+                            <div class="grid-row">
+                                <div>
+                                    <span id=@($"News{i}_headline")> @Model.News[i].Headline</span>
+
+
+                                </div>
+                                @*<div class="col-12">By {{ newsItem.authorName }}</div>*@
+                                <div>
+                                    <span id=@($"News{i}_postDate")> @Model.News[i].PostDate.ToShortDateString()</span>
+
+                                </div>
+                                <hr />
+                                <div>
+                                    <span id=@($"News{i}_text")>@Model.News[i].Text</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+
+                }
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+@{
+    for (int i = 0; i < Model.News.Count; i++)
+    {
+        <input type="hidden" id='@("News[" + i + "].NewsID" )' value='@Model.News[i].NewsID' />
+        <input type="hidden" id='@("News[" + i + "].Headline" )' value='@Model.News[i].Headline' />
+        <input type="hidden" id='@("News[" + i + "].ImageURL")' value='@Model.News[i].ImageURL' />
+        <input type="hidden" id='@("News[" + i + "].PostDate")' value='@Model.News[i].PostDate' />
+        <input type="hidden" id='@("News[" + i + "].Text")' value='@Model.News[i].Text' />
+    }
+}
+<input type="hidden" id="newsCount" value=@Model.News.Count />
+<input type="hidden" id="FeaturesPageNumber" value="0" />
+<input type="hidden" id="FeaturesPageCount" value="0" />
+
+@section Scripts
+{
+    <script type="text/javascript">
+        var PageCount = 0;
+
+        $(document).ready(function () {
+
+
+            let i = document.getElementById("newsCount").value;
+
+            PageCount = i / 5;
+            PageCount = Math.floor(PageCount);
+
+
+            if (i % 5 != 0) {
+                PageCount++;
+
+            }
+
+            PageCount--;
+            document.getElementById("FeaturesPageCount").value = PageCount;
+
+            PopulateNews();
+            updatePagingButtons(0, PageCount);
+
+        });
+        function PopulateNews() {
+
+            let pageNum = 0;
+
+            pageNum = document.getElementById("FeaturesPageNumber").value;
+
+            let currentEp = pageNum * 5;
+            let epCount = parseInt(document.getElementById("newsCount").value);
+
+            for (let i = 0; i < 5; i++) {
+
+
+
+                if (currentEp < epCount) {
+
+
+                    let curNews = "News[" + currentEp + "].";
+                    document.getElementById("News" + i).style.visibility = "visible";
+
+
+                    document.getElementById("News" + i + "_imgURL").src = document.getElementById(curNews + "ImageURL").value;
+
+                    document.getElementById("News" + i + "_link").href = "/feature/" + document.getElementById(curNews + "NewsID").value;
+
+                    document.getElementById("News" + i + "_headline").textContent = document.getElementById(curNews + "Headline").value;
+
+                    document.getElementById("News" + i + "_postDate").textContent = document.getElementById(curNews + "PostDate").value;
+
+                    document.getElementById("News" + i + "_text").innerHTML = document.getElementById(curNews + "Text").value;
+
+                   
+
+                }
+                else {
+
+                    document.getElementById("News" + i).style.visibility = "hidden";
+                }
+                currentEp++;
+
+            }
+
+            //Send the list of objects to the partial view to render them with ajax
+
+
+
+
+        }
+
+
+        function previous(num) {
+            let pageNum = 0;
+
+            pageNum = parseInt(document.getElementById("FeaturesPageNumber").value);
+            pageCount = parseInt(document.getElementById("FeaturesPageCount").value);
+            pageNum -= num;
+
+            if (pageNum < 0) {
+                pageNum = 0;
+            }
+
+
+
+            document.getElementById("FeaturesPageNumber").value = pageNum;
+            PopulateNews();
+            updatePagingButtons(pageNum, pageCount);
+
+        }
+        function next(num) {
+            let pageNum = 0;
+
+            pageNum = parseInt(document.getElementById("FeaturesPageNumber").value);
+            pageCount = parseInt(document.getElementById("FeaturesPageCount").value);
+            pageNum += num;
+
+            if (pageNum > PageCount) {
+                pageNum = PageCount;
+            }
+
+            document.getElementById("FeaturesPageNumber").value = pageNum;
+            PopulateNews();
+            updatePagingButtons(pageNum, pageCount);
+
+            //add checking for limits
+        }
+
+        function updatePagingButtons(pageNum, pageCount) {
+
+            document.getElementById("btnPageNum").innerText = pageNum;
+            let smallBack = document.getElementById("btnPrevSmall");
+            let bigBack = document.getElementById("btnPrevBig");
+            let smallNext = document.getElementById("btnNextSmall");
+            let bigNext = document.getElementById("btnNextBig");
+
+            if (pageNum == 0) {
+
+                smallBack.disabled = true;
+                bigBack.disabled = true;
+            
+            }
+            else {
+                smallBack.disabled = false;
+                bigBack.disabled = false;
+
+            }
+
+            if (pageNum >= pageCount) {
+                smallNext.disabled = true;
+                bigNext.disabled = true;
+
+            }
+            else {
+
+                smallNext.disabled = false;
+                bigNext.disabled = false;
+
+            }
+        }
+
+    </script>
+}

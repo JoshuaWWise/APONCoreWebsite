@@ -1,8 +1,58 @@
-﻿@page
+﻿@page "/Feature/{FeatureID}"
 @model APONCoreWebsite.Pages.FeatureModel
 @{
     ViewData["Title"] = "Feature";
 }
+@if (Model.FeatureID != 0)
+{
+    <div class="ml-5">
+        <div class="grid-row">
+            <div class="col-1-of-1">
+                <h1>  @Model.Feature.News.Headline</h1>
+                <hr />
+            </div>
+        </div>
+        <div class="grid-row ">
+            <div class="col-3-of-4 border-right">
+                <div class="grid-row">
+                    <div class="col-1-of-3">
+                        <partial name="_AuthorShield" model=@Model.Feature.AUthor />
+                    </div>
+                </div>
+                <div class="grid-row">
+                    <div class="col-1-of-3">
+                        @Model.Feature.News.PostDate.ToShortDateString();
+                    </div>
+                </div>
+                @{
+                    if ((Model.UserAuthLevel < 3) || (Model.UserAuthLevel < 4 && Model.Feature.News.AuthorID == Model.CurrentUserID))
+                    {
+                        <div class="grid-row">
+                            <div class="col-2-of-4">
+                                <a href='@("/Admin/AddFeature/" + Model.FeatureID)'>Edit Feature</a>
+                                @{
+                                    if (Model.UserAuthLevel < 3)
+                                    {
+                                        <button type="button"
+                                                class="APONBtn APONBtnRed">
+                                            Delete
+                                        </button>
+                                    }
+                                }
 
-<h1>Feature</h1>
+                            </div>
+                        </div>
+                    }
+                }
+                <div class="row grid-row">
+                    <div class="news-text col-1-of-1" id="FeatureText" innerHTML=@Html.Raw(Model.Feature.News.LongText)>  </div>
+                </div>
+            </div>
+            <div class="col-1-of-4">
+                <partial name="_TagList" model=@Model.Feature.tags />
+            </div>
+        </div>
+    </div>
+    <div class="row" [hidden]="isEditMode()"></div>
+}
 

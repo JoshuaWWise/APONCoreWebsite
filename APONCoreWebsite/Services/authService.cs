@@ -34,6 +34,8 @@ namespace APONCoreWebsite.Services
 
         public void SaveBrowserUserData();
 
+     
+
         //TODO: Add to User Service, GetUserByName, GetUserByID, GetAllUsersList, SaveUserTheme
 
     }
@@ -86,6 +88,9 @@ namespace APONCoreWebsite.Services
             return authLevel;
             
         }
+
+     
+
 
         public bool HandleAuthentication(UserReturnToken URT)
         {

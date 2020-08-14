@@ -5,142 +5,146 @@
 }
 
 <h1>AddFeature</h1>
-
-@Html.HiddenFor(model => model.AttemptedSave, new { id = "FeatureAttemptedSave" });
-@Html.HiddenFor(model => model.FeatureSaved, new { id = "FeatureSaved" });
-<div class="row ">
-    <div class="col-12 ">
-        <hr />
+@{
+    if (Model.UserAuthLevel < 4)
+    {
+        Html.HiddenFor(model => model.AttemptedSave, new { id = "FeatureAttemptedSave" });
+        Html.HiddenFor(model => model.FeatureSaved, new { id = "FeatureSaved" });
         <div class="row ">
-            <div class="col-12 w-100">
-                <form id="frmAddNews" asp-page-handler="Feature" name="frmAddNews" method="post" onsubmit="SubmitForm()">
-                    <div class="row">
-                        <div class="col-12 ">
-                            <div class="form-group">
-                                <label for="headline">Headline</label>
+            <div class="col-12 ">
+                <hr />
+                <div class="row ">
+                    <div class="col-12 w-100">
+                        <form id="frmAddNews" asp-page-handler="Feature" name="frmAddNews" method="post" onsubmit="SubmitForm()">
+                            <div class="row">
+                                <div class="col-12 ">
+                                    <div class="form-group">
+                                        <label for="headline">Headline</label>
 
-                                <input type="text"
-                                       class="form-control w100"
-                                       id="headline"
-                                       required
-                                       asp-for="Feature.News.Headline"
-                                       name="headline"
-                                       
-                                       oninput="UpdateTweet()" />
-                            </div>
+                                        <input type="text"
+                                               class="form-control w100"
+                                               id="headline"
+                                               required
+                                               asp-for="Feature.News.Headline"
+                                               name="headline"
+                                               oninput="UpdateTweet()" />
+                                    </div>
 
-                            <div class="form-group">
-                                <label for="shortDescription">Short Description</label>
+                                    <div class="form-group">
+                                        <label for="shortDescription">Short Description</label>
 
-                                <textarea class="form-control"
-                                          id="shortDescription"
-                                          name="shortDescription"
-                                          required
-                                          asp-for="Feature.News.Text"></textarea>
-                            </div>
+                                        <textarea class="form-control"
+                                                  id="shortDescription"
+                                                  name="shortDescription"
+                                                  required
+                                                  asp-for="Feature.News.Text"></textarea>
+                                    </div>
 
-                            <div class="form-group">
-                                <label for="webDescription">News Text</label>
+                                    <div class="form-group">
+                                        <label for="webDescription">News Text</label>
 
-                                <textarea id="tinyMCETextArea" name="tinyMCETextArea" asp-for="Feature.News.LongText">
+                                        <textarea id="tinyMCETextArea" name="tinyMCETextArea" asp-for="Feature.News.LongText">
 
 </textarea>
-                                @*Add the text area here that converts to the TinyMCE*@
-                            </div>
-                            <div>
-                                Upload images for the story.
-                                <input type="file" id="imgFile" accept="image/png, image/jpeg" onchange="startImageSubmit(event, 'imgFile', 'lblTINYUploadedImageURL', 'imgTINYUploadImage');" />
-                                <div> Here's the link of the image you just uploaded. You can add this to the feature.</div>
-                                <div>
+                                        @*Add the text area here that converts to the TinyMCE*@
+                                    </div>
+                                    <div>
+                                        Upload images for the story.
+                                        <input type="file" id="imgFile" accept="image/png, image/jpeg" onchange="startImageSubmit(event, 'imgFile', 'lblTINYUploadedImageURL', 'imgTINYUploadImage');" />
+                                        <div> Here's the link of the image you just uploaded. You can add this to the feature.</div>
+                                        <div>
 
-                                    <strong>  <label id="lblTINYUploadedImageURL"></label></strong>
+                                            <strong>  <label id="lblTINYUploadedImageURL"></label></strong>
+                                        </div>
+
+                                        @*<input type="text" id="txtUploadImageURL" onchange="updateImg(this.id, 'imgUploadImage')" />*@
+                                        <img src="" id="imgTINYUploadImage" style="max-width: 300px" />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="myDatepicker">Post Date and Time</label>
+                                        <br />
+                                        <input type="datetime-local"
+                                               asp-for="Feature.News.PostDate"
+                                               name="myDatePicker"
+                                               required />
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="addToTweet">Add To Tweet</label>
+                                        <input type="text"
+                                               class="form-control"
+                                               id="addToTweet"
+                                               name="addToTweet"
+                                               asp-for="Feature.News.TempTweet"
+                                               oninput="UpdateTweet()" />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="tweetPreview">Tweet Preview</label>
+                                        <span id="tweetPreview"></span>
+                                        <span id="tweetCharCount"></span>/280
+                                    </div>
+
+                                    TAGS
+                                    <partial name="_tagConsole" model=@Model.TCM />
+
+
+
+                                    <label for="imageURL">Image Location</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="smallImageInput"
+                                           required
+                                           oninput="updateImg('smallImageInput', 'imgFeatureSmallImageURL')"
+                                           asp-for="Feature.News.ImageURL"
+                                           name="smallImageInput" />
+                                    <input type="file"
+                                           id="smallImageURLInput"
+                                           name="smallImageURLInput"
+                                           accept=".png,.jpg"
+                                           #smallImageURLInput
+                                           onchange="startImageSubmit(event, 'smallImageURLInput', 'smallImageInput', 'imgFeatureSmallImageURL');" />
+                                    <img class="img img-fluid" style="max-width: 400px" id="imgFeatureSmallImageURL" />
+
+                                    <hr />
+                                    <label for="splashImageURL">Splash Image Location</label>
+
+                                    <input type="text"
+                                           class="form-control"
+                                           id="splashImageInput"
+                                           required
+                                           oninput="updateImg('splashImageInput', 'imgSplashImage')"
+                                           name="splashImageInput"
+                                           asp-for="Feature.News.SplashImageURL" />
+                                    <input type="file"
+                                           id="splashImgURLInput"
+                                           name="splashImgURLInput"
+                                           accept=".png,.jpg"
+                                           #splashImgURLInput
+                                           onchange="startImageSubmit(event, 'splashImgURLInput', 'splashImageInput', 'imgSplashImage');" />
+
+
+                                    <img class="img img-fluid" style="max-width: 400px" id="imgSplashImage" />
                                 </div>
-
-                                @*<input type="text" id="txtUploadImageURL" onchange="updateImg(this.id, 'imgUploadImage')" />*@
-                                <img src="" id="imgTINYUploadImage" style="max-width: 300px" />
                             </div>
+                            <button type="submit"
+                                    id="btnSubmit"
+                                    onclick="SubmitForm()"
+                                    class="btn btn-success">
+                                Submit
+                            </button>
+                        </form>
 
-                            <div class="form-group">
-                                <label for="myDatepicker">Post Date and Time</label>
-                                <br />
-                                <input type="datetime-local"
-                                       asp-for="Feature.News.PostDate"
-                                       name="myDatePicker"
-                                       required
-                                       />
-
-                            </div>
-
-                            <div class="form-group">
-                                <label for="addToTweet">Add To Tweet</label>
-                                <input type="text"
-                                       class="form-control"
-                                       id="addToTweet"
-                                       name="addToTweet"
-                                       asp-for="Feature.News.TempTweet"
-                                       oninput="UpdateTweet()" />
-                            </div>
-
-                            <div class="form-group">
-                                <label for="tweetPreview">Tweet Preview</label>
-                                <span id="tweetPreview"></span>
-                                <span id="tweetCharCount"></span>/280
-                            </div>
-
-                            TAGS
-                            <partial name="_tagConsole" model=@Model.TCM />
-
-
-
-                            <label for="imageURL">Image Location</label>
-                            <input type="text"
-                                   class="form-control"
-                                   id="smallImageInput"
-                                   required
-                                   oninput="updateImg('smallImageInput', 'imgFeatureSmallImageURL')"
-                                   asp-for="Feature.News.ImageURL"
-                                   name="smallImageInput" />
-                            <input type="file"
-                                   id="smallImageURLInput"
-                                   name="smallImageURLInput"
-                                   accept=".png,.jpg"
-                                   #smallImageURLInput
-                                   onchange="startImageSubmit(event, 'smallImageURLInput', 'smallImageInput', 'imgFeatureSmallImageURL');" />
-                            <img class="img img-fluid" style="max-width: 400px" id="imgFeatureSmallImageURL" />
-
-                            <hr />
-                            <label for="splashImageURL">Splash Image Location</label>
-
-                            <input type="text"
-                                   class="form-control"
-                                   id="splashImageInput"
-                                   required
-                                   oninput="updateImg('splashImageInput', 'imgSplashImage')"
-                                   name="splashImageInput"
-                                   asp-for="Feature.News.SplashImageURL"/>
-                            <input type="file"
-                                   id="splashImgURLInput"
-                                   name="splashImgURLInput"
-                                   accept=".png,.jpg"
-                                   #splashImgURLInput
-                                   onchange="startImageSubmit(event, 'splashImgURLInput', 'splashImageInput', 'imgSplashImage');" />
-
-
-                            <img class="img img-fluid" style="max-width: 400px"  id="imgSplashImage" />
-                        </div>
                     </div>
-                    <button type="submit"
-                            id="btnSubmit"
-                            onclick="SubmitForm()"
-                            class="btn btn-success">
-                        Submit
-                    </button>
-                </form>
-
+                </div>
             </div>
         </div>
-    </div>
-</div>
+
+    }
+}
+
 
 
 @section Scripts
@@ -157,16 +161,15 @@
         }
 
         $(document).ready(function () {
+               CheckIfEditor(@Model.UserAuthLevel);
 
-            console.log(document.getElementById('FeatureAttemptedSave').value);
-            console.log(document.getElementById('FeatureSaved').value);
             if (document.getElementById('FeatureAttemptedSave').value.toString() == 'True' && document.getElementById('FeatureSaved').value.toString() == 'True') {
                 alert("Feature Saved");
                 window.location.href = "/Index";
             }
 
-        CheckIfEditor(@Model.UserAuthLevel);
-       
+
+
 
         var myTinyMCE = new tinymce.Editor('tinyMCETextArea', {
             selector: 'tinyMCETextArea',

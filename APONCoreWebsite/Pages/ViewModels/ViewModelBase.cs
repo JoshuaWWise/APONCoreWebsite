@@ -20,6 +20,8 @@ namespace APONCoreWebsite.Pages.ViewModels
 
         public int UserAuthLevel { get; set; }
 
+  
+
         public ViewModelBase(IAuthService authService, IMetaTagService imts)
         {
             myAuthService = authService;
@@ -27,6 +29,7 @@ namespace APONCoreWebsite.Pages.ViewModels
             IMTS = imts;
 
             UserAuthLevel = authService.getUserAuthLevel();
+         
         }
 
         public IActionResult OnPost()

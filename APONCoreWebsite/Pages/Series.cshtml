@@ -116,37 +116,8 @@
 
         }
 
+        <partial name="_Paging" />
 
-
-        <div class="grid-row">
-            <div class="col-1-of-1">
-                <div>
-
-                    <ul class="pagingList">
-                        <li class="pagingListItemFirst pagingListItem">
-                            <button class="APONbtnPaging" id="btnPrevBig" onclick="previous(5)">&#171;</button>
-                        </li>
-                        <li class="pagingListItem">
-                            <button class="APONbtnPaging" id="btnPrevSmall" onclick="previous(1)">&#8249;</button>
-                        </li>
-
-                        <li class="pagingListItem">
-                            <button class="APONbtnPaging" id="btnPageNum"></button>
-                        </li>
-
-                        <li class="pagingListItem">
-                            <button class="APONbtnPaging" id="btnNextSmall" onclick="next(1)">&#8250;</button>
-                        </li>
-                        <li class="pagingListItem pagingListItemLast">
-                            <button class="APONbtnPaging" id="btnNextBig" onclick="next(5)">&#187;</button>
-                        </li>
-                    </ul>
-
-
-
-                </div>
-            </div>
-        </div>
         @{
             int start = 0;
             int end = 4;
@@ -249,7 +220,7 @@
                     let curEp = "Episode[" + currentEp + "].";
                     document.getElementById("epCard" + i).style.visibility = "visible";
 
-                  
+
 
                     document.getElementById("epCard" + i + "_link").href = "/series/episode/" + document.getElementById(curEp + "EpisodeID").value;
 

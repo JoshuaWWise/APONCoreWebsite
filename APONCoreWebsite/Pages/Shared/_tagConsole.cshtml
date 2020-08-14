@@ -30,8 +30,8 @@
         </td>
     </tr>
 </table>
-<input type="hidden" id="selectedTagIndicies" />
-<input type="hidden" id="selectedTagIDs" name="selectedTagIDs" />
+<input type="hidden" id="selectedTagIndicies" value="@Model.SelectedIndicies" />
+<input type="hidden" id="selectedTagIDs" name="selectedTagIDs" value=@Model.SelectedIDs />
 @Html.HiddenFor(model => model.Tags.Count, new { id = "TagModelCount" })
 
 <div id="hiddenTagInfo">

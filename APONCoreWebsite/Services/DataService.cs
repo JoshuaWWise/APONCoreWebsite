@@ -20,6 +20,8 @@ namespace APONCoreWebsite.Services
 
         public Task<HttpResponseMessage> PostAsync(object T, string Endpoint);
 
+        public Task<HttpResponseMessage> PutAsync(object T, string Endpoint);
+
         public Task<HttpResponseMessage> PostImageAsync(IFormFile T, string Endpoint);
 
         public Task<string> GetAsync(string Endpoint);
@@ -64,6 +66,18 @@ namespace APONCoreWebsite.Services
 
             //Add JWT Token Header to Post Requests and Get Requests
             return await http.SendAsync(new HttpRequestMessage(HttpMethod.Post, Uri)
+            {
+                Content = new StringContent(JsonConvert.SerializeObject(T), Encoding.UTF8, "application/json")
+            });
+
+        }
+
+        public async Task<HttpResponseMessage> PutAsync(object T, string Endpoint)
+        {
+            Uri Uri = new Uri(configuration.GetValue<string>("BaseUrl") + Endpoint);
+
+            //Add JWT Token Header to Post Requests and Get Requests
+            return await http.SendAsync(new HttpRequestMessage(HttpMethod.Put, Uri)
             {
                 Content = new StringContent(JsonConvert.SerializeObject(T), Encoding.UTF8, "application/json")
             });

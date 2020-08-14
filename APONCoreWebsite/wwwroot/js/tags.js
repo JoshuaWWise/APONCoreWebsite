@@ -116,6 +116,14 @@ function removeSelectedTag(item) {
             newSelectedTags = "";
         }
     }
+    if (newSelectedTags.length > 0 && newSelectedTags.substring(newSelectedTags.length -1, 1) == ",") {
+        if (newSelectedTags.length > 1) {
+            newSelectedTags = newSelectedTags.substring(0, newSelectedTags.length-1);
+        }
+        else {
+            newSelectedTags = "";
+        }
+    }
     document.getElementById("selectedTagIndicies").value = newSelectedTags;
   
     populateSelectedTagList();

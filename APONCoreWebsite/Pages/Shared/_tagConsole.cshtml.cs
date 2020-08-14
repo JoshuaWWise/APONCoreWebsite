@@ -17,7 +17,12 @@ namespace APONCoreWebsite.Pages.Shared
    
         public List<Tag> Tags { get; set; }
 
-        
+        [BindProperty]
+        public string SelectedIDs { get; set; }
+        [BindProperty]
+        public string SelectedIndicies { get; set; }
+
+
         public _tagConsoleModel(ITagService tagService)
         {
             TagService = tagService;

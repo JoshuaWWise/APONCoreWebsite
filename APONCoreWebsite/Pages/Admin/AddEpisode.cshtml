@@ -1,8 +1,192 @@
-﻿@page
+﻿@page "/Admin/AddEpisode/{SeriesID}"
 @model APONCoreWebsite.Pages.AddEpisodeModel
 @{
     ViewData["Title"] = "AddEpisode";
 }
+<script src="~/ts/TSMain.js"></script>
 
-<h1>AddEpisode</h1>
+@{
 
+    if (Model.UserAuthLevel < 4)
+    {
+
+
+        <div class="add-episode-main-box">
+            <div>
+                <h1>@Model.EpSeries.Name</h1>
+                <hr />
+                <input type="file"
+                       id="episodeUploadInput"
+                       accept=".mp3"
+                       #episodeUploadInput
+                      oninput="startFileProcess()" />
+                <input type="checkbox" name="affiliate" asp-for="Affiliate" />
+                <label for="affiliate">Affiliate Podcast</label>
+                <div>
+                    <label for="fileURL">Link to your podcast file. (Should point to the .mp3 file)</label>
+                    <input type="text" name="fileURL" />
+                </div>
+
+
+            </div>
+
+            <hr />
+            <div class=" add-episode-top-box">
+                <div class="full-width">
+                    <form>
+                        <div class="row">
+                            <div class="inline">
+                                <div class="form-group">
+                                    <label for="title">Title</label>
+                                    <input type="text"
+                                           class="form-control w100"
+                                           id="title"
+                                           required
+                                           asp-for="Episode.episode.Title"
+                                           name="title" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="shortDescription">Short Description</label>
+
+                                    <textarea class="form-control"
+                                              id="shortDeescription"
+                                              name="shortDeescription"
+                                              required
+                                              asp-for="Episode.episode.Description"></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="webDescription">Web Description</label>
+                                    <textarea id="tinyMCETextArea"
+                                              required
+                                              name="tinyMCETextArea"
+                                              asp-for="Episode.episode.WebDescription"></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="myDatepicker">Show Date</label>
+                                    <br />
+
+
+                                    <input type="time" asp-for="Episode.episode.ShowDate" name="postTime" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="trackNumber">Track Number</label>
+                                    <input type="number"
+                                           min="1"
+                                           class="form-control"
+                                           id="trackNumber"
+                                           required
+                                           asp-for="Episode.episode.TrackNumber"
+                                           name="trackNumber" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="keywords">Keywords</label>
+                                    <input type="text"
+                                           class="form-control inputsm"
+                                           id="keywords"
+                                           asp-for="Episode.episode.Keywords"
+                                           name="keywords" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="addToTweet">Add To Tweet</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="addToTweet"
+                                           name="addToTweet"
+                                           asp-for="Episode.TweetText" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="tweetPreview">Tweet Preview</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="tweetPreview" />
+                                    {{ tweetLength }} / 280
+                                </div>
+
+                                <partial name="_tagConsole" model=@Model.TCM />
+                            </div>
+
+                            <div class="inline">
+                                <div class="form-group">
+                                    <label for="epTime">Episode Length (HH:MM:SS): </label>
+                                    <div>Episode LEngth (FILL OUT CODE)</div>
+                                </div>
+
+                                <label class="mt-2" for="imageURL">Image Location</label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="imgURL"
+                                       name="imgURL"
+                                       asp-for="Episode.episode.EpImageURL" />
+                                <div class="" *ngIf="getImageUploading()">
+                                    Please wait while we upload the image...
+                                </div>
+                                <input type="file"
+                                       id="imgURLinput"
+                                       accept=".png,.jpg"
+                                       #imgURLInput />
+                                <img [src]="getImage()"
+                                     class="editorImage" />
+
+                                <hr />
+                                <label for="splashImageURL">Splash Image Location</label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       id="splashImageURL"
+                                       name="splashImageURL"
+                                       asp-for="Episode.episode.SplashImageURL" />
+                                <input type="file"
+                                       id="splashImgURLInput"
+                                       accept=".png,.jpg"
+                                       #splashImgURLInput />
+                                <img [src]="getSplashImage()" class="editorSplashImage" />
+                            </div>
+                        </div>
+                        <div>
+                            <strong>
+                                Currently Determining Episode Length. When this is done, you can
+                                submit. This may take up to a minute for longer episodes.
+                            </strong>
+                        </div>
+                        <button *ngIf="!determiningLength"
+                                type="submit"
+                                class="btn btn-success">
+                            Submit
+                        </button>
+                        <div class="">
+                            <ul>
+                                <li *ngFor="let a of textLog">
+                                    {{ a }}
+                                </li>
+                            </ul>
+                        </div>
+                        <mat-progress-bar mode="determinate"
+                                          [value]="getFileUploadProgress()"
+                                          *ngIf="fileIsUploading"></mat-progress-bar>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    }
+
+}
+
+@section Scripts
+{
+
+<script type="text/javascript">
+
+    function startFileProcess() {
+        console.log("Step 1");
+        startAudioFileProcessing(document.getElementById("episodeUploadInput").files[0]);
+    }
+
+</script>
+}

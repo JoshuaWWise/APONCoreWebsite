@@ -40,7 +40,7 @@
                                     <label for="title">Title</label>
                                     <input type="text"
                                            class="form-control w100"
-                                           id="title"
+                                           id="episodeTitle"
                                            required
                                            asp-for="Episode.episode.Title"
                                            name="title" />
@@ -50,8 +50,8 @@
                                     <label for="shortDescription">Short Description</label>
 
                                     <textarea class="form-control"
-                                              id="shortDeescription"
-                                              name="shortDeescription"
+                                              id="shortDescription"
+                                              name="shortDescription"
                                               required
                                               asp-for="Episode.episode.Description"></textarea>
                                 </div>
@@ -69,7 +69,7 @@
                                     <br />
 
 
-                                    <input type="time" asp-for="Episode.episode.ShowDate" name="postTime" />
+                                    <input id="showDate" dirname="showDate" type="datetime-local" asp-for="Episode.episode.ShowDate" name="postTime" />
                                 </div>
 
                                 <div class="form-group">
@@ -114,7 +114,7 @@
                             <div class="inline">
                                 <div class="form-group">
                                     <label for="epTime">Episode Length (HH:MM:SS): </label>
-                                    <div>Episode LEngth (FILL OUT CODE)</div>
+                                    <input type="text" id="epTime" name="epTime" asp-for="Episode.episode.Time" />
                                 </div>
 
                                 <label class="mt-2" for="imageURL">Image Location</label>
@@ -130,7 +130,7 @@
                                        id="imgURLinput"
                                        accept=".png,.jpg"
                                        #imgURLInput />
-                                <img [src]="getImage()"
+                                <img src='@Model.EpSeries.ImageURL'
                                      class="editorImage" />
 
                                 <hr />
@@ -140,21 +140,25 @@
                                        class="form-control"
                                        id="splashImageURL"
                                        name="splashImageURL"
-                                       asp-for="Episode.episode.SplashImageURL" />
+                                       asp-for="Episode.episode.SplashImageURL"
+                                         oninput="updateImg('splashImageInput', 'imgSplashImage')"
+                                         
+                                       />
                                 <input type="file"
                                        id="splashImgURLInput"
                                        accept=".png,.jpg"
-                                       #splashImgURLInput />
-                                <img [src]="getSplashImage()" class="editorSplashImage" />
+                                       #splashImgURLInput 
+                                       oninput=""/>
+                                <img id="imgSplashImage" src='@Model.EpSeries.SplashImageURL' class="editorSplashImage" />
                             </div>
                         </div>
-                        <div>
+                        <div id="determiningEpLength">
                             <strong>
                                 Currently Determining Episode Length. When this is done, you can
                                 submit. This may take up to a minute for longer episodes.
                             </strong>
                         </div>
-                        <button *ngIf="!determiningLength"
+                        <button id="btnAddEpSubmit"
                                 type="submit"
                                 class="btn btn-success">
                             Submit
@@ -181,12 +185,47 @@
 @section Scripts
 {
 
-<script type="text/javascript">
+    <script type="text/javascript">
+
+     $(document).ready(function () {
+               CheckIfEditor(@Model.UserAuthLevel);
+
+            //if (document.getElementById('FeatureAttemptedSave').value.toString() == 'True' && document.getElementById('FeatureSaved').value.toString() == 'True') {
+            //    alert("Feature Saved");
+            //    window.location.href = "/Index";
+            //}
+
+
+
+
+        var myTinyMCE = new tinymce.Editor('tinyMCETextArea', {
+            selector: 'tinyMCETextArea',
+            width: 1000, height: 500,
+            menubar: false,
+            toolbar: 'undo redo | bold italic underline strikethrough |  image media  link   | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print  | ltr rtl',
+            toolbar_sticky: true,
+            plugins: 'image link media'
+        }, tinymce.EditorManager);
+        myTinyMCE.render();
+
+        filterTagList();
+        populateSelectedTagList();
+
+
+        //Update Images on Load Feature For Edit
+        if (@Model.Episode.episode.EpisodeID != 0) {
+            updateImg('splashImageInput', 'imgSplashImage');
+            updateImg('smallImageInput', 'imgFeatureSmallImageURL');
+            document.getElementById('btnSubmit').innerHTML = "Update";
+        }
+
+    });
+
 
     function startFileProcess() {
-        console.log("Step 1");
+        
         startAudioFileProcessing(document.getElementById("episodeUploadInput").files[0]);
     }
 
-</script>
+    </script>
 }

@@ -42,6 +42,8 @@ namespace APONCoreWebsite.Pages
             this.tagService = ts;
             this.IUIS = iuis;
             this.DS = ds;
+            Episode = new EpisodeWithTags();
+            Episode.episode = new Episode();
         }
 
 
@@ -49,6 +51,7 @@ namespace APONCoreWebsite.Pages
         {
             if (int.Parse(IUIS.getUser().AuthLevel) < 4)
             {
+
                 TCM = new _tagConsoleModel(tagService)
                 {
                     Tags = await tagService.GetTags(false)
@@ -63,6 +66,27 @@ namespace APONCoreWebsite.Pages
                 }
 
                 EpSeries = Newtonsoft.Json.JsonConvert.DeserializeObject<APONCoreLibrary.Models.Series>(Response);
+
+                int dayOfTheWeek = (int)DateTime.Now.DayOfWeek;
+                DateTime D;
+
+                if (EpSeries.ShowDate > dayOfTheWeek)
+                {
+                    D = DateTime.Now.AddDays(EpSeries.ShowDate - dayOfTheWeek);
+                }
+                else if (EpSeries.ShowDate < dayOfTheWeek)
+                {
+                    D = DateTime.Now.AddDays((EpSeries.ShowDate + 7) - dayOfTheWeek);
+                }
+                else
+                {
+                    D = DateTime.Now;
+                    
+                }
+                Episode.episode.ShowDate = new DateTime(D.Year, D.Month, D.Day, EpSeries.DefaultHour - 2, 0, 0);
+                Episode.episode.EpImageURL = EpSeries.ImageURL;
+                Episode.episode.SplashImageURL = EpSeries.SplashImageURL;
+                Episode.episode.Keywords = EpSeries.Keywords;
             }
             return Page();
         }

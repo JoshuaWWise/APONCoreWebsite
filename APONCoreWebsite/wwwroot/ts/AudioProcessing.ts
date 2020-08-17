@@ -7,6 +7,8 @@ let tagLocations = new Array<KVP>();
 let rawString: string;
 let charlist: string;
 let charcount: number;
+let determiningEpLength: HTMLElement;
+let btnAddEpSubmit: HTMLButtonElement;
 
 class KVP {
     key: string;
@@ -21,7 +23,11 @@ class KVP {
 function startAudioFileProcessing(uploadFile: File) {
 
     //Set Submit button to disabled until File Duration is calculated.
-    console.log("Start Audio Processing");
+    btnAddEpSubmit = <HTMLButtonElement>document.getElementById("btnAddEpSubmit");
+    btnAddEpSubmit.style.visibility = "hidden";
+    determiningEpLength = document.getElementById("determiningEpLength");
+    determiningEpLength.style.visibility = "visible";
+
     charcount = 0;
     getArrayBuffer(uploadFile).then((result: any) => {
      
@@ -48,19 +54,23 @@ function fillInFormData(ab: ArrayBuffer) {
  
     episodeSize = dv.byteLength.toString();
     episodeSize = episodeSize.substr(0, episodeSize.length - 2);
-    console.log("Episode Size:" + episodeSize);
+ 
     //get locations of value pairs for the MP3 ID3 tags.
     getKeyValuePairs();
-    console.log("KVPairs Acquired");
+
     
     //PUT BACK
     episodeTitle = getSection("TIT2");
+    let headlineObj  = <HTMLInputElement>document.getElementById("episodeTitle");
+    headlineObj.value = episodeTitle;
 
-    console.log(episodeTitle);
+   
     episodeDescription = getSection("COMM");
 
+    (<HTMLInputElement>document.getElementById("shortDescription")).value = episodeDescription;
+    (<HTMLInputElement>document.getElementById("tinyMCETextArea")).innerText = episodeDescription;
     webDescription = episodeDescription;
-    console.log("webDescription: " + webDescription);
+ 
     let a: AudioContext = new AudioContext();
     //Set Fields
 
@@ -88,8 +98,11 @@ function getDuration(aBuff: AudioBuffer) {
         ":" +
         getTimeNum(seconds);
 
-    console.log("Time: " + episodeTime);
-    //Set Submit button to Enabled;
+
+    (<HTMLInputElement>document.getElementById("epTime")).value = episodeTime;
+    determiningEpLength.style.visibility = "hidden";
+    btnAddEpSubmit.style.visibility = "visible";
+
 }
 
 

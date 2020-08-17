@@ -7,6 +7,8 @@ var tagLocations = new Array();
 var rawString;
 var charlist;
 var charcount;
+var determiningEpLength;
+var btnAddEpSubmit;
 var KVP = /** @class */ (function () {
     function KVP(k, v) {
         this.key = k;
@@ -16,7 +18,10 @@ var KVP = /** @class */ (function () {
 }());
 function startAudioFileProcessing(uploadFile) {
     //Set Submit button to disabled until File Duration is calculated.
-    console.log("Start Audio Processing");
+    btnAddEpSubmit = document.getElementById("btnAddEpSubmit");
+    btnAddEpSubmit.style.visibility = "hidden";
+    determiningEpLength = document.getElementById("determiningEpLength");
+    determiningEpLength.style.visibility = "visible";
     charcount = 0;
     getArrayBuffer(uploadFile).then(function (result) {
         fillInFormData(result);
@@ -34,16 +39,16 @@ function fillInFormData(ab) {
     rawString = getString(dv, 0, bufferSize);
     episodeSize = dv.byteLength.toString();
     episodeSize = episodeSize.substr(0, episodeSize.length - 2);
-    console.log("Episode Size:" + episodeSize);
     //get locations of value pairs for the MP3 ID3 tags.
     getKeyValuePairs();
-    console.log("KVPairs Acquired");
     //PUT BACK
     episodeTitle = getSection("TIT2");
-    console.log(episodeTitle);
+    var headlineObj = document.getElementById("episodeTitle");
+    headlineObj.value = episodeTitle;
     episodeDescription = getSection("COMM");
+    document.getElementById("shortDescription").value = episodeDescription;
+    document.getElementById("tinyMCETextArea").innerText = episodeDescription;
     webDescription = episodeDescription;
-    console.log("webDescription: " + webDescription);
     var a = new AudioContext();
     //Set Fields
     getAudioBuffer(ab).then(function (result) {
@@ -62,8 +67,9 @@ function getDuration(aBuff) {
             getTimeNum(minutes) +
             ":" +
             getTimeNum(seconds);
-    console.log("Time: " + episodeTime);
-    //Set Submit button to Enabled;
+    document.getElementById("epTime").value = episodeTime;
+    determiningEpLength.style.visibility = "hidden";
+    btnAddEpSubmit.style.visibility = "visible";
 }
 function getTimeNum(n) {
     if (n < 10) {

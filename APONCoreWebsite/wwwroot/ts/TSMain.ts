@@ -8,6 +8,7 @@ function  CheckIfAdmin(currentLevel: number) {
 }
 
 function CheckIfEditor(currentLevel: number) {
+    console.log("LEvel:" + currentLevel);
     if (currentLevel > 3) {
         window.location.href = "/Index";
     }

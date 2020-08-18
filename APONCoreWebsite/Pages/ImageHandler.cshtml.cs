@@ -31,9 +31,41 @@ namespace APONCoreWebsite.Pages
         public async Task<IActionResult> OnPostNewsImage()
         {
             IFormFile FileData = Request.Form.Files[0];
+            string type = Request.Form["imageType"];
+
+            string Message = "";
+            string path = "";
+            if (type == "episode")
+            {
+                path = "Episodes/UploadEpisodeImage";
+            }
+            else if (type == "news")
+            {
+                path = "News/UploadNewsImage";
+            }
+
+            HttpResponseMessage response = await DS.PostImageAsync(FileData, path);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.Created)
+            {
+                Message = "";
+            }
+            else
+            {
+                Message = "Error Uploading File: " + response.Content.ToString();
+            }
+
+            JsonResult result = new JsonResult(Message);
+
+            return result;
+        }
+
+        public async Task<IActionResult> OnPostEpImage()
+        {
+            IFormFile FileData = Request.Form.Files[0];
             string Message = "";
 
-            HttpResponseMessage response = await DS.PostImageAsync(FileData, "News/UploadNewsImage");
+            HttpResponseMessage response = await DS.PostImageAsync(FileData, "Episode/UploadEpisodeImage");
 
             if (response.StatusCode == System.Net.HttpStatusCode.Created)
             {

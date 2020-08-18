@@ -7,11 +7,13 @@
 
   <ItemGroup>
     <Content Remove="compilerconfig.json" />
+    <Content Remove="Web.config" />
     <Content Remove="wwwroot\ts\TSMain.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="compilerconfig.json" />
+    <None Include="Web.config" />
   </ItemGroup>
 
   <ItemGroup>

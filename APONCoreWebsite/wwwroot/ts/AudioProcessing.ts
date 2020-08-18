@@ -54,7 +54,7 @@ function fillInFormData(ab: ArrayBuffer) {
  
     episodeSize = dv.byteLength.toString();
     episodeSize = episodeSize.substr(0, episodeSize.length - 2);
- 
+    (<HTMLInputElement>document.getElementById("epSize")).value = episodeSize;
     //get locations of value pairs for the MP3 ID3 tags.
     getKeyValuePairs();
 
@@ -69,6 +69,7 @@ function fillInFormData(ab: ArrayBuffer) {
 
     (<HTMLInputElement>document.getElementById("shortDescription")).value = episodeDescription;
     (<HTMLInputElement>document.getElementById("tinyMCETextArea")).innerText = episodeDescription;
+    
     webDescription = episodeDescription;
  
     let a: AudioContext = new AudioContext();

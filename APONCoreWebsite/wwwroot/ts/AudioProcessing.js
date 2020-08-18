@@ -39,6 +39,7 @@ function fillInFormData(ab) {
     rawString = getString(dv, 0, bufferSize);
     episodeSize = dv.byteLength.toString();
     episodeSize = episodeSize.substr(0, episodeSize.length - 2);
+    document.getElementById("epSize").value = episodeSize;
     //get locations of value pairs for the MP3 ID3 tags.
     getKeyValuePairs();
     //PUT BACK

@@ -130,25 +130,36 @@ function updateImg(senderObjectID, targetObjectID) {
 }
 
 function submitImage(evt, formdata, targetFolder, InputUpdateField, ImageUpdateField, filename) {
-    var handler = "Image";
+    var handler = "NewsImage";
     var imageURL = "https://media.allportsopen.org/images/";
-    
-    console.log(formdata);
+    let url = "";
+    console.log(evt);
+    console.log(targetFolder);
+    console.log(filename);
+    let fd = new FormData;
+    fd = formdata;
+ 
+   
     switch (targetFolder) {
-        case "news": handler = "NewsImage";
+        case "news": 
             imageURL += "News/" + filename;
+            url = '../ImageHandler?handler=' + handler;
+            fd.append("imageType", "news");
             break;
-        case "episode": handler = "EpisodeImage";
+        case "episode": 
             imageURL += "EpImages/" + filename;
+          url =  '../../ImageHandler?handler=' + handler;
+            fd.append("imageType", "episode");
             break;
     }
+  
     evt.preventDefault();
     $.ajax({
         type: "POST",
         beforeSend: function (xhr) {
             xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
         },
-        url: '../ImageHandler/?handler=' + handler,
+        url: url,
         data: formdata,
         contentType: false,
         processData: false,
@@ -156,6 +167,8 @@ function submitImage(evt, formdata, targetFolder, InputUpdateField, ImageUpdateF
         success: function (resp) {
            
             if (resp == "") {
+                console.log(InputUpdateField);
+                console.log(ImageUpdateField);
                 document.getElementById(InputUpdateField).innerHTML = imageURL;
                 document.getElementById(InputUpdateField).value = imageURL;
                 document.getElementById(ImageUpdateField).src = imageURL;

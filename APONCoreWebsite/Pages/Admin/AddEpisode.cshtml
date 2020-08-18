@@ -3,39 +3,45 @@
 @{
     ViewData["Title"] = "AddEpisode";
 }
-<script src="~/ts/TSMain.js"></script>
+
+
+<input type="text" id="EpisodeSaved" value=@Model.EpisodeSaved>
 
 @{
 
-    if (Model.UserAuthLevel < 4)
+    
+
+    if (Model.UserAuthLevel < 4 && Model.EpisodeSaved == "False")
     {
 
 
         <div class="add-episode-main-box">
-            <div>
-                <h1>@Model.EpSeries.Name</h1>
-                <hr />
-                <input type="file"
-                       id="episodeUploadInput"
-                       accept=".mp3"
-                       #episodeUploadInput
-                      oninput="startFileProcess()" />
-                <input type="checkbox" name="affiliate" asp-for="Affiliate" />
-                <label for="affiliate">Affiliate Podcast</label>
+            <form method="post" asp-page-handler="Episode" id="mainForm" enctype="multipart/form-data">
                 <div>
-                    <label for="fileURL">Link to your podcast file. (Should point to the .mp3 file)</label>
-                    <input type="text" name="fileURL" />
+                    <h1>@Model.EpSeries.Name</h1>
+                    <hr />
+                    <input type="file"
+                           id="episodeUploadInput"
+                           accept=".mp3"
+                           #episodeUploadInput
+                           asp-for="UploadFile"
+                           oninput="startFileProcess()" />
+                    <input type="checkbox" name="affiliate" asp-for="Affiliate" />
+                    <label for="affiliate">Affiliate Podcast</label>
+                    <div>
+                        <label for="fileURL">Link to your podcast file. (Should point to the .mp3 file)</label>
+                        <input type="text" name="fileURL" />
+                    </div>
+
+
                 </div>
 
+                <hr />
+                <div class="add-episode-top-box">
+                    <div class="full-width">
 
-            </div>
-
-            <hr />
-            <div class=" add-episode-top-box">
-                <div class="full-width">
-                    <form>
-                        <div class="row">
-                            <div class="inline">
+                        <div class="grid-row">
+                            <div class="col-1-of-2">
                                 <div class="form-group">
                                     <label for="title">Title</label>
                                     <input type="text"
@@ -43,7 +49,7 @@
                                            id="episodeTitle"
                                            required
                                            asp-for="Episode.episode.Title"
-                                           name="title" />
+                                           name="episodeTitle" />
                                 </div>
 
                                 <div class="form-group">
@@ -58,9 +64,7 @@
 
                                 <div class="form-group">
                                     <label for="webDescription">Web Description</label>
-                                    <textarea id="tinyMCETextArea"
-                                              required
-                                              name="tinyMCETextArea"
+                                    <textarea id="tinyMCETextArea" name="tinyMCETextArea"
                                               asp-for="Episode.episode.WebDescription"></textarea>
                                 </div>
 
@@ -69,7 +73,7 @@
                                     <br />
 
 
-                                    <input id="showDate" dirname="showDate" type="datetime-local" asp-for="Episode.episode.ShowDate" name="postTime" />
+                                    <input id="myDatePicker" name="myDatePicker" type="datetime-local" asp-for="Episode.episode.ShowDate" />
                                 </div>
 
                                 <div class="form-group">
@@ -111,26 +115,33 @@
                                 <partial name="_tagConsole" model=@Model.TCM />
                             </div>
 
-                            <div class="inline">
+                            <div class="col-1-of-2">
                                 <div class="form-group">
                                     <label for="epTime">Episode Length (HH:MM:SS): </label>
                                     <input type="text" id="epTime" name="epTime" asp-for="Episode.episode.Time" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="epSize">Episode Size in kb: </label>
+                                    <input type="text" id="epSize" name="epSize" asp-for="Episode.episode.Size" />
                                 </div>
 
                                 <label class="mt-2" for="imageURL">Image Location</label>
                                 <input type="text"
                                        class="form-control"
-                                       id="imgURL"
-                                       name="imgURL"
-                                       asp-for="Episode.episode.EpImageURL" />
-                                <div class="" *ngIf="getImageUploading()">
-                                    Please wait while we upload the image...
-                                </div>
+                                       id="imgURLtextbox"
+                                       required
+                                       name="imgURLtextbox"
+                                       asp-for="Episode.episode.EpImageURL"
+                                       oninput="updateImg('imgURLtextbox', 'imgMainImage')" />
+
                                 <input type="file"
-                                       id="imgURLinput"
+                                       id="imgFileInput"
+                                       name="imgFileInput"
                                        accept=".png,.jpg"
-                                       #imgURLInput />
-                                <img src='@Model.EpSeries.ImageURL'
+                                       #imgURLInput
+                                       onchange="startImageSubmit(event, 'imgFileInput', 'imgURLtextbox', 'imgMainImage');" />
+
+                                <img id="imgMainImage" src='@Model.EpSeries.ImageURL'
                                      class="editorImage" />
 
                                 <hr />
@@ -138,17 +149,16 @@
 
                                 <input type="text"
                                        class="form-control"
-                                       id="splashImageURL"
-                                       name="splashImageURL"
+                                       id="splashImageInput"
+                                       name="splashImageInput"
                                        asp-for="Episode.episode.SplashImageURL"
-                                         oninput="updateImg('splashImageInput', 'imgSplashImage')"
-                                         
-                                       />
+                                       oninput="updateImg('splashImageInput', 'imgSplashImage')" />
                                 <input type="file"
                                        id="splashImgURLInput"
                                        accept=".png,.jpg"
-                                       #splashImgURLInput 
-                                       oninput=""/>
+                                       #splashImgURLInput
+                                       onchange="startImageSubmit(event, 'splashImgURLInput', 'splashImageInput', 'imgSplashImage');" />
+                                />
                                 <img id="imgSplashImage" src='@Model.EpSeries.SplashImageURL' class="editorSplashImage" />
                             </div>
                         </div>
@@ -163,22 +173,17 @@
                                 class="btn btn-success">
                             Submit
                         </button>
-                        <div class="">
-                            <ul>
-                                <li *ngFor="let a of textLog">
-                                    {{ a }}
-                                </li>
-                            </ul>
-                        </div>
-                        <mat-progress-bar mode="determinate"
-                                          [value]="getFileUploadProgress()"
-                                          *ngIf="fileIsUploading"></mat-progress-bar>
-                    </form>
+
+
+
+
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
 
     }
+
 
 }
 
@@ -187,20 +192,24 @@
 
     <script type="text/javascript">
 
-     $(document).ready(function () {
-               CheckIfEditor(@Model.UserAuthLevel);
-
-            //if (document.getElementById('FeatureAttemptedSave').value.toString() == 'True' && document.getElementById('FeatureSaved').value.toString() == 'True') {
-            //    alert("Feature Saved");
-            //    window.location.href = "/Index";
-            //}
+        $(document).ready(function () {
+          
+         CheckIfEditor("Auth Level: " & @Model.UserAuthLevel);
 
 
+            let saved = document.getElementById("EpisodeSaved").value;
 
+            console.log("Episode Saved: " + saved);
+
+
+         if (saved == "True") {
+             alert("Episode Saved");
+             window.location.href = "/Index";
+         }
 
         var myTinyMCE = new tinymce.Editor('tinyMCETextArea', {
             selector: 'tinyMCETextArea',
-            width: 1000, height: 500,
+            width: 450, height: 500,
             menubar: false,
             toolbar: 'undo redo | bold italic underline strikethrough |  image media  link   | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print  | ltr rtl',
             toolbar_sticky: true,
@@ -215,17 +224,36 @@
         //Update Images on Load Feature For Edit
         if (@Model.Episode.episode.EpisodeID != 0) {
             updateImg('splashImageInput', 'imgSplashImage');
-            updateImg('smallImageInput', 'imgFeatureSmallImageURL');
+            updateImg('imgURLtext', 'imgMainImage');
             document.getElementById('btnSubmit').innerHTML = "Update";
         }
 
     });
 
+        function startImageSubmit(evt, senderObj, txtUpdateField, imgUpdateField) {
+            let fd = new FormData();
+
+            fd.append("File", document.getElementById(senderObj).files[0])
+            var filename = document.getElementById(senderObj).files[0].name;
+
+
+            submitImage(evt, fd, "episode", txtUpdateField, imgUpdateField, filename);
+
+
+        }
 
     function startFileProcess() {
-        
+
         startAudioFileProcessing(document.getElementById("episodeUploadInput").files[0]);
-    }
+
+        }
+
+        function SubmitForm() {
+            let FD = new FormData();
+            FD = document.getElementById("mainForm");
+
+            console.log(FD);
+        }
 
     </script>
 }

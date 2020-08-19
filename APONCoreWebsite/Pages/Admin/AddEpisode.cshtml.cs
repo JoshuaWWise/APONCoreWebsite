@@ -166,6 +166,13 @@ namespace APONCoreWebsite.Pages
 
             HttpResponseMessage message = await DS.PostAsync(Episode, "Episodes/AddEpisode");
 
+            if (message.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                ResponseMessage = "There was a problem uploading the episode.";
+            }
+
+            //Populate to restore page
+
             string Response = await DS.GetAsync("Series/" + SeriesID);
 
         

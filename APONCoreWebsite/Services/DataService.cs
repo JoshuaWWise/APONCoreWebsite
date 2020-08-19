@@ -22,6 +22,8 @@ namespace APONCoreWebsite.Services
 
         public Task<HttpResponseMessage> PutAsync(object T, string Endpoint);
 
+        public Task<HttpResponseMessage> DeleteAsync(string Endpoint);
+
         public Task<HttpResponseMessage> PostImageAsync(IFormFile T, string Endpoint);
 
         public Task<string> GetAsync(string Endpoint);
@@ -58,6 +60,17 @@ namespace APONCoreWebsite.Services
 
 
             return await http.GetStringAsync(Uri);
+        }
+
+        public async Task<HttpResponseMessage> DeleteAsync(string Endpoint)
+        {
+
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
+
+            Uri Uri = new Uri(configuration.GetValue<string>("BaseUrl") + Endpoint);
+
+            return await http.DeleteAsync(Uri);
+           
         }
 
         public async Task<HttpResponseMessage> PostAsync(object T, string Endpoint)

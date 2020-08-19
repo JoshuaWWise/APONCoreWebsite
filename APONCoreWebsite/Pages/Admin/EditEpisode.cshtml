@@ -1,8 +1,126 @@
-﻿@page
+﻿@page "/Admin/EditEpisode/{EpisodeID}"
 @model APONCoreWebsite.Pages.Admin.EditEpisodeModel
 @{
-    ViewData["Title"] = "EditEpisode";
+    ViewData["Title"] = "Edit Episode";
 }
 
 <h1>EditEpisode</h1>
+
+@if (Model.UserAuthLevel < 4)
+{
+
+    <div class="grid-row APONForm">
+        <div class="col-1-of-1">
+            <form method="post" asp-page-handler="Episode">
+                <div class="form-group">
+                    <label for="imageURL">Image URL</label>
+                    <input type="text"
+                           id="imageURL"
+                           class="form-control"
+                           asp-for="Episode.episode.EpImageURL"
+                           name="imageURL"
+                           oninput="UpdateEpisodeImage()" />
+                </div>
+                <div class="form-group">
+                    <img id="imgEpisodeImage" class="edit-episode-image" src="@Model.Episode.episode.EpImageURL" />
+                </div>
+                <div class="form-group">
+                    <label for="fileURL">File URL</label>
+                    <input type="text"
+                           id="fileURL"
+                           class="form-control"
+                           asp-for="Episode.episode.FileURL"
+                           name="fileURL" />
+                </div>
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text"
+                           id="EpTitle"
+                           class="form-control"
+                           asp-for="Episode.episode.Title"
+                           name="EpTitle" />
+                </div>
+                <div class="form-group">
+                    <label for="postDate">Post Date</label>
+                    <input type="datetime-local"
+                           id="showDate"
+                           class="form-control"
+                           asp-for="Episode.episode.ShowDate"
+                           name="showDate" />
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Web Description</label>
+
+                    <textarea id="tinyMCETextArea" name="tinyMCETextArea" asp-for="Episode.episode.WebDescription">
+
+</textarea>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="webdescription">itunes Description. This cannot have HTML in it.</label>
+                    <input type="text"
+                           id="shortDescription"
+                           class="form-control"
+                           name="shortDescription" asp-for="Episode.episode.Description" />
+                </div>
+                <partial name="_tagConsole" model=@Model.TCM />
+
+                <button class="btn btn-primary" type="submit">Save</button>
+                <button class="btn btn-warning" type="button">
+                    Cancel
+                </button>
+
+               
+
+
+            </form>
+        </div>
+    </div>
+
+}
+
+@section Scripts
+{
+
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+            CheckIfEditor(@Model.UserAuthLevel);
+
+
+            var myTinyMCE = new tinymce.Editor('tinyMCETextArea', {
+                selector: 'tinyMCETextArea',
+                width: 450, height: 500,
+                menubar: false,
+                toolbar: 'undo redo | bold italic underline strikethrough |  image media  link   | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print  | ltr rtl',
+                toolbar_sticky: true,
+                plugins: 'image link media code'
+            }, tinymce.EditorManager);
+            myTinyMCE.render();
+
+            filterTagList();
+            populateSelectedTagList();
+
+            let status = "@Model.SaveStatus";
+
+            if (status == "Saved") {
+                alert("The Episode has been saved!");
+            }
+            if (status == "Forbidden") {
+                alert("You can't edit episodes from this series.");
+            }
+            if (status == "Unauthorized") {
+                alert("You do not have permission to edit episodes.");
+            }
+            if (status == "Error") {
+                alert("There was an error saving.");
+            }
+        });
+
+            function UpdateEpisodeImage() {
+                document.getElementById("imgEpisodeImage").src = document.getElementById("imageURL").value;
+            }
+    </script>
+}
 

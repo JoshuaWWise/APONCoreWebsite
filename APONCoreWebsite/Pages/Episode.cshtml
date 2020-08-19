@@ -28,30 +28,36 @@
             <div class="row">
                 <h4 *ngIf="Episode">@Model.Episode.ShowDate.ToShortDateString()</h4>
             </div>
-            <div class="editorControl">
-                <div>
-                    <div class="editorControl__head">
-                        Editor Tools
-                    </div>
 
-                    <div class="grid-row editorControl__body">
-                        <button type="button"
-                                class="APONbtn APONbtnEditor editorControl__body--btn">
-                            Edit
-                        </button>
+            @if (Model.UserAuthLevel < 4)
+            {
+                
+                <div class="editorControl">
+                    <div>
+                        <div class="editorControl__head">
+                            Editor Tools
+                        </div>
 
-                        <button type="Button"
-                                class="APONbtn APONbtnEditor editorControl__body--btn">
-                            Add to Subseries
-                        </button>
+                        <div class="grid-row editorControl__body">
+                            <button type="button"
+                                    class="APONbtn APONbtnEditor editorControl__body--btn" onclick="GoToEpEdit()">
+                                Edit
+                            </button>
 
-                        <button type="button"
-                                class="APONbtn APONbtnEditor editorControl__body--btn">
-                            Delete
-                        </button>
+                            <button type="Button"
+                                    class="APONbtn APONbtnEditor editorControl__body--btn">
+                                Add to Subseries
+                            </button>
+
+                            <button type="button"
+                                    onclick="DeleteEp()"
+                                    class="APONbtn APONbtnEditor editorControl__body--btn">
+                                Delete
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
             <div class="grid-row">
                 <div class="col-1-of-2">
                     <partial name="_AuthorShield" model=@Model.Author.User />
@@ -72,3 +78,43 @@
 @Html.HiddenFor(model => model.FileURL, new { id = "audioFileURL" });
 <partial name="_ForumView" model=@Model.fvm />
 
+@section Scripts{ 
+    <script type="text/javascript">
+
+    function GoToEpEdit() {
+        let i = @Model.EpisodeID;
+        window.location.href = "../../admin/EditEpisode/" + i;
+    }
+
+    function DeleteEp() {
+        if (confirm("Are you certain you want to delete this episode? You will remove all associated content (Forum posts, forums, etc)?")) {
+
+            $.ajax({
+                type: "POST",
+                url: '/admin/EditEpisode/' + @Model.EpisodeID + '?handler=DeleteEpisode',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+                },
+                contentType: "application/json; charset=utf-8",
+                data: null,
+                success: function (resp) {
+                    console.log(resp);
+                    switch (resp) {
+                        case 200, "200", "OK": alert("You did it, you deleted it all! Schmuck.");
+                            window.location.href = "../../Index";
+                            break;
+                        case 403, "403", "Forbidden":
+                            console.log("Test");
+                            alert("You don't have permission to delete this episode.");
+                            window.location.href = "../../Index";
+                            break;
+                        case 404, "404", "NotFound": alert("Could not find an episode with this ID, which is strange, bc here you are.");
+                            break;
+                    }
+                }
+            });
+
+        }
+    }
+    </script>
+}

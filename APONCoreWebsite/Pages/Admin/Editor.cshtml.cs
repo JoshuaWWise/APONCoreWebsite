@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using APONCoreLibrary.ReturnModels;
 using APONCoreWebsite.Pages.ViewModels;
 using APONCoreWebsite.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -11,14 +12,27 @@ namespace APONCoreWebsite.Pages.Admin
 {
     public class EditorModel : ViewModelBase
     {
-        public EditorModel(IAuthService authService, IMetaTagService imts): base(authService, imts)
-        {
+        public IUserInfoService IUIS { get; set; }
+        public IDataService DS { get; set; }
 
+        public List<SmallSeries> SeriesForUser { get; set; }
+        public EditorModel(IAuthService authService, IMetaTagService imts, IUserInfoService iuis, IDataService ds): base(authService, imts)
+        {
+            IUIS = iuis;
+            DS = ds;
         }
 
 
-        public void OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
+
+            int userID = IUIS.getUserID();
+
+            string Response = await DS.GetAsync("series/GetSeriesForUser/" + userID);
+            SeriesForUser = Newtonsoft.Json.JsonConvert.DeserializeObject<List<SmallSeries>>(Response);
+
+
+            return Page();
 
         }
     }

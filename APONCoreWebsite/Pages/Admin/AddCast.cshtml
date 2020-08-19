@@ -14,14 +14,10 @@
 {
 <script type="text/javascript">
 
-    var accessLevel = 5;
+   
     $(document).ready(function () {
 
-        accessLevel = @Model.UserAuthLevel;
-
-        if (accessLevel > 2) {
-            window.location.href = "/Index";
-        }
+        CheckIfAdmin();
     }
 </script>
 }

@@ -1,69 +1,94 @@
-﻿@page
+﻿@page "Admin/Editor"
 @model APONCoreWebsite.Pages.Admin.EditorModel
 @{
     ViewData["Title"] = "Editor";
 }
 
 <h1>Editor</h1>
+@{
+    if (Model.UserAuthLevel < 4)
+    {
+        <div class="row APONText">
+            <div class="col-6 mb-2">
+                <h3>Add a Podcast Episode</h3>
+                <select id="SeriesList" name="SeriesList" >
+                    @for (int i = 0; i < Model.SeriesForUser.Count; i++)
+                    {
+                        <option value="@Model.SeriesForUser[i].SeriesID"> @Model.SeriesForUser[i].Name</option>
 
-<div class="row APONText">
-    <div class="col-6 mb-2">
-        <h3>Add a Podcast Episode</h3>
-        <select id="cars" name="cars" *ngIf="seriesList" [(ngModel)]="seriesID">
-            <option *ngFor="let s of seriesList" [value]="s.seriesID">
-                {{
-        s.name
-                }}
-            </option>
-        </select>
-        <button type="button" class="APONbtn APONbtnBlue" (click)="onAddEpisode()">
-            Add Episode
-        </button>
-        To Edit an Episode, please go to the episode's page and click "edit."
-        <div class="row">
-            <div class="col-xs-12 col-md-12 mb-2">
-                <button type="button"
-                        class="APONbtn APONbtnBlue"
-                        (click)="onEditSplashNews()">
-                    Edit Splash News
+                    }
+                </select>
+                <button type="button" class="APONbtn APONbtnBlue" onclick="GoToAddEpisode()">
+                    Add Episode
                 </button>
+                To Edit an Episode, please go to the episode's page and click "edit."
+                <div class="row">
+                    <div class="col-xs-12 col-md-12 mb-2">
+                        <button type="button"
+                                class="APONbtn APONbtnBlue"
+                                (click)="onEditSplashNews()">
+                            Edit Splash News
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-12 mb-2">
+                        <button type="button"
+                                class="APONbtn APONbtnBlue"
+                                onclick="window.location.href='../../AddFeature'">
+                            Add Feature/Review
+                        </button>
+                    </div>
+                </div>
+                <div class="w-100">
+                    <button class="APONbtn APONbtnBlue" (click)="onClickEditTweets()">
+                        Eidt Tweets
+                    </button>
+                </div>
+                @if (Model.UserAuthLevel == 1)
+                {
+                    <div class="row">
+                        <div class="col-xs-12 col-md-12 mb-2">
+                            <button class="APONbtn APONbtnBlue" (click)="onAddCast()">
+                                Add Cast
+                            </button>
+                        </div>
+                        <div class="col-xs-12 col-md-12 mb-2">
+                            <button class="APONbtn APONbtnBlue" (click)="onAddCastToSeries()">
+                                Add Cast To Series
+                            </button>
+                        </div>
+                        <div class="col-xs-12 col-md-12 mb-2">
+                            <button class="APONbtn APONbtnBlue" (click)="onEditCastMembers()">
+                                Edit Cast Members
+                            </button>
+                        </div>
+                        <div class="col-xs-12 col-md-12 mb-2">
+                            <button class="APONbtn APONbtnBlue" (click)="onViewAllUsers()">
+                                View All Users
+                            </button>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
-        <div class="row">
-            <div class="col-xs-12 col-md-12 mb-2">
-                <button type="button"
-                        class="APONbtn APONbtnBlue"
-                        (click)="onAddFeature()">
-                    Add Feature/Review
-                </button>
-            </div>
-        </div>
-        <div class="w-100">
-            <button class="APONbtn APONbtnBlue" (click)="onClickEditTweets()">
-                Eidt Tweets
-            </button>
-        </div>
-        <div *ngIf="isHighAdmin()" class="row">
-            <div class="col-xs-12 col-md-12 mb-2">
-                <button class="APONbtn APONbtnBlue" (click)="onAddCast()">
-                    Add Cast
-                </button>
-            </div>
-            <div class="col-xs-12 col-md-12 mb-2">
-                <button class="APONbtn APONbtnBlue" (click)="onAddCastToSeries()">
-                    Add Cast To Series
-                </button>
-            </div>
-            <div class="col-xs-12 col-md-12 mb-2">
-                <button class="APONbtn APONbtnBlue" (click)="onEditCastMembers()">
-                    Edit Cast Members
-                </button>
-            </div>
-            <div class="col-xs-12 col-md-12 mb-2">
-                <button class="APONbtn APONbtnBlue" (click)="onViewAllUsers()">
-                    View All Users
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
+    }
+}
+
+@{
+
+}
+
+@section Scripts
+{
+
+    <script type="text/javascript">
+        function GoToAddEpisode() {
+            let SeriesID = document.getElementById("SeriesList").value;
+
+            window.location.href = "../../AddEpisode/" + SeriesID;
+        }
+
+    </script>
+}
+

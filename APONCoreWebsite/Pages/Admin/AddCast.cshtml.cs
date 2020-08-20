@@ -11,7 +11,7 @@ namespace APONCoreWebsite.Pages.Admin
 {
     public class AddCastModel : ViewModelBase
     {
-        public AddCastModel(IAuthService authService, IMetaTagService imts) : base(authService, imts)
+        public AddCastModel(IAuthService authService, IMetaTagService imts, IDataService ds, IUserInfoService iuis) : base(authService, imts, ds, iuis)
         {
 
         }

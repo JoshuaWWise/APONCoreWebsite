@@ -27,7 +27,7 @@ namespace APONCoreWebsite.Pages
         IConfiguration configuration { get; set; }
 
 
-        public LoginModel(HttpClient client, IConfiguration Configuration, IAuthService authService, IMetaTagService imts) : base(authService, imts)
+        public LoginModel(HttpClient client, IConfiguration Configuration, IAuthService authService, IMetaTagService imts, IDataService ds, IUserInfoService iuis) : base(authService, imts, ds, iuis)
         {
             http = client;
 

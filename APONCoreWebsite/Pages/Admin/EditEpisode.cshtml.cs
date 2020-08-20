@@ -17,10 +17,10 @@ namespace APONCoreWebsite.Pages.Admin
     public class EditEpisodeModel : ViewModelBase
     {
 
-        public IDataService DS { get; set; }
+   
         public ITagService tagService { get; set; }
 
-        public IUserInfoService IUIS;
+      
 
         public _tagConsoleModel TCM { get; set; }
 
@@ -37,7 +37,7 @@ namespace APONCoreWebsite.Pages.Admin
 
 
         public string ResponseMessage { get; set; }
-        public EditEpisodeModel(IAuthService authService, IUserInfoService iuis, IMetaTagService imts, ITagService ts, IDataService ds) : base(authService, imts)
+        public EditEpisodeModel(IAuthService authService, IUserInfoService iuis, IMetaTagService imts, ITagService ts, IDataService ds) : base(authService, imts, ds, iuis)
         {
             this.tagService = ts;
             this.IUIS = iuis;

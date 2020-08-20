@@ -14,10 +14,10 @@ namespace APONCoreWebsite.Pages
     [BindProperties]
     public class SeriesModel : ViewModelBase
     {
-        protected IDataService DS { get; set; }
-        public SeriesModel(IAuthService authService, IDataService ds, IMetaTagService imts) : base(authService, imts)
+       
+        public SeriesModel(IAuthService authService, IDataService ds, IMetaTagService imts, IUserInfoService iuis) : base(authService, imts, ds, iuis)
         {
-            DS = ds;
+        
 
         }
 

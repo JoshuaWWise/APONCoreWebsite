@@ -1,4 +1,4 @@
-﻿@page "Admin/Editor"
+﻿@page
 @model APONCoreWebsite.Pages.Admin.EditorModel
 @{
     ViewData["Title"] = "Editor";
@@ -26,7 +26,7 @@
                     <div class="col-xs-12 col-md-12 mb-2">
                         <button type="button"
                                 class="APONbtn APONbtnBlue"
-                                (click)="onEditSplashNews()">
+                                 onclick="window.location.href='../Admin/EditSplashNews'">
                             Edit Splash News
                         </button>
                     </div>

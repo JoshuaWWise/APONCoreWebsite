@@ -18,12 +18,10 @@ namespace APONCoreWebsite.Pages
 
 
 
-        public IDataService DS { get; set; }
-        public IUserInfoService UIS { get; set; }
-        public AutoLoginModel(IUserInfoService uis, IAuthService authService, IDataService ds, IMetaTagService imts) : base(authService, imts)
+ 
+        public AutoLoginModel(IUserInfoService iuis, IAuthService authService, IDataService ds, IMetaTagService imts) : base(authService, imts, ds, iuis)
         {
-            UIS = uis;
-            DS = ds;
+      
         }
         public JsonResult OnGet()
         {
@@ -34,7 +32,7 @@ namespace APONCoreWebsite.Pages
         public void OnPostLogout()
         {
             string s = myAuthService.Logout();
-            UIS.logoutUser();
+            IUIS.logoutUser();
             Response.Redirect("/");
         }
 
@@ -48,7 +46,7 @@ namespace APONCoreWebsite.Pages
             }
             URT = new UserReturnToken(j);
             DS.SetAuthToken(URT.Token);
-            UIS.setUser(URT);
+            IUIS.setUser(URT);
             
             return Page();
         }

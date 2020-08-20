@@ -13,15 +13,15 @@ namespace APONCoreWebsite.Pages
 {
     public class FeaturesModel : ViewModelBase
     {
-        private IDataService DS { get; set; }
+      
 
         [BindProperty]
        public List<News> News { get; set; }
 
         
-        public FeaturesModel(IAuthService authService, IMetaTagService imts, IDataService ds): base(authService, imts)
+        public FeaturesModel(IAuthService authService, IMetaTagService imts, IDataService ds, IUserInfoService iuis): base(authService, imts, ds, iuis)
         {
-            this.DS = ds;
+           
 
         }
 

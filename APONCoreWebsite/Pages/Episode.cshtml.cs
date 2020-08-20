@@ -34,17 +34,13 @@ namespace APONCoreWebsite.Pages.Series
 
         public string FileURL { get; set; }
 
-        public IMetaTagService MTS { get; set; }
-        public IDataService DS { get; set; }
-
-        public IUserInfoService UIS { get; set; }
+     
 
         public Shared._ForumViewModel fvm { get; set; }
-        public EpisodeModel(IMetaTagService mts, IDataService ds, IAuthService authService, IUserInfoService uis, IMetaTagService imts) : base(authService, imts)
+        public EpisodeModel( IDataService ds, IAuthService authService, IUserInfoService iuis, IMetaTagService imts) : base(authService, imts, ds, iuis)
         {
-            MTS = mts;
-            DS = ds;
-            UIS = uis;
+          
+         
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -62,7 +58,7 @@ namespace APONCoreWebsite.Pages.Series
 
 
             //
-            MTS.setParams("https://www.allportsopen.com/Series/Episode/" + EpisodeData.EpWithTag.episode.EpisodeID, "article", EpisodeData.EpWithTag.episode.Title, EpisodeData.EpWithTag.episode.Description, EpisodeData.EpWithTag.episode.EpImageURL);
+            IMTS.setParams("https://www.allportsopen.com/Series/Episode/" + EpisodeData.EpWithTag.episode.EpisodeID, "article", EpisodeData.EpWithTag.episode.Title, EpisodeData.EpWithTag.episode.Description, EpisodeData.EpWithTag.episode.EpImageURL);
 
             Episode = EpisodeData.EpWithTag.episode;
             Tags = EpisodeData.EpWithTag.tags;
@@ -71,18 +67,18 @@ namespace APONCoreWebsite.Pages.Series
             
             //TODO: add current user ID to forum post page and compare with forum post info
 
-            fvm = new Shared._ForumViewModel(UIS);
+            fvm = new Shared._ForumViewModel(IUIS);
             fvm.Forum = EpisodeData.Forum;
             fvm.ForumLUI = EpisodeData.ForumLUI;
             fvm.Posts = new List<_Forum__PostModel>();
             foreach (ForumPostInfo fpi in EpisodeData.Posts)
             {
-                fpi.CurrentUserID = UIS.getUserID();
+                fpi.CurrentUserID = IUIS.getUserID();
                 _Forum__PostModel f = new _Forum__PostModel(fpi);
                 fvm.Posts.Add(f);
 
             }
-            fvm.CurrentUserID = UIS.getUserID();
+            fvm.CurrentUserID = IUIS.getUserID();
             fvm.ShowTop = false;
 
             metaData md = new metaData();

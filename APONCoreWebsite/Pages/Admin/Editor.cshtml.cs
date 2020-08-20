@@ -12,14 +12,12 @@ namespace APONCoreWebsite.Pages.Admin
 {
     public class EditorModel : ViewModelBase
     {
-        public IUserInfoService IUIS { get; set; }
-        public IDataService DS { get; set; }
+       
 
         public List<SmallSeries> SeriesForUser { get; set; }
-        public EditorModel(IAuthService authService, IMetaTagService imts, IUserInfoService iuis, IDataService ds): base(authService, imts)
+        public EditorModel(IAuthService authService, IMetaTagService imts, IUserInfoService iuis, IDataService ds): base(authService, imts, ds, iuis)
         {
-            IUIS = iuis;
-            DS = ds;
+           
         }
 
 

@@ -15,10 +15,10 @@ namespace APONCoreWebsite.Pages
 {
     public class ImageHandlerModel : ViewModelBase
     {
-        private IDataService DS { get; set; }
-        public ImageHandlerModel(IAuthService authService, IMetaTagService imts, IDataService ds) : base(authService, imts)
+     
+        public ImageHandlerModel(IAuthService authService, IMetaTagService imts, IDataService ds, IUserInfoService iuis) : base(authService, imts, ds, iuis)
         {
-            DS = ds;
+          
         }
 
         [BindProperty, Display(Name = "File")]

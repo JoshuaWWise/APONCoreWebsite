@@ -23,10 +23,10 @@ namespace APONCoreWebsite.Pages
         [BindProperty]
         public bool AttemptedSave { get; set; }
 
-        public IDataService DS { get; set; }
+
         public ITagService tagService { get; set; }
 
-        public IUserInfoService IUIS;
+   
 
         public _tagConsoleModel TCM { get; set; }
 
@@ -45,7 +45,7 @@ namespace APONCoreWebsite.Pages
         public IFormFile UploadFile { get; set; }
 
         public string ResponseMessage { get; set; }
-        public AddEpisodeModel(IAuthService authService, IUserInfoService iuis, IMetaTagService imts, ITagService ts, IDataService ds) : base(authService, imts)
+        public AddEpisodeModel(IAuthService authService, IUserInfoService iuis, IMetaTagService imts, ITagService ts, IDataService ds) : base(authService, imts, ds, iuis)
         {
             this.tagService = ts;
             this.IUIS = iuis;

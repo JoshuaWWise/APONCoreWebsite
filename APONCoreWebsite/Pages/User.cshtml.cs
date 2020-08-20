@@ -16,11 +16,7 @@ namespace APONCoreWebsite.Pages.Shared
         [BindProperty(SupportsGet = true)]
         public int ID { get; set; }
 
-        IAuthService AuthService { get; set; }
-
-        IDataService DS { get; set; }
-
-        IUserInfoService IUS { get; set; }
+      
 
         [BindProperty]
        public  UserBriefWithBadges UBWB { get; set; }
@@ -28,11 +24,10 @@ namespace APONCoreWebsite.Pages.Shared
         [BindProperty]
         public bool isProfileUser { get; set; }
 
-        public UserModel(IAuthService authService, IDataService ds, IUserInfoService userInfoService, IMetaTagService imts) : base(authService, imts)
+        public UserModel(IAuthService authService, IDataService ds, IUserInfoService iuis, IMetaTagService imts) : base(authService, imts, ds, iuis)
         {
-            AuthService = AuthService;
-            DS = ds;
-            IUS = userInfoService;
+            
+        
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -40,7 +35,7 @@ namespace APONCoreWebsite.Pages.Shared
             string result = await DS.GetAsync("User/GetUserByID/" + ID);
             UBWB = Newtonsoft.Json.JsonConvert.DeserializeObject<UserBriefWithBadges>(result);
 
-            if (UBWB.User.UserID == IUS.getUserID())
+            if (UBWB.User.UserID == IUIS.getUserID())
             {
                 isProfileUser = true;
             }

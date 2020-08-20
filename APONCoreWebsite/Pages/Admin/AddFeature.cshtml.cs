@@ -18,7 +18,7 @@ namespace APONCoreWebsite.Pages.Admin
     public class AddFeatureModel : ViewModelBase
     {
 
-        public AddFeatureModel(IAuthService authService, IUserInfoService iuis, IMetaTagService imts, ITagService ts, IDataService ds) : base(authService, imts)
+        public AddFeatureModel(IAuthService authService, IUserInfoService iuis, IMetaTagService imts, ITagService ts, IDataService ds) : base(authService, imts, ds, iuis)
         {
             this.tagService = ts;
             this.IUIS = iuis;
@@ -31,10 +31,10 @@ namespace APONCoreWebsite.Pages.Admin
         [BindProperty]
         public bool AttemptedSave { get; set; }
 
-        public IDataService DS { get; set; }
+  
         public ITagService tagService { get; set; }
 
-        public IUserInfoService IUIS;
+
 
         public _tagConsoleModel TCM { get; set; }
 

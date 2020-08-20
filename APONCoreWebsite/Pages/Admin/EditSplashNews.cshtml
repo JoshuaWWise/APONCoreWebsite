@@ -1,0 +1,206 @@
+﻿@page
+
+@model APONCoreWebsite.Pages.Admin.EditSplashNewsModel
+@{
+    ViewData["Title"] = "EditSplashNews";
+}
+
+<h1>EditSplashNews</h1>
+
+@{
+    if (Model.UserAuthLevel < 4)
+    {
+        <input type="hidden" id="currentSplashIndex" value="0" />
+        <div class="grid-row">
+            <div class="col-1-of-4">
+
+                @for (int i = 0; i < Model.SplashNewsList.Count; i++)
+                {
+                    <div class="row" id=@("SplashEntry[" + i + "]") onclick="SelectSplash(this.id)">
+                        <div class="col-1-of-1">
+                            <img id=@("SN[" + i + "].image") class="img img-fluid" src="@Model.SplashNewsList[i].ImageURL" />
+
+                            <input type="hidden" id=@("SN[" + i + "].id") value="@Model.SplashNewsList[i].SplashNewsID" />
+                            <input type="hidden" id=@("SN[" + i + "].endDate") value="@Model.SplashNewsList[i].EndDate.ToString("yyyy-MM-ddThh:mm:ss.ff")" />
+                            <input type="hidden" id=@("SN[" + i + "].headline") value="@Model.SplashNewsList[i].Headline" />
+                            <input type="hidden" id=@("SN[" + i + "].imageURL") value="@Model.SplashNewsList[i].ImageURL" />
+                            <input type="hidden" id=@("SN[" + i + "].linkID") value="@Model.SplashNewsList[i].LinkID" />
+                            <input type="hidden" id=@("SN[" + i + "].postURL") value="@Model.SplashNewsList[i].PostURL" />
+                            <input type="hidden" id=@("SN[" + i + "].startDate") value="@Model.SplashNewsList[i].StartDate.ToString("yyyy-MM-ddThh:mm:ss.ff")" />
+
+
+                            <label id=@("SN[" + i + "].lblHeadline")>@Model.SplashNewsList[i].Headline</label>
+                        </div>
+                    </div>
+                    <hr />
+                }
+
+
+            </div>
+            <div class="col-3-of-4">
+                <form id="frmSplashNews">
+
+                    <input type="hidden" id="currentSplashID" />
+                    <input type="hidden" id="currentSplashLinkID" />
+                    <input type="hidden" id="currentSplashPostURL" />
+                    <div class="col-9">
+                        <div class="form-group">
+                            <label for="title">Headline</label>
+                            <input type="text"
+                                   class="form-control w100"
+                                   id="headline"
+                                   required
+                                   name="headline" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="myDatepicker">Start Date</label>
+                            <br />
+                            <input type="datetime-local" id="StartDate" name="StartDate" />
+                        </div>
+                        <div class="form-group">
+                            <label for="endDatePicker">End Date</label>
+                            <br />
+                            <input type="datetime-local" id="EndDate" name="EndDate" />
+                        </div>
+
+                        <label for="imageURL">Image Location</label>
+                        <input type="file"
+                               id="imgURLinput"
+                               name="imgURLinput"
+                               accept=".png,.jpg" />
+                        <input type="text"
+                               class="form-control"
+                               id="imgURL"
+                               name="imgURL" oninput="document.getElementById('SplashImage').src = this.value" />
+
+                        <img id="SplashImage"
+                             class="img img-fluid" />
+                        <button class="APONbtn APONbtnBlue" type="button" onclick="SumbitForSave()">
+                            Save
+                        </button>
+                        <button class="APONbtn APONbtnRed" onclick="deleteSplash()" type="button">
+                            Delete
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    }
+
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            SelectSplash(0);
+        });
+        function SelectSplash(evt) {
+            let id = evt.replace("SplashEntry[", "").replace("]", "");
+
+            document.getElementById("currentSplashIndex").value = id;
+            document.getElementById("headline").value = document.getElementById("SN[" + id + "].headline").value;
+            document.getElementById("StartDate").value = document.getElementById("SN[" + id + "].startDate").value;
+            document.getElementById("EndDate").value = document.getElementById("SN[" + id + "].endDate").value;
+            document.getElementById("imgURL").value = document.getElementById("SN[" + id + "].imageURL").value;
+            document.getElementById("SplashImage").src = document.getElementById("SN[" + id + "].imageURL").value;
+
+            document.getElementById("currentSplashID").value = document.getElementById("SN[" + id + "].id").value;
+
+            document.getElementById("currentSplashLinkID").value = document.getElementById("SN[" + id + "].linkID").value;
+            document.getElementById("currentSplashPostURL").value = document.getElementById("SN[" + id + "].postURL").value;
+
+
+        }
+
+        function DeleteSplash() {
+            let id = document.getElementById("currentSplashIndex").value;
+        }
+
+        function SumbitForSave() {
+            let FD = new FormData(document.getElementById("frmSplashNews"));
+            FD.append("currentSplashID", document.getElementById("currentSplashID").value);
+            FD.append("currentSplashLinkID", document.getElementById("currentSplashLinkID").value);
+            FD.append("currentSplashPostURL", document.getElementById("currentSplashPostURL").value);
+
+
+
+            $.ajax({
+                type: "POST",
+                contentType: false,
+                processData: false,
+                url: '../../Handlers/SaveHandler?handler=SplashNews',
+                data: FD,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+                },
+                success: function (resp) {
+                    switch (resp) {
+                        case "OK": alert("Saved!");
+                            SaveLocalChanges();
+                            break;
+                        case "Forbidden": alert("You are not allowed to save changes.");
+                            break;
+                        case "NotFound": alert("That Splash News was not found.");
+                            break;
+                    }
+
+                   
+                }
+            });
+        }
+
+        function SaveLocalChanges() {
+            let index = document.getElementById("currentSplashIndex").value;
+            document.getElementById("SN[" + index + "].headline").value = document.getElementById("headline").value;
+            document.getElementById("SN[" + index + "].lblHeadline").innerText = document.getElementById("headline").value;
+
+            document.getElementById("SN[" + index + "].startDate").value = document.getElementById("StartDate").value;
+            document.getElementById("SN[" + index + "].endDate").value = document.getElementById("EndDate").value;
+            document.getElementById("SN[" + index + "].imageURL").value = document.getElementById("imgURL").value;
+            document.getElementById("SN[" + index + "].image").src = document.getElementById("imgURL").value;
+            document.getElementById("SN[" + index + "].id").value = document.getElementById("currentSplashID").value;
+            document.getElementById("SN[" + index + "].linkID").value = document.getElementById("currentSplashLinkID").value;
+            document.getElementById("SN[" + index + "].postURL").value = document.getElementById("currentSplashPostURL").value;
+
+        }
+
+        function deleteSplash() {
+            if (confirm("Are you sure you want to delete this Splash News?")) {
+                let id = document.getElementById("currentSplashID").value;
+                let index = document.getElementById("currentSplashIndex").value;
+                
+                let url = '../../Handlers/SaveHandler/' + id +  '?handler=DelSplashNews';
+                console.log(url);
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+                    },
+                    success: function (resp) {
+                        switch (resp) {
+                            case "OK": alert("Deleted!");
+                                //Hide index
+                                document.getElementById("SplashEntry[" + index + "]").style.visibility = "hidden";
+                                
+                                break;
+                            case "Forbidden": alert("You are not allowed to save changes.");
+                                break;
+                            case "NotFound": alert("That Splash News was not found.");
+                                break;
+                        }
+
+
+                    }
+                });
+            }
+        }
+
+    </script>
+
+
+}

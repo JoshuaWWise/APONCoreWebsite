@@ -57,7 +57,9 @@ namespace APONCoreWebsite.Pages
 
             EpCount = SPD.Episodes.Count;
 
-         
+
+            IMTS.setParams("https://www.allportsopen.com/" + SeriesName, "article", SPD.Series.Name, "The " + SPD.Series.Name + " podcast", SPD.Series.ImageURL);
+
 
             //Figure out Paging, 
 

@@ -38,6 +38,9 @@ namespace APONCoreWebsite.Pages
             string response = await DS.GetAsync("News/GetNewsItemWTags/" + FeatureID);
             Feature = Newtonsoft.Json.JsonConvert.DeserializeObject<NewsWithTags>(response);
             Feature.News.LongText = Feature.News.LongText.Replace("<img", "<img style='width:100%'");
+
+            IMTS.setParams("https://www.allportsopen.com/Feature/" + Feature.News.NewsID, "article", Feature.News.Headline, Feature.News.Text, Feature.News.ImageURL);
+
             return Page();
         }
     }

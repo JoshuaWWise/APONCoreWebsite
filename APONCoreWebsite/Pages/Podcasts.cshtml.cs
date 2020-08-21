@@ -31,6 +31,8 @@ namespace APONCoreWebsite.Pages
             var result = await _client.GetStringAsync("https://api.allportsopen.org/api/Series");
             Series = Newtonsoft.Json.JsonConvert.DeserializeObject<List<APONCoreLibrary.Models.Series>>(result);
 
+            IMTS.setParams("https://www.allportsopen.com/Podcasts", "article", "Our Podcasts", "The All Ports Open Network Podcasts", "https://media.allportsopen.org/Images/LogoSmWText.png");
+
             return Page();
         }
     }

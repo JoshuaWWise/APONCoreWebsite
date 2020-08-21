@@ -53,6 +53,9 @@ namespace APONCoreWebsite.Pages
         public string RegisterMessage { get; set; }
         public void OnGet()
         {
+
+            IMTS.setParams("https://www.allportsopen.com/Login", "website", "Login", "Login Page", "https://media.allportsopen.org/Images/LogoSmWText.png");
+
         }
 
         public async Task<IActionResult> OnPostSignUpAsync()

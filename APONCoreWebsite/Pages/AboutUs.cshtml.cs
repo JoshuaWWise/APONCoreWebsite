@@ -25,6 +25,7 @@ namespace APONCoreWebsite.Pages
             string Response = await DS.GetAsync("AboutUs/GetAboutUsPageInfo");
             Info = Newtonsoft.Json.JsonConvert.DeserializeObject<AboutUsPageInfo>(Response);
 
+            IMTS.setParams("https://www.allportsopen.com/AboutUs", "article", "About Us", "The All Ports Open Network Crew", "https://media.allportsopen.org/Images/LogoSmWText.png");
 
             return Page();
         }

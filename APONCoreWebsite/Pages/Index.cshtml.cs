@@ -34,7 +34,7 @@ namespace APONCoreWebsite.Pages
 
         public async Task<IActionResult> OnGetAsync()
         {
-
+            IMTS.setParams("https://www.allportsopen.com", "website", "The All Ports Open Network", "A Podcast Network for Geeks", "https://media.allportsopen.org/Images/LogoSmWText.png");
             if (SplashNews == null)
             {
                 var result = await _client.GetStringAsync("SplashNews/GetThree");

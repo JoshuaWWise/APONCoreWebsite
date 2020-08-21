@@ -38,6 +38,10 @@ namespace APONCoreWebsite.Pages
             string SeriesResponse = await DS.GetAsync("series/" + SeriesID);
             series = Newtonsoft.Json.JsonConvert.DeserializeObject<APONCoreLibrary.Models.Series>(SeriesResponse);
 
+
+            IMTS.setParams("https://www.allportsopen.com/cast/" + SeriesID, "article", "Cast for " + series.Name, "Cast for the " + series.Name + " podcast", series.ImageURL);
+
+
             return Page();
         }
     }

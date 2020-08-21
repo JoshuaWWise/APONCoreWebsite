@@ -37,11 +37,10 @@ namespace APONCoreWebsite.Pages.Admin
 
 
         public string ResponseMessage { get; set; }
-        public EditEpisodeModel(IAuthService authService, IUserInfoService iuis, IMetaTagService imts, ITagService ts, IDataService ds) : base(authService, imts, ds, iuis)
+        public EditEpisodeModel(IAuthService authService,  IMetaTagService imts, ITagService ts, IDataService ds) : base(authService, imts, ds)
         {
             this.tagService = ts;
-            this.IUIS = iuis;
-            this.DS = ds;
+           
             Episode = new EpisodeWithTags();
             Episode.episode = new Episode();
         }

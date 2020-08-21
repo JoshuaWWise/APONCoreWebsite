@@ -12,10 +12,13 @@ namespace APONCoreWebsite.Pages.ViewComponents
     public class authViewComponent : ViewComponent
     {
 
-        IUserInfoService UIS;
-        public authViewComponent(IUserInfoService uis)
+       
+
+        IAuthService MyAuthService;
+        public authViewComponent(IAuthService mas)
         {
-            UIS = uis;
+         
+            MyAuthService = mas;
         }
 
        
@@ -23,7 +26,7 @@ namespace APONCoreWebsite.Pages.ViewComponents
 
         public IViewComponentResult Invoke()
         {
-            URT = UIS.getUser();
+            URT = MyAuthService.getUser();
 
 
             return View(URT);

@@ -18,7 +18,7 @@ namespace APONCoreWebsite.Pages.ViewModels
 
         public IMetaTagService IMTS { get; set; }
 
-        public IUserInfoService IUIS { get; set; }
+     
 
         public IDataService DS { get; set; }
 
@@ -26,12 +26,12 @@ namespace APONCoreWebsite.Pages.ViewModels
 
   
 
-        public ViewModelBase(IAuthService authService, IMetaTagService imts, IDataService ds, IUserInfoService iuis)
+        public ViewModelBase(IAuthService authService, IMetaTagService imts, IDataService ds)
         {
             myAuthService = authService;
             MetaTagsModel = new _metaTagsModel(imts);
             IMTS = imts;
-            IUIS = iuis;
+         
             DS = ds;
             UserAuthLevel = authService.getUserAuthLevel();
          

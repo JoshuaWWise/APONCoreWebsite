@@ -16,7 +16,7 @@ namespace APONCoreWebsite.Pages
     public class ImageHandlerModel : ViewModelBase
     {
      
-        public ImageHandlerModel(IAuthService authService, IMetaTagService imts, IDataService ds, IUserInfoService iuis) : base(authService, imts, ds, iuis)
+        public ImageHandlerModel(IAuthService authService, IMetaTagService imts, IDataService ds) : base(authService, imts, ds)
         {
           
         }

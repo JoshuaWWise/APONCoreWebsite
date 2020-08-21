@@ -27,7 +27,7 @@ namespace APONCoreWebsite.Pages
         IConfiguration configuration { get; set; }
 
 
-        public LoginModel(HttpClient client, IConfiguration Configuration, IAuthService authService, IMetaTagService imts, IDataService ds, IUserInfoService iuis) : base(authService, imts, ds, iuis)
+        public LoginModel(HttpClient client, IConfiguration Configuration, IAuthService authService, IMetaTagService imts, IDataService ds) : base(authService, imts, ds)
         {
             http = client;
 
@@ -60,23 +60,38 @@ namespace APONCoreWebsite.Pages
 
         public async Task<IActionResult> OnPostSignUpAsync()
         {
-          
+
             LoginUser.UserName = Request.Form["registerUsername"];
             LoginUser.Email = Request.Form["registerEmail"];
             LoginUser.Password = Request.Form["registerPassword1"];
+            SignUpUser SUU = new SignUpUser();
+            SUU.Email = LoginUser.Email;
+            SUU.UserName = LoginUser.UserName;
+            SUU.Password = LoginUser.Password;
+            UserReturnToken URT = new UserReturnToken();
+            var signUpResponse = await DS.PostAsync(SUU, "user/SignUp");
+            if (signUpResponse.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                var responseJSON = await signUpResponse.Content.ReadAsStringAsync();
 
+                URT = Newtonsoft.Json.JsonConvert.DeserializeObject<UserReturnToken>(responseJSON);
+                if (string.IsNullOrEmpty(URT.Message))
+                {
 
+                    myAuthService.SaveUserSessionData(URT);
 
-         string signUpMessage =    await myAuthService.SignUp( LoginUser.Email, LoginUser.UserName, LoginUser.Password);
+                }
 
-            if (string.IsNullOrEmpty(signUpMessage))
+            }
+
+            if (string.IsNullOrEmpty(URT.Message))
             {
                 //user is registerd and signed in, all is good.
                 LogInSuccessful = true;
             }
             else
             {
-                RegisterMessage = signUpMessage;
+                RegisterMessage = URT.Message;
             }
 
             return Page();
@@ -85,8 +100,10 @@ namespace APONCoreWebsite.Pages
         public async Task<IActionResult> OnPostResetPasswordAsync()
         {
             LoginUser.Email = Request.Form["resetEmail"];
+            HttpResponseMessage LoginResult = await DS.PostAsync(null, "user/GetPasswordResetLink/" + LoginUser.Email);
 
-            bool b = await myAuthService.GetPassworResetLink(LoginUser.Email);
+
+           
             return Page();
         }
 
@@ -95,7 +112,46 @@ namespace APONCoreWebsite.Pages
             LoginUser.UserName = Request.Form["loginUsername"];
             LoginUser.Password = Request.Form["loginPassword"];
 
-            UserReturnToken URT = await myAuthService.Login(LoginUser);
+            UserReturnToken URT = new UserReturnToken();
+
+            //-----------------------------------------------------------
+
+            string result = await DS.GetAsync("User/InitiateLogin/" + LoginUser.UserName);
+    
+            URT.UserID = -1;
+            if (result.Contains("200"))
+            {
+
+
+                HttpResponseMessage LoginResult = await DS.PostAsync(LoginUser, "user/authenticate");
+
+
+                if (LoginResult.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var responseJSON = await LoginResult.Content.ReadAsStringAsync();
+
+                    URT = Newtonsoft.Json.JsonConvert.DeserializeObject<UserReturnToken>(responseJSON);
+                    if (string.IsNullOrEmpty(URT.Message))
+                    {
+                  
+
+                       myAuthService.SaveUserSessionData(URT);
+                       
+                    }
+
+                }
+
+
+
+            }
+            else
+            {
+                URT.Message = "No user with that name found";
+
+            }
+
+
+            //-----------------------------------------------------------
 
             if (string.IsNullOrEmpty(URT.Message))
             {
@@ -116,5 +172,7 @@ namespace APONCoreWebsite.Pages
 
             return Page();
         }
+
+        
     }
 }

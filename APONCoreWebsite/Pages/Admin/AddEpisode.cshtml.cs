@@ -45,11 +45,11 @@ namespace APONCoreWebsite.Pages
         public IFormFile UploadFile { get; set; }
 
         public string ResponseMessage { get; set; }
-        public AddEpisodeModel(IAuthService authService, IUserInfoService iuis, IMetaTagService imts, ITagService ts, IDataService ds) : base(authService, imts, ds, iuis)
+        public AddEpisodeModel(IAuthService authService,  IMetaTagService imts, ITagService ts, IDataService ds) : base(authService, imts, ds)
         {
             this.tagService = ts;
-            this.IUIS = iuis;
-            this.DS = ds;
+          
+          
             Episode = new EpisodeWithTags();
             Episode.episode = new Episode();
         }
@@ -59,7 +59,7 @@ namespace APONCoreWebsite.Pages
         {
             AttemptedSave = false;
             EpisodeSaved = "False";
-            if (int.Parse(IUIS.getUser().AuthLevel) < 4)
+            if (int.Parse(myAuthService.getUser().AuthLevel) < 4)
             {
 
                 TCM = new _tagConsoleModel(tagService)
@@ -129,7 +129,7 @@ namespace APONCoreWebsite.Pages
             E.Description = Request.Form["shortDescription"];
             E.EpImageURL = Request.Form["imgURLtextbox"];
             E.Keywords = Request.Form["keywords"];
-            E.PostedByUserID = IUIS.getUserID();
+            E.PostedByUserID = myAuthService.getUserID();
             E.SeriesID = SeriesID;
             E.ShowDate = DateTime.Parse(Request.Form["myDatePicker"]);
             E.Size = Request.Form["epSize"];

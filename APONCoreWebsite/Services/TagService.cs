@@ -14,16 +14,17 @@ namespace APONCoreWebsite.Services
 
         public Task<List<Tag>> GetTags(bool refreshTags);
 
-        public  Task<List<Tag>> AddTag(string tagName);
+        public  Task<List<Tag>> AddTag(string tagName, int UserID);
     }
     public class TagService : ITagService
     {
         public IDataService DS { get; set; }
-        public IUserInfoService IUIS { get; set; }
-        public TagService(IDataService ds, IUserInfoService iuis)
+      
+   
+        public TagService(IDataService ds)
         {
             this.DS = ds;
-            this.IUIS = iuis;
+          
         }
 
    
@@ -54,12 +55,12 @@ namespace APONCoreWebsite.Services
 
         }
 
-        public async Task<List<Tag>> AddTag(string tagName)
+        public async Task<List<Tag>> AddTag(string tagName, int UserID)
         {
             //Add Tag info including current user id
             Tag t = new Tag();
             t.Name = tagName;
-            t.CreatedBy = this.IUIS.getUserID();
+            t.CreatedBy = UserID;
             
 
             HttpResponseMessage httpResponseMessage = await DS.PostAsync(t, "Tag/AddTag");

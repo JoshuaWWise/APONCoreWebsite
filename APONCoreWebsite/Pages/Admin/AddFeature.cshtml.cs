@@ -18,7 +18,7 @@ namespace APONCoreWebsite.Pages.Admin
     public class AddFeatureModel : ViewModelBase
     {
 
-        public AddFeatureModel(IAuthService authService, IUserInfoService iuis, IMetaTagService imts, ITagService ts, IDataService ds) : base(authService, imts, ds, iuis)
+        public AddFeatureModel(IAuthService authService,  IMetaTagService imts, ITagService ts, IDataService ds) : base(authService, imts, ds)
         {
             this.tagService = ts;
          
@@ -49,7 +49,7 @@ namespace APONCoreWebsite.Pages.Admin
             TCM = new _tagConsoleModel(tagService);
             TCM.Tags = await tagService.GetTags(false);
 
-            if (int.Parse(IUIS.getUser().AuthLevel) < 4)
+            if (int.Parse(myAuthService.getUser().AuthLevel) < 4)
             {
                 if (FeatureID == 0)
                 {
@@ -139,7 +139,7 @@ namespace APONCoreWebsite.Pages.Admin
             Feature.News.ImageURL = Request.Form["smallImageInput"];
             Feature.News.SplashImageURL = Request.Form["splashImageInput"];
 
-            Feature.News.AuthorID = IUIS.getUserID();
+            Feature.News.AuthorID = myAuthService.getUserID();
             //If the ID is 0, add them.
             Feature.News.Status = 4;
 

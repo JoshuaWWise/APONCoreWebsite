@@ -23,7 +23,7 @@ namespace APONCoreWebsite.Pages
 
      
 
-        public FeatureModel(IAuthService authService, IMetaTagService imts, IDataService ds, IUserInfoService iuis) : base(authService, imts, ds, iuis)
+        public FeatureModel(IAuthService authService, IMetaTagService imts, IDataService ds) : base(authService, imts, ds)
         {
            
         }
@@ -34,7 +34,7 @@ namespace APONCoreWebsite.Pages
             {
                 return Page();
             }
-            CurrentUserID = IUIS.getUser().UserID;
+            CurrentUserID = myAuthService.getUser().UserID;
             string response = await DS.GetAsync("News/GetNewsItemWTags/" + FeatureID);
             Feature = Newtonsoft.Json.JsonConvert.DeserializeObject<NewsWithTags>(response);
             Feature.News.LongText = Feature.News.LongText.Replace("<img", "<img style='width:100%'");

@@ -15,7 +15,7 @@ namespace APONCoreWebsite.Pages.Admin
        
 
         public List<SmallSeries> SeriesForUser { get; set; }
-        public EditorModel(IAuthService authService, IMetaTagService imts, IUserInfoService iuis, IDataService ds): base(authService, imts, ds, iuis)
+        public EditorModel(IAuthService authService, IMetaTagService imts, IDataService ds): base(authService, imts, ds)
         {
            
         }
@@ -24,7 +24,7 @@ namespace APONCoreWebsite.Pages.Admin
         public async Task<IActionResult> OnGetAsync()
         {
 
-            int userID = IUIS.getUserID();
+            int userID = myAuthService.getUserID();
 
             string Response = await DS.GetAsync("series/GetSeriesForUser/" + userID);
             SeriesForUser = Newtonsoft.Json.JsonConvert.DeserializeObject<List<SmallSeries>>(Response);

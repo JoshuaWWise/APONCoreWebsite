@@ -18,9 +18,12 @@ namespace APONCoreWebsite.Pages.Admin
         public string TagName { get; set; }
 
         private ITagService TS { get; set; }
-        public TagHandlerModel(ITagService tagService)
+
+        private IAuthService myAuthService;
+        public TagHandlerModel(ITagService tagService, IAuthService ias)
         {
             this.TS = tagService;
+            myAuthService = ias;
         }
 
         public async Task<IActionResult> OnPostTagAsync(string newTagName)
@@ -28,7 +31,7 @@ namespace APONCoreWebsite.Pages.Admin
 
             
 
-            List<Tag> tags = await TS.AddTag(newTagName);
+            List<Tag> tags = await TS.AddTag(newTagName, myAuthService.getUserID());
 
             return new JsonResult(tags);
 

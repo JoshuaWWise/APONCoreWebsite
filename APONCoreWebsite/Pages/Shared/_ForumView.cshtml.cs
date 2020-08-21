@@ -12,10 +12,10 @@ namespace APONCoreWebsite.Pages.Shared
 {
     public class _ForumViewModel : PageModel
     {
-        public IUserInfoService IUS { get; set; }
-        public _ForumViewModel(IUserInfoService ius)
+       
+        public _ForumViewModel()
         {
-            IUS = ius;
+           
         }
         public bool ShowTop { get; set; }
         public Forum Forum { get; set; }

@@ -23,10 +23,7 @@
                            class="form-control centerbox__inputArea--textBox"
                            asp-for="LoginUser.UserName"
                            required />
-                    <div class="loginError"
-                         [hidden]="loginUsername.valid || loginUsername.pristine">
-                        Please enter your Username to Sign in.
-                    </div>
+                    
                 </div>
                 <div class="centerbox__inputArea--text">Password</div>
                 <div>
@@ -35,10 +32,7 @@
                            class="centerbox__inputArea--textBox form-control"
                            asp-for="LoginUser.Password"
                            required />
-                    <div class="loginError"
-                         [hidden]="loginPassword.valid || loginPassword.pristine">
-                        Please enter your password to login.
-                    </div>
+                 
                 </div>
                 <div>
                     <button class="APONbtn APONbtnOrange centerbox__inputArea--submitButton"

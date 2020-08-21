@@ -36,10 +36,10 @@ namespace APONCoreWebsite
             services.AddScoped(sp => sp.GetRequiredService<IHttpContextAccessor>().HttpContext);
             services.AddSingleton(new HttpClient { BaseAddress = new Uri(baseAddress) });
 
-            services.AddSingleton<IDataService, DataService>();
-            services.AddSingleton<IUserInfoService, UserInfoService>();
-            services.AddSingleton<IMetaTagService, MetaTagService>();
-            services.AddSingleton<ITagService, TagService>();
+            services.AddScoped<IDataService, DataService>();
+     
+            services.AddScoped<IMetaTagService, MetaTagService>();
+            services.AddScoped<ITagService, TagService>();
             services.AddScoped<IAuthService, AuthService>();
 
             services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");

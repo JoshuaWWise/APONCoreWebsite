@@ -23,7 +23,7 @@ namespace APONCoreWebsite.Pages
 
         public CastWithSocialMedia CastList { get; set; }
 
-        public CastListModel(IDataService ds, IAuthService authService, IUserInfoService iuis, IMetaTagService imts) : base(authService, imts, ds, iuis)
+        public CastListModel(IDataService ds, IAuthService authService,  IMetaTagService imts) : base(authService, imts, ds)
         {
 
 

@@ -19,7 +19,7 @@ namespace APONCoreWebsite.Pages
        public List<News> News { get; set; }
 
         
-        public FeaturesModel(IAuthService authService, IMetaTagService imts, IDataService ds, IUserInfoService iuis): base(authService, imts, ds, iuis)
+        public FeaturesModel(IAuthService authService, IMetaTagService imts, IDataService ds): base(authService, imts, ds)
         {
            
 

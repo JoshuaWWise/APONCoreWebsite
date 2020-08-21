@@ -14,7 +14,7 @@ namespace APONCoreWebsite.Pages
     {
         [BindProperty]
         public AboutUsPageInfo Info { get; set; }
-        public AboutUsModel(IAuthService authService, IUserInfoService iuis, IMetaTagService imts,  IDataService ds) : base(authService, imts, ds, iuis)
+        public AboutUsModel(IAuthService authService,  IMetaTagService imts,  IDataService ds) : base(authService, imts, ds)
         {
             
 

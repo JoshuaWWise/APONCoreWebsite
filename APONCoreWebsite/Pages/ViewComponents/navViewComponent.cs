@@ -11,10 +11,10 @@ namespace APONCoreWebsite.Pages.ViewComponents
     public class navViewComponent : ViewComponent
     {
 
-        IUserInfoService UIS;
-        public navViewComponent(IUserInfoService uis)
+        IAuthService myAuthService;
+        public navViewComponent(IAuthService mas)
         {
-            UIS = uis;
+            myAuthService = mas;
         }
 
         public UserReturnToken URT { get; set; }
@@ -23,11 +23,11 @@ namespace APONCoreWebsite.Pages.ViewComponents
 
         public IViewComponentResult Invoke()
         {
-            URT = UIS.getUser();
+            URT = myAuthService.getUser();
 
-            int authLevel = int.Parse(UIS.getUser().AuthLevel);
+     
 
-            return View(authLevel);
+            return View(myAuthService.getUserAuthLevel());
 
         }
     }

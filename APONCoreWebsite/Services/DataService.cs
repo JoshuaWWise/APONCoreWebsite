@@ -28,7 +28,7 @@ namespace APONCoreWebsite.Services
 
         public Task<string> GetAsync(string Endpoint);
 
-        public void SetAuthToken(string token);
+    
 
     }
 
@@ -37,24 +37,22 @@ namespace APONCoreWebsite.Services
         public HttpClient http { get; set; }
         private IConfiguration configuration { get; set; }
 
-        private string token { get; set; }
+        private IAuthService myAuthService;
+      
 
-        public void SetAuthToken(string token)
-        {
-            this.token = token;
+     
 
-        }
-
-        public DataService(HttpClient httpClient, IConfiguration Configuration)
+        public DataService(HttpClient httpClient, IConfiguration Configuration, IAuthService IAS)
         {
             http = httpClient;
             configuration = Configuration;
+            myAuthService = IAS;
         }
 
         public async Task<string> GetAsync(string Endpoint)
         {
 
-            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", myAuthService.getToken());
 
             Uri Uri = new Uri(configuration.GetValue<string>("BaseUrl") + Endpoint);
 
@@ -65,7 +63,7 @@ namespace APONCoreWebsite.Services
         public async Task<HttpResponseMessage> DeleteAsync(string Endpoint)
         {
 
-            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", myAuthService.getToken());
 
             Uri Uri = new Uri(configuration.GetValue<string>("BaseUrl") + Endpoint);
 
@@ -75,6 +73,8 @@ namespace APONCoreWebsite.Services
 
         public async Task<HttpResponseMessage> PostAsync(object T, string Endpoint)
         {
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", myAuthService.getToken());
+
             Uri Uri = new Uri(configuration.GetValue<string>("BaseUrl") + Endpoint);
 
             //Add JWT Token Header to Post Requests and Get Requests
@@ -87,6 +87,8 @@ namespace APONCoreWebsite.Services
 
         public async Task<HttpResponseMessage> PutAsync(object T, string Endpoint)
         {
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", myAuthService.getToken());
+
             Uri Uri = new Uri(configuration.GetValue<string>("BaseUrl") + Endpoint);
 
             //Add JWT Token Header to Post Requests and Get Requests
@@ -99,6 +101,8 @@ namespace APONCoreWebsite.Services
 
         public async Task<HttpResponseMessage> PostImageAsync(IFormFile T, string Endpoint)
         {
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", myAuthService.getToken());
+
             Uri Uri = new Uri(configuration.GetValue<string>("BaseUrl") + Endpoint);
 
             MultipartFormDataContent form = new MultipartFormDataContent();
@@ -114,9 +118,9 @@ namespace APONCoreWebsite.Services
 
             MultipartFormDataContent multipartContent = new MultipartFormDataContent();
             multipartContent.Add(byteArrayContent, T.ContentType, T.FileName);
-            multipartContent.Headers.Add("Authoriazation", this.token);
+            multipartContent.Headers.Add("Authoriazation", myAuthService.getToken());
 
-            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
+
 
             //Add JWT Token Header to Post Requests and Get Requests
             return await http.SendAsync(new HttpRequestMessage(HttpMethod.Post, Uri)

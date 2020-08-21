@@ -37,7 +37,7 @@ namespace APONCoreWebsite.Pages.Series
      
 
         public Shared._ForumViewModel fvm { get; set; }
-        public EpisodeModel( IDataService ds, IAuthService authService, IUserInfoService iuis, IMetaTagService imts) : base(authService, imts, ds, iuis)
+        public EpisodeModel( IDataService ds, IAuthService authService,  IMetaTagService imts) : base(authService, imts, ds)
         {
           
          
@@ -67,18 +67,18 @@ namespace APONCoreWebsite.Pages.Series
             
             //TODO: add current user ID to forum post page and compare with forum post info
 
-            fvm = new Shared._ForumViewModel(IUIS);
+            fvm = new Shared._ForumViewModel();
             fvm.Forum = EpisodeData.Forum;
             fvm.ForumLUI = EpisodeData.ForumLUI;
             fvm.Posts = new List<_Forum__PostModel>();
             foreach (ForumPostInfo fpi in EpisodeData.Posts)
             {
-                fpi.CurrentUserID = IUIS.getUserID();
+                fpi.CurrentUserID = myAuthService.getUserID();
                 _Forum__PostModel f = new _Forum__PostModel(fpi);
                 fvm.Posts.Add(f);
 
             }
-            fvm.CurrentUserID = IUIS.getUserID();
+            fvm.CurrentUserID = myAuthService.getUserID();
             fvm.ShowTop = false;
 
             metaData md = new metaData();

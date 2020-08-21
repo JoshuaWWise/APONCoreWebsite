@@ -36,39 +36,36 @@ $(document).ready(function () {
 
 
     var userID = document.getElementById("authVCuserID").value;
-   
+
     //if the user is logged out, look for tokens from the browser
     if (userID == -1) {
         var myStorage = window.localStorage;
         var userJWTInfo = myStorage.getItem("userJWT");
 
         let jwt = JSON.parse(userJWTInfo);
-        const expDate = Date.parse(jwt.expiration);
-        console.log(expDate);
-        if (userJWTInfo.length > 0) {
-            $.ajax({
-                type: "POST",
-                url: '/AutoLogin/?handler=URT',
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
-                },
-                contentType: "application/json; charset=utf-8",
-                data: userJWTInfo
-            });
-
-            var lii = document.getElementById("loginImage");
-            lii.src = jwt.imageurl;
-            lii.classList.remove("loggedout-image");
-            lii.classList.add("loggedin-image");
-            var lil = document.getElementById("loginLink");
-            lil.href = "/User?Id=" + jwt.userid;
 
 
 
-        }
-        else {
+        $.ajax({
+            type: "POST",
+            url: '/AutoLogin/?handler=URT',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+            },
+            contentType: "application/json; charset=utf-8",
+            data: userJWTInfo
+        });
 
-        }
+        var lii = document.getElementById("loginImage");
+        lii.src = jwt.imageurl;
+        lii.classList.remove("loggedout-image");
+        lii.classList.add("loggedin-image");
+        var lil = document.getElementById("loginLink");
+        lil.href = "/User?Id=" + jwt.userid;
+
+
+
+
 
 
     }
@@ -138,21 +135,21 @@ function submitImage(evt, formdata, targetFolder, InputUpdateField, ImageUpdateF
     console.log(filename);
     let fd = new FormData;
     fd = formdata;
- 
-   
+
+
     switch (targetFolder) {
-        case "news": 
+        case "news":
             imageURL += "News/" + filename;
             url = '../ImageHandler?handler=' + handler;
             fd.append("imageType", "news");
             break;
-        case "episode": 
+        case "episode":
             imageURL += "EpImages/" + filename;
-          url =  '../../ImageHandler?handler=' + handler;
+            url = '../../ImageHandler?handler=' + handler;
             fd.append("imageType", "episode");
             break;
     }
-  
+
     evt.preventDefault();
     $.ajax({
         type: "POST",
@@ -165,14 +162,14 @@ function submitImage(evt, formdata, targetFolder, InputUpdateField, ImageUpdateF
         processData: false,
 
         success: function (resp) {
-           
+
             if (resp == "") {
                 console.log(InputUpdateField);
                 console.log(ImageUpdateField);
                 document.getElementById(InputUpdateField).innerHTML = imageURL;
                 document.getElementById(InputUpdateField).value = imageURL;
                 document.getElementById(ImageUpdateField).src = imageURL;
-           
+
             }
             else {
                 alert("There was a problem uploading the image.");
@@ -180,7 +177,7 @@ function submitImage(evt, formdata, targetFolder, InputUpdateField, ImageUpdateF
         }
     });
 
-   
+
 }
 
 

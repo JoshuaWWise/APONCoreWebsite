@@ -14,7 +14,7 @@ namespace APONCoreWebsite.Pages.Admin
     {
         public List<SplashNews> SplashNewsList { get; set; }
 
-        public EditSplashNewsModel(IAuthService authService, IMetaTagService imts, IDataService ds, IUserInfoService iuis) : base(authService, imts, ds, iuis)
+        public EditSplashNewsModel(IAuthService authService, IMetaTagService imts, IDataService ds) : base(authService, imts, ds)
         {
 
         }

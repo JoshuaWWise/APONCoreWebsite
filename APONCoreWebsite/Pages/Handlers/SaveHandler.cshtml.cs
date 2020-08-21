@@ -15,7 +15,7 @@ namespace APONCoreWebsite.Pages.Handlers
     {
         [BindProperty]
         public int ID { get; set; }
-        public SaveHandlerModel(IAuthService authService, IMetaTagService imts, IDataService ds, IUserInfoService iuis) : base(authService, imts, ds, iuis)
+        public SaveHandlerModel(IAuthService authService, IMetaTagService imts, IDataService ds) : base(authService, imts, ds)
         {
 
         }

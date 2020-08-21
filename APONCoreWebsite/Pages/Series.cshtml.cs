@@ -15,7 +15,7 @@ namespace APONCoreWebsite.Pages
     public class SeriesModel : ViewModelBase
     {
        
-        public SeriesModel(IAuthService authService, IDataService ds, IMetaTagService imts, IUserInfoService iuis) : base(authService, imts, ds, iuis)
+        public SeriesModel(IAuthService authService, IDataService ds, IMetaTagService imts) : base(authService, imts, ds)
         {
         
 

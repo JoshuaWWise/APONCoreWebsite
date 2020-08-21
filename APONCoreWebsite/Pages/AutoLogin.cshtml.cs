@@ -19,7 +19,7 @@ namespace APONCoreWebsite.Pages
 
 
  
-        public AutoLoginModel(IUserInfoService iuis, IAuthService authService, IDataService ds, IMetaTagService imts) : base(authService, imts, ds, iuis)
+        public AutoLoginModel( IAuthService authService, IDataService ds, IMetaTagService imts) : base(authService, imts, ds)
         {
       
         }
@@ -32,22 +32,25 @@ namespace APONCoreWebsite.Pages
         public void OnPostLogout()
         {
             string s = myAuthService.Logout();
-            IUIS.logoutUser();
+            myAuthService.Logout();
             Response.Redirect("/");
         }
 
         public IActionResult OnPostURT([FromBody] object JwtValue)
         {
-
-            string j = JwtValue.ToString();
-            if (j == null)
+            if (JwtValue != null)
             {
-                return Page();
-            }
-            URT = new UserReturnToken(j);
-            DS.SetAuthToken(URT.Token);
-            IUIS.setUser(URT);
+                string j = JwtValue.ToString();
+              
+                URT = new UserReturnToken(j);
             
+                myAuthService.SaveUserSessionData(URT);
+               
+            }
+            else
+            {
+                myAuthService.Logout();
+            }
             return Page();
         }
     }

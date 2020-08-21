@@ -178,6 +178,7 @@ namespace APONCoreWebsite.Services
                 Session.Remove("UserTheme");
                 Session.Remove("JWTToken");
                 Session.Remove("JWTExp");
+                DS.SetAuthToken("");
             }catch(Exception ex)
             {
                 return ex.Message;

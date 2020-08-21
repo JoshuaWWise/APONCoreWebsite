@@ -1,23 +1,77 @@
-﻿@page
+﻿@page "{SeriesID}"
 @model APONCoreWebsite.Pages.CastListModel
+@using APONCoreLibrary.Models;
+@using APONCoreLibrary.ReturnModels;
 @{
     ViewData["Title"] = "Cast";
 }
 
-<h1>Cast</h1>
 
-<div *ngIf="series" style="margin-top: 2rem;">
+
+<div style="margin-top: 2rem;">
     <h2>
-        <span class="pageHeader">Cast List for {{ series.name }}</span>
+        <span class="pageHeader">Cast List for @Model.series.Name </span>
     </h2>
-    <div *ngIf="isAdmin()"><button (click)="goToAddCast()"></button></div>
+
 </div>
 
-<div *ngIf="cast">
-    <div class="grid-row mt-5" *ngFor="let ct of castTypes; index as i">
-        <app-cast-type [cast]="cast"
-                       [castType]="ct"
-                       [socialMedia]="socialMedia"
-                       [seriesID]="seriesID"></app-cast-type>
-    </div>
+<div>
+    @{
+        List<SeriesCastInfo> CTCastInfo = new List<SeriesCastInfo>();
+
+        for (int j = 0; j < Model.CastList.castTypes.Count; j++)
+        {
+            <div class="grid-row mt-5">
+                <span class="APONSubHeader">
+                    @Model.CastList.castTypes[j].Name
+                </span>
+
+                @{CTCastInfo = Model.CastList.cast.Where(x => x.SeriesCastTypeID == Model.CastList.castTypes[j].SeriesCastTypeID).ToList<SeriesCastInfo>();
+                    <section class="cast-grid APONText mt-5 mb-5">
+
+                        @for (int i = 0; i < CTCastInfo.Count; i++)
+                        {
+                            if (i % 4 == 0)
+                            {
+                                <div class="grid-row">
+                                    @if (CTCastInfo.Count > i)
+                                    {
+                                        <div class="col-1-of-4">
+                                            <partial name="_CastCard" model=@CTCastInfo[i] />
+
+                                        </div>
+                                    }
+                                    @if (CTCastInfo.Count > i + 1)
+                                    {
+                                        <div *ngIf="cast.length > i + 1" class="col-1-of-4">
+                                            <partial name="_CastCard" model=@CTCastInfo[i + 1] />
+
+                                        </div>
+                                    }
+                                    @if (CTCastInfo.Count > i + 2)
+                                    {
+                                        <div *ngIf="cast.length > i + 2" class="col-1-of-4">
+                                            <partial name="_CastCard" model=@CTCastInfo[i + 2] />
+                                        </div>
+                                    }
+                                    @if (CTCastInfo.Count > i + 3)
+                                    {
+                                        <div *ngIf="cast.length > i + 3" class="col-1-of-4">
+                                            <partial name="_CastCard" model=@CTCastInfo[i + 3] />
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        }
+                    </section>
+
+                }
+
+
+
+                <hr />
+            </div>
+        }
+    }
+
 </div>

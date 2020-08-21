@@ -5,33 +5,37 @@
   }
 }
 .authorShield {
-  height: 4rem;
-  border-width: 2px;
-  border-style: solid;
-  border-color: var(--primary-color);
-  background-color: var(--accent-color);
-  border-radius: 10px;
-  width: 16rem;
-  clear: both;
-  &:hover {
-    border: 2px var(--secondary-color) solid;
-    cursor: pointer;
-  }
+    height: 4rem;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #2c8dc2;
+    background-color: var(--secondary-color);
+    border-radius: 10px;
+    color: white;
+    width: 16rem;
+    clear: both;
 
-  &__imageCol {
-    float: left;
-    &--image {
-      width: 4rem;
-      height: 3.7rem;
-      border-radius: 10px 0px 0px 10px;
-      position: relative;
-
-      left: -1px;
-      border-right: solid 1px;
+    &:hover {
+        border: 2px var(--secondary-color) solid;
+        cursor: pointer;
     }
-  }
-  &__rightCol {
-    float: left;
-    width: 12rem;
-  }
+
+    &__imageCol {
+        float: left;
+
+        &--image {
+            width: 4rem;
+            height: 3.7rem;
+            border-radius: 10px 0px 0px 10px;
+            position: relative;
+            left: -1px;
+            border-right: solid 1px;
+        }
+    }
+
+    &__rightCol {
+        float: left;
+        width: 12rem;
+        background-color: #c25e2c;
+    }
 }

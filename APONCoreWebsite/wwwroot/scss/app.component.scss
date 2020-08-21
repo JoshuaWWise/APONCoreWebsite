@@ -46,13 +46,30 @@ h2 {
 }
 //OLDER
 
+
+.BILBO{
+
+    background-color: red;
+    color: white;
+}
 .APONText {
   color: black;
 }
 
+.NewAPONText{
+    color: black;
+    font-size: 1.7rem;
+}
+
+.APONSubHeader{
+    color: black;
+    font-weight: 500;
+    font-size: 2rem;
+}
+
 .APONHeadline {
   stroke: var(--accent-color);
-  font-size: x-large;
+  font-size: 3rem;;
 }
 .mainContainer {
   background-color: var(--main-background-color);

@@ -21,8 +21,7 @@ namespace APONCoreWebsite.Pages.Admin
         public AddFeatureModel(IAuthService authService, IUserInfoService iuis, IMetaTagService imts, ITagService ts, IDataService ds) : base(authService, imts, ds, iuis)
         {
             this.tagService = ts;
-            this.IUIS = iuis;
-            this.DS = ds;
+         
         }
 
         [BindProperty]
@@ -46,6 +45,7 @@ namespace APONCoreWebsite.Pages.Admin
         public bool PageNotFound { get; set; }
         public async Task<IActionResult> OnGetAsync()
         {
+            AttemptedSave = false;
             TCM = new _tagConsoleModel(tagService);
             TCM.Tags = await tagService.GetTags(false);
 

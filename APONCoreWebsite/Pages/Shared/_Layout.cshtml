@@ -4,11 +4,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/styles.min.css" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - All Ports Open</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/styles.css" />
+
     <script async
             src="https://platform.twitter.com/widgets.js"
             charset="utf-8"></script>
@@ -77,7 +78,7 @@
         <main>
             <div class="center-main-box">
                 <div class="outlet">
-                    <main role="main" style="overflow: scroll">
+                    <main role="main" style="overflow: scroll" class="NewAPONText">
 
                         @RenderBody()
                     </main>
@@ -85,14 +86,14 @@
                 </div>
                 <div class="new-bottom-bar">
                     <div class="theme-button-box">
-                        <button class="APONbtn APONbtnBlue">
+                        @*<button class="APONbtn APONbtnBlue">
                             Change Theme
                         </button>
                         <button class="APONbtn APONbtnOrange"
                                 (click)="saveTheme()">
                             <img class="saveIcon"
                                  src="https://media.allportsopen.org/images/siteimages/saveicon.png" />
-                        </button>
+                        </button>*@
                     </div>
                     <div class="name-bar">
                         <span class="site-name-top">The All Ports Open Network</span>

@@ -1,0 +1,20 @@
+﻿@model  APONCoreLibrary.ReturnModels.SeriesCastInfo
+
+
+
+    <div class="rotatorCard APONText">
+        <div class="rotatorCard__side rotatorCard__side--front">
+            <img class="rotatorCard__topImage" src="@Model.ImageURL" />
+
+            <div class="rotatorCard__bottomName">
+                <h2>@Model.FirstName @Model.LastName</h2>
+                <h3>@Model.RoleName</h3>
+            </div>
+        </div>
+        <div class="rotatorCard__side rotatorCard__side--back">
+            <p class="pt-5 m-3">@Html.Raw(Model.Bio)</p>
+           
+
+
+        </div>
+    </div>

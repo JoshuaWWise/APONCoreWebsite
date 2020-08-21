@@ -36,7 +36,7 @@ $(document).ready(function () {
 
 
     var userID = document.getElementById("authVCuserID").value;
-    console.log("authVCuserID: " + userID);
+   
     //if the user is logged out, look for tokens from the browser
     if (userID == -1) {
         var myStorage = window.localStorage;

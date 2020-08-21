@@ -10,19 +10,7 @@
 
 <div class="w-100 block">
     <div class="forum-frame">
-        @*<div  class="row top-banner">
-                <div class="col-md-4">
-                   <img [src]="FAP.forum.imageURL"
-                         class="img img-fluid top-banner-image rounded" />
-                </div>
-                <div class="col-md-8 RightCol">
-                    <div class="row">
-                        <h1>{{ FAP.forum.forumName }}</h1>
-                    </div>
-                    <hr />
-                    <div class="row"></div>
-                </div>
-            </div>*@
+       
 
         <div>
 
@@ -31,7 +19,7 @@
                 <partial name="_Forum__Post" model=fp />
 
             }
-            <div class="row">
+            @*<div class="row">
                 <div class="col-md-12">
                     Add a comment!
                 </div>
@@ -49,14 +37,10 @@
                         Submit
                     </button>
                 </div>
-            </div>
-            <div class="row" *ngIf="saving">
-                Saving comment...
-            </div>
+            </div>*@
+           Comments returning soon!
         </div>
 
-        <ng-template #noforumYet>
-            <div>Loading Forum...</div>
-        </ng-template>
+    
     </div>
 </div>

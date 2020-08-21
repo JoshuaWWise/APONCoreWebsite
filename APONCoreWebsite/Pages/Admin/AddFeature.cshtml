@@ -8,7 +8,8 @@
 @{
     if (Model.UserAuthLevel < 4)
     {
-        Html.HiddenFor(model => model.AttemptedSave, new { id = "FeatureAttemptedSave" });
+        <input id="FeatureAttemptedSave" type="hidden" value="@Model.AttemptedSave" />
+
         Html.HiddenFor(model => model.FeatureSaved, new { id = "FeatureSaved" });
         <div class="row ">
             <div class="col-12 ">
@@ -161,6 +162,7 @@
         }
 
         $(document).ready(function () {
+
                CheckIfEditor(@Model.UserAuthLevel);
 
             if (document.getElementById('FeatureAttemptedSave').value.toString() == 'True' && document.getElementById('FeatureSaved').value.toString() == 'True') {
@@ -179,6 +181,7 @@
             toolbar_sticky: true,
             plugins: 'image link media code'
         }, tinymce.EditorManager);
+
         myTinyMCE.render();
 
         filterTagList();
@@ -195,7 +198,7 @@
     });
 
         function UpdateTweet() {
-            console.log("batman");
+
             var headline = document.getElementById('headline').value;
             var headlineLength = headline.length;
             var addToTweet = document.getElementById('addToTweet').value;

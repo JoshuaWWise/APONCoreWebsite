@@ -44,7 +44,6 @@
   <ItemGroup>
     <Folder Include="Pages\ActionPages\" />
     <Folder Include="Pages\PartialViews\" />
-    <Folder Include="Pages\Series\" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">

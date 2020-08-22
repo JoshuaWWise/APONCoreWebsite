@@ -9,11 +9,13 @@
         width: 100vw;
         box-shadow: 1rem 1rem 1rem rgba(44, 141, 194, 0.5);
         border-bottom: 2px solid var(--primary-color);
-
+        padding-bottom: -1rem;
         &::-webkit-scrollbar {
             display: none;
         }
     }
+
+
 }
 
 @media screen and (min-width: 600px) {
@@ -53,7 +55,7 @@
     white-space: nowrap;
     -webkit-overflow-scrolling: touch; /* [3] */
     -ms-overflow-style: -ms-autohiding-scrollbar;
-
+    margin-bottom: -0px;
     &::-webkit-scrollbar {
         display: none;
     }
@@ -66,7 +68,7 @@
     text-align: center;
     padding: 14px;
     text-decoration: none;
-    max-height: 5vh;
+    
     //@include button-hover-transform(0, -3px);
 }
 

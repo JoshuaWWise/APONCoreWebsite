@@ -8,8 +8,9 @@
     <div class="APONText">
         <span class="pageHeader">Features</span>
 
-        <partial name="_Paging" />
+       
         <div class="grid-row mt-5">
+            <partial name="_Paging" />
             <div class="col-1-of-1">
                 @for (int i = 0; i < 5; i++)
                 {
@@ -17,20 +18,24 @@
                     <div class="row list-item" id='@($"News{i}")'>
                         <div class="col-1-of-4 list-left-col">
                             <a id=@($"News{i}_link") href=@("/Feature/" + Model.News[i].NewsID)>
-                                <img class="list-image img img-fluid" id=@($"News{i}_imgURL") src='@Model.News[i].ImageURL' />
+                                <img class="list-image img img-fluid featureListImage" id=@($"News{i}_imgURL") src='@Model.News[i].ImageURL' />
                             </a>
                         </div>
                         <div class="col-3-of-4">
                             <div class="grid-row">
-                                <div>
-                                    <span id=@($"News{i}_headline")> @Model.News[i].Headline</span>
+                                <div class="featureListTop">
 
 
-                                </div>
-                                @*<div class="col-12">By {{ newsItem.authorName }}</div>*@
-                                <div>
-                                    <span id=@($"News{i}_postDate")> @Model.News[i].PostDate.ToShortDateString()</span>
+                                    <div>
+                                        <span id=@($"News{i}_headline")> @Model.News[i].Headline</span>
 
+
+                                    </div>
+                                    @*<div class="col-12">By {{ newsItem.authorName }}</div>*@
+                                    <div>
+                                        <span id=@($"News{i}_postDate")> @Model.News[i].PostDate.ToShortDateString()</span>
+
+                                    </div>
                                 </div>
                                 <hr />
                                 <div>

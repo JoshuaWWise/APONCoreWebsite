@@ -77,7 +77,8 @@
     }
     &--back {
       vertical-align: middle;
-      background-color: var(--secondary-color);
+      background-color: var(--primary-color);
+      color: white;
       transform: rotateY(180deg);
       font-size: 1.6rem;
       line-height: 1.6rem;

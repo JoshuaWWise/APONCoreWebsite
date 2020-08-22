@@ -110,13 +110,16 @@
             @Html.HiddenFor(model => model.SPD.Episodes[i].EpisodeID, new { id = "Episode[" + i + "].EpisodeID" });
             @Html.HiddenFor(model => model.SPD.Episodes[i].Title, new { id = "Episode[" + i + "].Title" });
             @Html.HiddenFor(model => model.SPD.Episodes[i].EpImageURL, new { id = "Episode[" + i + "].EpImageURL" });
-            @Html.HiddenFor(model => model.SPD.Episodes[i].ShowDate, new { id = "Episode[" + i + "].ShowDate" });
-            @Html.HiddenFor(model => model.SPD.Episodes[i].WebDescription, new { id = "Episode[" + i + "].WebDescription" });
+            @*@Html.HiddenFor(model => model.SPD.Episodes[i].ShowDate, new { id = "Episode[" + i + "].ShowDate" });*@
+            <input type="hidden" id='@("Episode[" + i + "].ShowDate")' value="@Model.SPD.Episodes[i].ShowDate.ToShortDateString()" />
+            @Html.HiddenFor(model => model.SPD.Episodes[i].Description, new { id = "Episode[" + i + "].WebDescription" });
 
 
         }
+    
+            <partial name="_Paging" />
+     
 
-        <partial name="_Paging" />
 
         @{
             int start = 0;

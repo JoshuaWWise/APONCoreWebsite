@@ -29,7 +29,7 @@ class SmallEpisode {
 
 
 function autoLoginComplete() {
-    alert("Done");
+   
 }
 
 $(document).ready(function () {
@@ -73,6 +73,23 @@ $(document).ready(function () {
 
 });
 
+
+function logoutFromSession() {
+   //This function is used when a page returns an indication that the token has expired. 
+    window.localStorage.removeItem("userJWT");
+    $.ajax({
+        type: "POST",
+        url: '../../Login?handler=logout',
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+        },
+        contentType: "application/json; charset=utf-8",
+        data: null
+    });
+    logoutRefresh();
+    window.location.href = "/Login";
+}
+
 function logoutRefresh() {
     var lii = document.getElementById("loginImage");
     lii.src = "http://media.allportsopen.org/images/siteImages/login.png";
@@ -103,13 +120,7 @@ function SwitchForumPostToEdit(fpID) {
     }, tinymce.EditorManager);
     myTinyMCE.render();
 
-    //tinymce.init({
-    //    selector: textAreaName, width: 700, height: 200,
-    //    menubar: false,
-    //    toolbar: 'undo redo | bold italic underline strikethrough |  image media  link   | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print  | ltr rtl',
-    //    toolbar_sticky: true,
-    //    plugins: 'image link media' 
-    //});
+
 
 }
 

@@ -173,6 +173,13 @@ namespace APONCoreWebsite.Pages
             return Page();
         }
 
+        public void OnPostLogout()
+        {
+            string s =  myAuthService.Logout();
+
+          
+        }
+
         
     }
 }

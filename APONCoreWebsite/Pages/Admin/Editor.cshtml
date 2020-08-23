@@ -83,6 +83,16 @@
 {
 
     <script type="text/javascript">
+        $(document).ready(function () {
+
+            let seriesCount = @Model.SeriesForUser.Count;
+
+            if (seriesCount == 0) {
+                alert("If you're seeing this and your a series editor, your session has expired, please log back in.");
+                logoutFromSession();
+            }
+
+        });
         function GoToAddEpisode() {
             let SeriesID = document.getElementById("SeriesList").value;
 

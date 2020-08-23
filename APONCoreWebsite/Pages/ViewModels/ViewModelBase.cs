@@ -24,7 +24,9 @@ namespace APONCoreWebsite.Pages.ViewModels
 
         public int UserAuthLevel { get; set; }
 
-  
+        public UserReturnToken LoggedInUser { get; set; }
+
+  string PageMessage { get; set; }
 
         public ViewModelBase(IAuthService authService, IMetaTagService imts, IDataService ds)
         {
@@ -35,6 +37,11 @@ namespace APONCoreWebsite.Pages.ViewModels
             DS = ds;
             UserAuthLevel = authService.getUserAuthLevel();
          
+        }
+
+        public void Init()
+        {
+            this.LoggedInUser = myAuthService.getUser();
         }
 
         public IActionResult OnPost()

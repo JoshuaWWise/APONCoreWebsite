@@ -1,0 +1,114 @@
+﻿@page  "/Admin/TwitterAdmin"
+@model APONCoreWebsite.Pages.Admin.TwitterAdminModel
+@{
+    ViewData["Title"] = "TwitterAdmin";
+}
+
+<h1>TwitterAdmin</h1>
+
+<div class="row">
+    <div class="col-md-6 col-sm-6 sticky-top">
+        <form id="UpdateTweetForm" action="/" method="post">
+            <div>
+                <label for="TweetID">Tweet ID</label>
+                <input type="text" id="TweetID" name="TweetID" />
+            </div>
+            <div>
+                <label for="TweetDate">Tweet Date</label>
+                <input type="datetime-local" id="TweetDate" name="TweetDate" />
+            </div>
+            <div>
+                <label for="TweetText">Tweet Text</label>
+                <input type="text" id="TweetText" name="TweetText" />
+            </div>
+            <div>
+                <label for="MediaURL">MediaURL</label>
+                <input type="text" id="MediaURL" name="MediaURL" />
+            </div>
+            <div>
+                <label for="sent">Sent</label>
+                <input type="checkbox" id="sent" name="sent" value="true" checked />
+            </div>
+
+
+
+
+
+
+        </form>
+    </div>
+    <div class="col-md-4 col-sm-4" style="overflow-y: scroll">
+        @{
+            for (int i = 0; i < Model.Tweets.Count; i++)
+            {
+                <div class="grid-row" id='@("Tweet[" + i + "]")' onclick="SelectTweet(this)">
+                    <div class="col-1-of-3">
+                        <image class="img-fluid" src="@Model.Tweets[i].MediaURL"></image>
+                    </div>
+
+                    <div class="col-2-of-3">
+
+                        @Model.Tweets[i].TweetDate.ToShortDateString()
+                        <hr />
+                        @Html.Raw(Model.Tweets[i].Text);
+                    </div>
+                    <hr />
+                    <div>
+                        @{
+                            if (Model.Tweets[i].Sent == true)
+                            {
+                                <p>Sent</p>
+                            }
+                            else
+                            {
+                                <p>Not Sent</p>
+                            }
+                        }
+                    </div>
+                    <input type="hidden" id='@("Tweet[" + i + "].TweetID")' value="@Model.Tweets[i].TweetID" />
+                    <input type="hidden" id='@("Tweet[" + i + "].TweetDate")' value="@Model.Tweets[i].TweetDate.ToString("yyyy-MM-ddThh:mm:ss.ff")" />
+                    <input type="hidden" id='@("Tweet[" + i + "].Text")' value="@Model.Tweets[i].Text" />
+                    <input type="hidden" id='@("Tweet[" + i + "].MediaURL")' value="@Model.Tweets[i].MediaURL" />
+
+                    @{ if (Model.Tweets[i].Sent == true)
+                        {
+                            <input type="hidden" id='@("Tweet[" + i + "].Sent")' value='1' />
+                        }
+                        else
+                        {
+                            <input type="hidden" id='@("Tweet[" + i + "].Sent")' value='0' />
+                        }
+
+                    }
+                </div>
+
+<hr />
+            }
+        }
+    </div>
+
+</div>
+
+
+@section Scripts{ 
+<script type="text/javascript">
+
+    function SelectTweet(sender) {
+        console.log(sender);
+        let id = sender.id + ".";
+        document.getElementById("TweetID").value = document.getElementById(id + "TweetID").value;
+        document.getElementById("TweetDate").value = document.getElementById(id + "TweetDate").value;
+        document.getElementById("TweetText").value = document.getElementById(id + "Text").value;
+        document.getElementById("MediaURL").value = document.getElementById(id + "MediaURL").value;
+        let sent = document.getElementById(id + "Sent").value;
+        console.log(sent);
+        if (sent == 1) {
+            $("#sent").prop('checked', true);
+        }
+        else {
+            $("#sent").prop('checked', false);
+        }
+
+    }
+</script>
+}

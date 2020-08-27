@@ -6,9 +6,10 @@
 <head>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/styles.min.css" />
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.6.2/plyr.css" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - All Ports Open</title>
+   
 
     <script async
             src="https://platform.twitter.com/widgets.js"
@@ -75,43 +76,44 @@
                 </div>
             </div>
         </header>
-        <main>
-            <div class="center-main-box">
+
+        <div>
+            <main class="center-main-box NewAPONText">
+
                 <div class="outlet">
-                    <main role="main" style="overflow: scroll" class="NewAPONText">
 
-                        @RenderBody()
-                    </main>
+
+                    @RenderBody()
+
 
                 </div>
-                <div class="new-bottom-bar">
-                    <div class="theme-button-box">
-                        @*<button class="APONbtn APONbtnBlue">
-                            Change Theme
-                        </button>
-                        <button class="APONbtn APONbtnOrange"
-                                (click)="saveTheme()">
-                            <img class="saveIcon"
-                                 src="https://media.allportsopen.org/images/siteimages/saveicon.png" />
-                        </button>*@
-                    </div>
-                    <div class="name-bar">
-                        <span class="site-name-top">The All Ports Open Network</span>
-                        <span class="site-name-bottom">Take Play Seriously</span>
+                <div class="site-bottom">
 
+                    <div class="grid-row">
+                        <div class="col-1-of-4 left-footer-column">
+                            This site uses tokens to store information, no sensitive information is stored in these tokens.
+                        </div>
+                        <div class="col-2-of-4 center-footer-column">
+                            <span class="site-name-top">The All Ports Open Network</span>
+                            <span class="site-name-bottom">Take Play Seriously</span>
+                        </div>
+                        <div class="col-1-of-4 right-footer-column">
+                            <p> &copy; 2020 The All Ports Open Network</p>
+                            <p>site version 3.1.8-27-20.2</p>
+                        </div>
                     </div>
-                    <div class="copyright">
-                        &copy; 2020 The All Ports Open Network
 
-                    </div>
                 </div>
-            </div>
-            <input type="hidden" id="copyToClipText" />
+            </main>
+        </div>
 
-            <div *ngIf="showRightAd" class="right-general-box">
-                <app-advertisement [Location]="1"></app-advertisement>
-            </div>
-        </main>
+
+        <input type="hidden" id="copyToClipText" />
+
+        <div *ngIf="showRightAd" class="right-general-box">
+            <app-advertisement [Location]="1"></app-advertisement>
+        </div>
+
         @*<div *ngIf="showTopAd" class="ad-bar">
                 <app-ad-horizontal [Delay]="0" [Location]="2"></app-ad-horizontal>
             </div>*@
@@ -133,7 +135,11 @@
     <script src="~/ts/AudioProcessing.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.unobtrusive-ajax/3.2.5/jquery.unobtrusive-ajax.js"></script>
     <script src="https://cdn.tiny.cloud/1/ujgllac16mc23ozg3ajgb2k8aylj36wgpjbmx5bgeycpnofe/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-
+    <script src="https://cdn.plyr.io/3.6.2/plyr.polyfilled.js"></script>
+    <script src="path/to/plyr.js"></script>
+    <script>
+        const player = new Plyr('#player');
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

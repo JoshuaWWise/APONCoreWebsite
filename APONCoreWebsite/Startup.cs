@@ -35,9 +35,9 @@ namespace APONCoreWebsite
             string baseAddress = Configuration.GetValue<string>("BaseUrl");
             services.AddScoped(sp => sp.GetRequiredService<IHttpContextAccessor>().HttpContext);
             services.AddSingleton(new HttpClient { BaseAddress = new Uri(baseAddress) });
-         
+            services.AddSingleton<ISeriesService, seriesService>();
             services.AddScoped<IDataService, DataService>();
-     
+
             services.AddScoped<IMetaTagService, MetaTagService>();
             services.AddScoped<ITagService, TagService>();
             services.AddScoped<IAuthService, AuthService>();

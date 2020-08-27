@@ -41,33 +41,35 @@
                     <div class="col-1-of-4">
                         <a href=@Model.SPD.Series.ITunes target="_blank">
                             <img class="seriesContainer__links--socialMedia"
-                                 src="https://media.allportsopen.org/images/siteimages/iTunes.png" />
+                                 src="https://media.allportsopen.org/images/siteimages/US_UK_Apple_Podcasts_Listen_Badge_RGB.svg" />
                         </a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div *ngIf="isEditor()" class="editorControl">
-            <div>
-                <div class="editorControl__head">
-                    Editor Tools
-                </div>
-
-                <div class="grid-row editorControl__body APONText">
-                    <div class="col-1-of-3">
-                        <button type="button"
-                                onclick="editSeries(@Model.SPD.Series.SeriesID)"
-                                class="APONbtn APONbtnEditor">
-                            Edit
-                        </button>
+        @if (Model.UserAuthLevel < 4)
+        {
+            <div class="editorControl">
+                <div>
+                    <div class="editorControl__head">
+                        Editor Tools
                     </div>
-                    <div class="col-1-of-3"></div>
-                    <div class="col-1-of-3"></div>
+
+                    <div class="grid-row editorControl__body APONText">
+                        <div class="col-1-of-3">
+                            <button type="button"
+                                    onclick="editSeries(@Model.SPD.Series.SeriesID)"
+                                    class="APONbtn APONbtnEditor">
+                                Edit
+                            </button>
+                        </div>
+                        <div class="col-1-of-3"></div>
+                        <div class="col-1-of-3"></div>
+                    </div>
                 </div>
             </div>
-        </div>
-
+        }
         <hr />
 
         @for (int i = 0; i < Model.SPD.SeriesLinks.Count; i++)
@@ -116,9 +118,9 @@
 
 
         }
-    
-            <partial name="_Paging" />
-     
+
+        <partial name="_Paging" />
+
 
 
         @{
@@ -163,14 +165,18 @@
 
 
     </div>
+    <input id="twitterFeedURL" type="hidden" value="@Model.SPD.Series.TwitterFeedURL" />
+    @if (Model.SPD.Series.TwitterFeedURL != "...")
+    {
     <div id="twitterSection" class="col-1-of-4">
         <button onclick="switchTwitter()" class="APONbtn APONbtnBlue mt-2">
             Hide Feed
         </button>
-        <a class="twitter-timeline" href=@Model.SPD.Series.TwitterFeedURL>
+        <a class="twitter-timeline" href="@Model.SPD.Series.TwitterFeedURL">
             Twitter Feed
         </a>
     </div>
+    }
 </div>
 
 @section Scripts{
@@ -336,25 +342,36 @@
 
         function switchTwitter() {
 
-            IsTwitterHidden = !IsTwitterHidden;
+            let twiturl = document.getElementById("twitterFeedURL").value;
 
-            var mainSection = document.getElementById("mainSection");
-            var twitterSection = document.getElementById("twitterSection");
+            if (twiturl != '...') {
 
-            //Twitter is hidden
-            if (IsTwitterHidden) {
-                document.getElementById("showTwitterLink").style.visibility = "visible";
-                mainSection.classList.remove("col-3-of-4");
-                mainSection.classList.add("col-1-of-1");
-                twitterSection.style.display = "none";
+                IsTwitterHidden = !IsTwitterHidden;
 
+                var mainSection = document.getElementById("mainSection");
+                var twitterSection = document.getElementById("twitterSection");
+
+                //Twitter is hidden
+                if (IsTwitterHidden) {
+                    document.getElementById("showTwitterLink").style.visibility = "visible";
+                    mainSection.classList.remove("col-3-of-4");
+                    mainSection.classList.add("col-1-of-1");
+                    twitterSection.style.display = "none";
+
+                }
+                else {
+                    document.getElementById("showTwitterLink").style.visibility = "hidden";
+                    mainSection.classList.remove("col-1-of-1");
+                    mainSection.classList.add("col-3-of-4");
+                    twitterSection.style.display = "block";
+
+                }
             }
             else {
+                var mainSection = document.getElementById("mainSection");
+                mainSection.classList.remove("col-3-of-4");
+                mainSection.classList.add("col-1-of-1");
                 document.getElementById("showTwitterLink").style.visibility = "hidden";
-                mainSection.classList.remove("col-1-of-1");
-                mainSection.classList.add("col-3-of-4");
-                twitterSection.style.display = "block";
-
             }
         }
 

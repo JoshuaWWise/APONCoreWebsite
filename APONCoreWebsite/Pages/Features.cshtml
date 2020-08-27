@@ -15,7 +15,7 @@
                 @for (int i = 0; i < 5; i++)
                 {
 
-                    <div class="row list-item" id='@($"News{i}")'>
+                    <div class="grid-row list-item" id='@($"News{i}")'>
                         <div class="col-1-of-4 list-left-col">
                             <a id=@($"News{i}_link") href=@("/Feature/" + Model.News[i].NewsID)>
                                 <img class="list-image img img-fluid featureListImage" id=@($"News{i}_imgURL") src='@Model.News[i].ImageURL' />

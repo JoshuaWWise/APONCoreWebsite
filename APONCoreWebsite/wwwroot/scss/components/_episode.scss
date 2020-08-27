@@ -2,88 +2,98 @@
 @import "../abstracts/mixins";
 
 @media screen and (max-width: 767px) {
-  .episodeSection {
-    width: 100%;
-  }
-
-  .top-banner-image {
-    width: 93vw;
-    border-radius: 5px 5px 0px 0px;
-  }
-
-  .episodeInfoColumn {
-    &__title {
-      font-size: 1.5rem;
-
-      line-height: 1.5rem;
-      font-weight: 600;
-
-      margin-right: 2rem;
+    .episodeSection {
+        width: 100%;
     }
-    &__description {
-      @include dont-break-out;
-      margin-right: 1rem;
+
+    .top-banner-image {
+        width: 93vw;
+        border-radius: 5px 5px 0px 0px;
     }
-  }
+
+    .episodeInfoColumn {
+        &__title {
+            font-size: 1.5rem;
+            line-height: 1.5rem;
+            font-weight: 600;
+            margin-right: 2rem;
+        }
+
+        &__description {
+            @include dont-break-out;
+            margin-right: 1rem;
+        }
+    }
 }
+
 @media screen and (min-width: 768px) {
-  .top-banner-image {
-    max-width: 100%;
-    border-radius: 5px 0px 5px 0px;
-  }
-
-  .episodeInfoColumn {
-    &__title {
-      font-size: 2rem;
-
-      line-height: 2rem;
-      font-weight: 700;
-
-      margin-right: 1rem;
+    .top-banner-image {
+        max-width: 100%;
+        border-radius: 5px 0px 5px 0px;
     }
-    &__description {
-      margin-right: 2rem;
+
+    .episodeInfoColumn {
+        &__title {
+            font-size: 2rem;
+            line-height: 2rem;
+            font-weight: 700;
+            margin-right: 1rem;
+        }
+
+        &__description {
+            margin-right: 2rem;
+        }
     }
-  }
 }
 
 .episodeInfoColumn {
-  &__title {
-    color: white;
-    margin-left: 1rem;
-    text-align: justify;
-    margin-bottom: 1rem;
-  }
-
-  &__description {
-    font-size: $default-font-size;
-    color: white;
-    line-height: $default-font-size;
-    text-decoration: none;
-    text-align: justify;
-    text-align-last: left;
-    margin-left: 1rem;
-
-    //ng-deep is used for innerHTML formatting
-    ::ng-deep p {
-      a,
-      a:active,
-      a:hover,
-      a:visited {
-        color: var(--secondary-color);
-      }
+    &__title {
+        color: white;
+        margin-left: 1rem;
+        text-align: justify;
+        margin-bottom: 1rem;
     }
-  }
+
+    &__description {
+        font-size: $default-font-size;
+        color: white;
+        line-height: $default-font-size;
+        text-decoration: none;
+        text-align: justify;
+        text-align-last: left;
+        margin-left: 1rem;
+        a{
+            text-decoration: none;
+            color: orange;
+        }
+       
+       
+    }
 }
 
 .EpisodeMidColumn {
-  padding-left: 5rem;
-  padding-right: 5rem;
+    padding-left: 5rem;
+    padding-right: 5rem;
 }
 
 .episodeDescription {
-  text-align: justify;
-  text-align-last: left;
-  margin: 0 20%;
-  width: 60vw;
+    text-align: justify;
+    text-align-last: left;
+    margin: 0 20%;
+    width: 60vw;
+}
+
+.EpisodeSeriesImage {
+    border-radius: 3px;
+    &:hover {
+        box-shadow: 1rem 1rem 1rem rgba(44, 141, 194, 0.5);
+        transform: translateY(-5px);
+    }
+    &:active {
+        transform: translateY(5px);
+    }
+}
+
+.player {
+ 
 }

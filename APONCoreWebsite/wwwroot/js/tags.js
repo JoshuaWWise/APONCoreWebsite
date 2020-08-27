@@ -138,11 +138,12 @@ function addNewTag() {
 
 
     var value = document.getElementById("txtTagFilter").value;
+    let url = window.location.protocol + "//" + window.location.host + "/Admin/TagHandler?handler=tag";
   
     $.ajax({
         type: "POST",
     
-        url: '../Admin/TagHandler/?handler=tag',
+        url: url,
         data: { newTagName:value},
       
         beforeSend: function (xhr) {

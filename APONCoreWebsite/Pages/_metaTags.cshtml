@@ -3,14 +3,17 @@
 
 @if (Model.IMTS.getMetaData().description != "")
 {
-<meta property="og:url" content="@Model.IMTS.getMetaData().URL" />
-<meta property="og:type" content="@Model.IMTS.getMetaData().type" />
-<meta property="og:title" content="@Model.IMTS.getMetaData().title" />
-<meta property="og:description" content="@Model.IMTS.getMetaData().description" />
-<meta property="og:image" content="@Model.IMTS.getMetaData().image" />
-<meta name="twitter:card" content="summary" />
-<meta name="twitter:site" content="&#64;allportsopen" />
-<meta name="twitter:title" content="@Model.IMTS.getMetaData().title" />
-<meta name="twitter:description" content="@Model.IMTS.getMetaData().description" />
-<meta name="twitter:image" content="@Model.IMTS.getMetaData().image" />
+    <title>@Model.IMTS.getMetaData().title</title>
+    <meta name="description" content="@Model.IMTS.getMetaData().description" />
+    <meta property="fb:app_id" content="301958664210545" />
+    <meta property="og:url" content="@Model.IMTS.getMetaData().URL" />
+    <meta property="og:type" content="@Model.IMTS.getMetaData().type" />
+    <meta property="og:title" content="@Model.IMTS.getMetaData().title" />
+    <meta property="og:description" content="@Model.IMTS.getMetaData().description" />
+    <meta property="og:image" content="@Model.IMTS.getMetaData().image" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="&#64;allportsopen" />
+    <meta name="twitter:title" content="@Model.IMTS.getMetaData().title" />
+    <meta name="twitter:description" content="@Model.IMTS.getMetaData().description" />
+    <meta name="twitter:image" content="@Model.IMTS.getMetaData().image" />
 }

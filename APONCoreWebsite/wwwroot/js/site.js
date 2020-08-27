@@ -175,8 +175,7 @@ function submitImage(evt, formdata, targetFolder, InputUpdateField, ImageUpdateF
         success: function (resp) {
 
             if (resp == "") {
-                console.log(InputUpdateField);
-                console.log(ImageUpdateField);
+              
                 document.getElementById(InputUpdateField).innerHTML = imageURL;
                 document.getElementById(InputUpdateField).value = imageURL;
                 document.getElementById(ImageUpdateField).src = imageURL;
@@ -188,6 +187,33 @@ function submitImage(evt, formdata, targetFolder, InputUpdateField, ImageUpdateF
         }
     });
 
+   
+}
+
+function SubmitEpisodeForm() {
+    let FD = new FormData();
+    FD = document.getElementById("mainForm");
+
+    FD.append('seriesID', document.getElementById("epSeriesID").value);
+
+    FD.append("File", document.getElementById("episodeUploadInput").files[0])
+    let url = window.location.protocol + "//" + window.location.host + "/Handlers/SaveHandler?handler=NewEpisode";
+    let sendFD = $(FD).serialize();
+    $.ajax({
+        type: "POST",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+        },
+        url: url,
+        data: sendFD,
+        contentType: false,
+        processData: false,
+
+        success: function (resp) {
+
+            alert(resp);
+        }
+    });
 
 }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web.Helpers;
 using APONCoreLibrary.Models;
 using APONCoreWebsite.Pages.Shared;
 using APONCoreWebsite.Pages.ViewModels;
@@ -37,6 +38,8 @@ namespace APONCoreWebsite.Pages
 
         public EpisodeWithTags Episode { get; set; }
 
+        public int SavedEpisodeID { get; set; }
+
         public bool Affiliate { get; set; }
 
         public bool PageNotFound { get; set; }
@@ -48,9 +51,9 @@ namespace APONCoreWebsite.Pages
         public AddEpisodeModel(IAuthService authService,  IMetaTagService imts, ITagService ts, IDataService ds) : base(authService, imts, ds)
         {
             this.tagService = ts;
-          
-          
-            Episode = new EpisodeWithTags();
+            SavedEpisodeID = -1;
+
+              Episode = new EpisodeWithTags();
             Episode.episode = new Episode();
         }
 
@@ -108,24 +111,44 @@ namespace APONCoreWebsite.Pages
         
         public async Task<IActionResult> OnPostEpisodeAsync()
         {
-            string s = UploadFile.Name;
-            AttemptedSave = true;
-            EpisodeSaved = "False";
-            HttpResponseMessage UploadResponse = await DS.PostImageAsync(UploadFile, "Episodes/ULE/" + SeriesID);
-            if (UploadResponse.StatusCode != System.Net.HttpStatusCode.OK)
+            bool epIsAffiliate = false;
+            if (!string.IsNullOrEmpty(Request.Form["affiliateChckbx"]) && Request.Form["affiliateChckbx"] == "on")
             {
-                ResponseMessage = "Error Uploading file: " + UploadResponse.StatusCode.ToString();
-                AttemptedSave = true;
-                return Page();
+                epIsAffiliate = true;
             }
-
+            
+            if (!epIsAffiliate)
+            {
+                string s = UploadFile.Name;
+                AttemptedSave = true;
+                EpisodeSaved = "False";
+                HttpResponseMessage UploadResponse = await DS.PostImageAsync(UploadFile, "Episodes/ULE/" + SeriesID);
+                if (UploadResponse.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    ResponseMessage = "Error Uploading file: " + UploadResponse.StatusCode.ToString();
+                    AttemptedSave = true;
+                    return Page();
+                }
+            }
             Episode = new EpisodeWithTags();
           
             List<Tag> Tags = new List<Tag>();
 
             Episode E = new Episode();
 
-            E.FileURL = UploadFile.FileName;
+            if (epIsAffiliate)
+            {
+                E.Local = false;
+                E.FileURL = Request.Form["affiliateFileURL"];
+                E.NonLocalType = 1;
+            }
+            else
+            {
+                E.FileURL = UploadFile.FileName;
+                E.Local = true;
+                E.NonLocalType = 3;
+            }
+     
             E.Description = Request.Form["shortDescription"];
             E.EpImageURL = Request.Form["imgURLtextbox"];
             E.Keywords = Request.Form["keywords"];
@@ -138,6 +161,9 @@ namespace APONCoreWebsite.Pages
             E.Title = Request.Form["episodeTitle"];
             E.TrackNumber = int.Parse(Request.Form["trackNumber"]);
             E.WebDescription = Request.Form["tinymcetextarea"];
+
+           
+          
 
             string TagList = Request.Form["selectedTagIDs"];
             if (TagList.Length > 0)
@@ -170,7 +196,12 @@ namespace APONCoreWebsite.Pages
             {
                 ResponseMessage = "There was a problem uploading the episode.";
             }
+            else
+            {
+                string newEpID = await DS.GetAsync("Episodes/GetLatestEpisodeID");
+                SavedEpisodeID = Newtonsoft.Json.JsonConvert.DeserializeObject<int>(newEpID);
 
+            }
             //Populate to restore page
 
             string Response = await DS.GetAsync("Series/" + SeriesID);
@@ -184,5 +215,7 @@ namespace APONCoreWebsite.Pages
         
             return Page();
         }
+
+     
     }
 }

@@ -34,12 +34,15 @@ namespace APONCoreWebsite.Pages.Series
 
         public string FileURL { get; set; }
 
+        public ISeriesService SS { get; set; }
      
+        [BindProperty]
+        public APONCoreLibrary.Models.Series epSeries { get; set; }
 
         public Shared._ForumViewModel fvm { get; set; }
-        public EpisodeModel( IDataService ds, IAuthService authService,  IMetaTagService imts) : base(authService, imts, ds)
+        public EpisodeModel( IDataService ds, IAuthService authService,  IMetaTagService imts, ISeriesService ss) : base(authService, imts, ds)
         {
-          
+            SS = ss;
          
         }
 
@@ -88,6 +91,7 @@ namespace APONCoreWebsite.Pages.Series
             md.type = "article";
             md.URL = "https://www.allportsopen.com/series/Episode/" + Episode.EpisodeID;
 
+            epSeries = await SS.GetSeriesByID(Episode.SeriesID);
             return Page();
         }
     }

@@ -19,18 +19,20 @@ namespace APONCoreWebsite.Pages
 
         public List<APONCoreLibrary.Models.Series> Series { get; set; }
 
+        public ISeriesService SeriesService { get; set; }
 
-        public PodcastModel(HttpClient client, IAuthService authService, IMetaTagService imts, IDataService ds) : base(authService, imts, ds)
+        public PodcastModel(HttpClient client, IAuthService authService, IMetaTagService imts, IDataService ds, ISeriesService serser) : base(authService, imts, ds)
         {
             _client = client;
+            SeriesService = serser;
         }
 
         public async Task<IActionResult> OnGetAsync()
         {
 
-            var result = await _client.GetStringAsync("https://api.allportsopen.org/api/Series");
-            Series = Newtonsoft.Json.JsonConvert.DeserializeObject<List<APONCoreLibrary.Models.Series>>(result);
-
+            //var result = await _client.GetStringAsync("https://api.allportsopen.org/api/Series");
+            //Series = Newtonsoft.Json.JsonConvert.DeserializeObject<List<APONCoreLibrary.Models.Series>>(result);
+            Series = await SeriesService.GetSeriesList(false);
             IMTS.setParams("https://www.allportsopen.com/Podcasts", "article", "Our Podcasts", "The All Ports Open Network Podcasts", "https://media.allportsopen.org/Images/LogoSmWText.png");
 
             return Page();

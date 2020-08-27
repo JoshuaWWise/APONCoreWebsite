@@ -11,65 +11,73 @@
             <img class="top-banner-image"
                  src=@Model.Episode.EpImageURL
                  id="ShowImage" />
-            <div class="player">
-                <audio controls>
-                    <source id="audioSource" src=@Model.FileURL />
-                </audio>
-            </div>
+         
             <partial name="_TagList" model=@Model.Tags />
         </div>
         <div class="col-1-of-2 episodeInfoColumn">
-            <div (click)="onClickName()" class="row">
-                <h1>@Model.SeriesName</h1>
-            </div>
-            <div class="episodeInfoColumn__title">
-                @Model.Episode.Title
-            </div>
-            <div class="row">
-                <h4 *ngIf="Episode">@Model.Episode.ShowDate.ToShortDateString()</h4>
-            </div>
+            <div class="grid-row">
+                <div class="col-3-of-4">
+                    <div class="episodeInfoColumn__title">
+                        @Model.Episode.Title
+                    </div>
+                    <div class="grid-row">
+                        <h4>@Model.Episode.ShowDate.ToShortDateString()</h4>
+                    </div>
+                    <div >
+                        <audio id="player" class="player"  controls>
+                            <source id="audioSource" src=@Model.FileURL />
+                        </audio>
+                    </div>
+                    @if (Model.UserAuthLevel < 4)
+                    {
 
-            @if (Model.UserAuthLevel < 4)
-            {
-                
-                <div class="editorControl">
-                    <div>
-                        <div class="editorControl__head">
-                            Editor Tools
+                        <div class="editorControl">
+                            <div>
+                                <div class="editorControl__head">
+                                    Editor Tools
+                                </div>
+
+                                <div class="grid-row editorControl__body">
+                                    <button type="button"
+                                            class="APONbtn APONbtnEditor editorControl__body--btn" onclick="GoToEpEdit()">
+                                        Edit
+                                    </button>
+
+                                    <button type="Button"
+                                            class="APONbtn APONbtnEditor editorControl__body--btn">
+                                        Add to Subseries
+                                    </button>
+
+                                    <button type="button"
+                                            onclick="DeleteEp()"
+                                            class="APONbtn APONbtnEditor editorControl__body--btn">
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
                         </div>
+                    }
+                    <div class="grid-row">
+                        <div class="col-1-of-2">
+                            <partial name="_AuthorShield" model=@Model.Author.User />
+                        </div>
+                    </div>
+                    <div class="grid-row mt-3">
+                        <div class="episodeInfoColumn__description"
+                             id="episodeDescription">
+                            @Html.Raw(Model.Episode.WebDescription)
 
-                        <div class="grid-row editorControl__body">
-                            <button type="button"
-                                    class="APONbtn APONbtnEditor editorControl__body--btn" onclick="GoToEpEdit()">
-                                Edit
-                            </button>
-
-                            <button type="Button"
-                                    class="APONbtn APONbtnEditor editorControl__body--btn">
-                                Add to Subseries
-                            </button>
-
-                            <button type="button"
-                                    onclick="DeleteEp()"
-                                    class="APONbtn APONbtnEditor editorControl__body--btn">
-                                Delete
-                            </button>
                         </div>
                     </div>
                 </div>
-            }
-            <div class="grid-row">
-                <div class="col-1-of-2">
-                    <partial name="_AuthorShield" model=@Model.Author.User />
+                <div class="col-1-of-4" style="text-align:right">
+                    <a href='@("../../" + Model.epSeries.NavLinkName )'>
+                        <img class="img-fluid img EpisodeSeriesImage" style="float:right" src="@Model.epSeries.ImageURL" />
+                    </a>
                 </div>
             </div>
-            <div class="grid-row mt-3">
-                <div class="episodeInfoColumn__description"
-                     id="episodeDescription">
-                    @Html.Raw(Model.Episode.WebDescription)
-
-                </div>
-            </div>
+            
+           
 
         </div>
     </div>

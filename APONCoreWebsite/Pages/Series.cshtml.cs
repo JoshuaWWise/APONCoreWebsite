@@ -14,10 +14,9 @@ namespace APONCoreWebsite.Pages
     [BindProperties]
     public class SeriesModel : ViewModelBase
     {
-       
+      
         public SeriesModel(IAuthService authService, IDataService ds, IMetaTagService imts) : base(authService, imts, ds)
         {
-        
 
         }
 
@@ -54,6 +53,10 @@ namespace APONCoreWebsite.Pages
             string result = await DS.GetAsync("Series/GetSeriesPageByName/" + SeriesName);
 
             SPD = Newtonsoft.Json.JsonConvert.DeserializeObject<SeriesPageData>(result);
+            if (string.IsNullOrEmpty(SPD.Series.TwitterFeedURL))
+            {
+                SPD.Series.TwitterFeedURL = "...";
+            }
 
             EpCount = SPD.Episodes.Count;
 

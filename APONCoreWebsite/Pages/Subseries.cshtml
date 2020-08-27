@@ -1,8 +1,237 @@
-﻿@page
+﻿@page "/Subseries/{SubseriesID}"
 @model APONCoreWebsite.Pages.SubseriesModel
 @{
     ViewData["Title"] = "Subseries";
 }
 
-<h1>Subseries</h1>
+<div class="row mt-1">
+    <div class="col-xs-12 col-md-12">
+        <div class="grid-row top-banner">
+            <div class="col-1-of-3">
+                <img src="@Model.SubSeries.Subseries.ImageURL" class="img img-fluid top-banner-image rounded" />
+            </div>
+            <div class="col-2-of-3 RightCol">
+                <div class="grid-row">
+                    <h1>@Model.SubSeries.Subseries.Title</h1>
+                </div>
+                <hr />
+                <div class="grid-row" > @Html.Raw(Model.SubSeries.Subseries.Description)</div>
+            </div>
+        </div>
+
+        <div>
+            <hr />
+            @Html.HiddenFor(model => Model.EpCount, new { id = "epCount" });
+            <input type="hidden" id="pageNum" value="0" />
+            <input type="hidden" id="pageCount" value="1" />
+            @for (int i = 0; i < Model.SubSeries.Episodes.Count; i++)
+            {
+                @Html.HiddenFor(model => model.SubSeries.Episodes[i].EpisodeID, new { id = "Episode[" + i + "].EpisodeID" });
+                @Html.HiddenFor(model => model.SubSeries.Episodes[i].Title, new { id = "Episode[" + i + "].Title" });
+                @Html.HiddenFor(model => model.SubSeries.Episodes[i].EpImageURL, new { id = "Episode[" + i + "].EpImageURL" });
+                @*@Html.HiddenFor(model => model.SPI.Episodes[i].ShowDate, new { id = "Episode[" + i + "].ShowDate" });*@
+                <input type="hidden" id='@("Episode[" + i + "].ShowDate")' value="@Model.SubSeries.Episodes[i].ShowDate.ToShortDateString()" />
+                @Html.HiddenFor(model => model.SubSeries.Episodes[i].Description, new { id = "Episode[" + i + "].WebDescription" });
+
+                
+            }
+
+            <partial name="_Paging" />
+
+
+
+            @{
+                int start = 0;
+                int end = 4;
+
+                for (int i = 0; i < 2; i++)
+                {
+                    <div class="grid-row">
+                        @for (int j = start; j < end; j++)
+                        {
+
+
+                            @*<div id="@($"field{j}")">test @j</div>*@
+
+                            <div class="col-1-of-4">
+                                <a id="@($"epCard{j}_link")">
+                                    <div class="rotatorCard" id="@($"epCard{j}")">
+                                        <div class="rotatorCard__side rotatorCard__side--front">
+                                            <img class="rotatorCard__topImage" id="@($"epCard{j}_imageURL")" />
+
+                                            <div class="rotatorCard__bottomName"><span id="@($"epCard{j}_epName")"></span></div>
+                                        </div>
+                                        <div class="rotatorCard__side rotatorCard__side--back">
+                                            <p class="m-3" id="@($"epCard{j}_showDate")">Show Date: <span></span></p>
+                                            <hr />
+                                            <p class="pt-4 m-3" id="@($"epCard{j}_webDescription")" [innerHTML]="episode.webDescription"></p>
+                                        </div>
+                                        <input type="hidden" id="@($"epCard{j}_index")" />
+                                    </div>
+                                </a>
+                            </div>
+
+                        }
+
+                        @{start += 4;
+                            end += 4;
+                        }
+                    </div>
+                }
+            }
+        </div>
+
+    </div>
+</div>
+
+@section Scripts{
+
+    <script type="text/javascript">
+
+
+        var PageCount = 0;
+
+        $(document).ready(function () {
+         
+
+            let i = document.getElementById("epCount").value;
+
+            PageCount = i / 8;
+            PageCount = Math.floor(PageCount);
+            console.log("Page Count:" + PageCount);
+
+            if (i % 8 != 0) {
+                PageCount++;
+
+            }
+
+            PageCount--;
+            document.getElementById("pageCount").value = PageCount;
+
+            PopulateEpisodes();
+            updatePagingButtons(0, PageCount);
+
+        });
+
+
+        function PopulateEpisodes() {
+
+            let pageNum = 0;
+
+            pageNum = document.getElementById("pageNum").value;
+
+            let currentEp = pageNum * 8;
+            let epCount = parseInt(document.getElementById("epCount").value);
+
+            for (let i = 0; i < 8; i++) {
+
+
+
+                if (currentEp < epCount) {
+
+
+                    let curEp = "Episode[" + currentEp + "].";
+                    document.getElementById("epCard" + i).style.visibility = "visible";
+
+
+
+                    document.getElementById("epCard" + i + "_link").href = "/series/episode/" + document.getElementById(curEp + "EpisodeID").value;
+
+                    document.getElementById("epCard" + i + "_imageURL").src = document.getElementById(curEp + "EpImageURL").value;
+
+                    document.getElementById("epCard" + i + "_epName").textContent = document.getElementById(curEp + "Title").value;
+
+                    document.getElementById("epCard" + i + "_webDescription").innerHTML = document.getElementById(curEp + "WebDescription").value;
+
+                    document.getElementById("epCard" + i + "_showDate").innerHTML = document.getElementById(curEp + "ShowDate").value;
+
+                }
+                else {
+
+                    document.getElementById("epCard" + i).style.visibility = "hidden";
+                }
+                currentEp++;
+
+            }
+
+            //Send the list of objects to the partial view to render them with ajax
+
+
+
+
+        }
+
+
+        function previous(num) {
+            let pageNum = 0;
+
+            pageNum = parseInt(document.getElementById("pageNum").value);
+            pageCount = parseInt(document.getElementById("pageCount").value);
+            pageNum -= num;
+
+            if (pageNum < 0) {
+                pageNum = 0;
+            }
+
+
+
+            document.getElementById("pageNum").value = pageNum;
+            PopulateEpisodes();
+            updatePagingButtons(pageNum, pageCount);
+
+        }
+        function next(num) {
+            let pageNum = 0;
+
+            pageNum = parseInt(document.getElementById("pageNum").value);
+            pageCount = parseInt(document.getElementById("pageCount").value);
+            pageNum += num;
+
+            if (pageNum > PageCount) {
+                pageNum = PageCount;
+            }
+
+            document.getElementById("pageNum").value = pageNum;
+            PopulateEpisodes();
+            updatePagingButtons(pageNum, pageCount);
+
+            //add checking for limits
+        }
+
+        function updatePagingButtons(pageNum, pageCount) {
+
+            document.getElementById("btnPageNum").innerText = pageNum;
+            let smallBack = document.getElementById("btnPrevSmall");
+            let bigBack = document.getElementById("btnPrevBig");
+            let smallNext = document.getElementById("btnNextSmall");
+            let bigNext = document.getElementById("btnNextBig");
+
+            if (pageNum == 0) {
+
+                smallBack.disabled = true;
+                bigBack.disabled = true;
+                // smallBack.style.visibility = "hidden";
+                // bigBack.style.visibility = "hidden";
+            }
+            else {
+                smallBack.disabled = false;
+                bigBack.disabled = false;
+
+            }
+
+            if (pageNum >= pageCount) {
+                smallNext.disabled = true;
+                bigNext.disabled = true;
+
+            }
+            else {
+
+                smallNext.disabled = false;
+                bigNext.disabled = false;
+
+            }
+        }
+    </script>
+}
+
 

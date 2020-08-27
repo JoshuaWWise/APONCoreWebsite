@@ -9,7 +9,7 @@
 
 @{
 
-    
+
 
     if (Model.UserAuthLevel < 4 && Model.EpisodeSaved == "False")
     {
@@ -26,11 +26,11 @@
                            #episodeUploadInput
                            asp-for="UploadFile"
                            oninput="startFileProcess()" />
-                    <input type="checkbox" name="affiliate" asp-for="Affiliate" />
+                    <input type="checkbox" id="affiliateChckbx" name="affiliateChckbx" oninput="changeAffiliate()" />
                     <label for="affiliate">Affiliate Podcast</label>
-                    <div>
+                    <div id="affilliateSection" style="visibility:hidden">
                         <label for="fileURL">Link to your podcast file. (Should point to the .mp3 file)</label>
-                        <input type="text" name="fileURL" />
+                        <input type="text" name="affiliateFileURL" id="affiliateFileURL" />
                     </div>
 
 
@@ -176,11 +176,13 @@
 
 
 
-
+                        <button id="Alternate Submit" type="button" onclick="SubmitEpisodeForm()">TEST SUBMIT</button>
                     </div>
                 </div>
             </form>
         </div>
+
+        <input type="hidden" id="epSeriesID" value="@Model.SeriesID" />
 
     }
 
@@ -193,18 +195,18 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-          
+
          CheckIfEditor("Auth Level: " & @Model.UserAuthLevel);
 
 
             let saved = document.getElementById("EpisodeSaved").value;
 
-            console.log("Episode Saved: " + saved);
+           
 
 
          if (saved == "True") {
              alert("Episode Saved");
-             window.location.href = "/Index";
+             window.location.href = "/series/episode/" + @Model.SavedEpisodeID;
          }
 
         var myTinyMCE = new tinymce.Editor('tinyMCETextArea', {
@@ -242,18 +244,28 @@
 
         }
 
+        function changeAffiliate() {
+
+            let chk = document.getElementById("affiliateChckbx");
+            let chkSection = document.getElementById("affilliateSection");
+            console.log(chk.checked);
+            if (chk.checked == true) {
+
+                chkSection.style.visibility = "visible";
+            }
+            else {
+                chkSection.style.visibility = "hidden";
+            }
+
+        }
+
     function startFileProcess() {
 
         startAudioFileProcessing(document.getElementById("episodeUploadInput").files[0]);
 
         }
 
-        function SubmitForm() {
-            let FD = new FormData();
-            FD = document.getElementById("mainForm");
-
-            console.log(FD);
-        }
+  
 
     </script>
 }

@@ -27,9 +27,9 @@
             </div>
             <div>
                 <label for="sent">Sent</label>
-                <input type="checkbox" id="sent" name="sent" value="true" checked />
+                <input type="checkbox" id="sent" name="sent" value="true" oninput="updateCheckbox()" checked />
             </div>
-
+            <button type="button" onclick="SubmitForSave()">Save</button>
 
 
 
@@ -69,6 +69,9 @@
                     <input type="hidden" id='@("Tweet[" + i + "].TweetDate")' value="@Model.Tweets[i].TweetDate.ToString("yyyy-MM-ddThh:mm:ss.ff")" />
                     <input type="hidden" id='@("Tweet[" + i + "].Text")' value="@Model.Tweets[i].Text" />
                     <input type="hidden" id='@("Tweet[" + i + "].MediaURL")' value="@Model.Tweets[i].MediaURL" />
+                    <input type="hidden" id='@("Tweet[" + i + "].SeriesID")' value="@Model.Tweets[i].SeriesID" />
+       
+                    <input type="hidden" id='@("Tweet[" + i + "].TwitterKeyID")' value="@Model.Tweets[i].TwitterKeyID" />
 
                     @{ if (Model.Tweets[i].Sent == true)
                         {
@@ -86,16 +89,22 @@
             }
         }
     </div>
-
+    <input type="hidden" id="currentCheckboxValue" value="False" />
+    <input type="hidden" id="selectedIndex" value="" />
 </div>
 
 
 @section Scripts{ 
 <script type="text/javascript">
 
+    let SelectingTweet = false;
+    function updateCheckbox() {
+        document.getElementById("currentCheckboxValue").value =document.getElementById("sent").checked;
+    }
     function SelectTweet(sender) {
-        console.log(sender);
+        SelectingTweet = true;
         let id = sender.id + ".";
+        document.getElementById("selectedIndex").value = id;
         document.getElementById("TweetID").value = document.getElementById(id + "TweetID").value;
         document.getElementById("TweetDate").value = document.getElementById(id + "TweetDate").value;
         document.getElementById("TweetText").value = document.getElementById(id + "Text").value;
@@ -104,10 +113,48 @@
         console.log(sent);
         if (sent == 1) {
             $("#sent").prop('checked', true);
+            document.getElementById("currentCheckboxValue").value = "True";
         }
         else {
             $("#sent").prop('checked', false);
+            document.getElementById("currentCheckboxValue").value = "False";
         }
+        SelectingTweet = false;
+    }
+
+    function SubmitForSave() {
+        let FD = new FormData(document.getElementById("UpdateTweetForm"));
+        let selectedID = document.getElementById("selectedIndex").value;
+        FD.append("currentCheckboxValue", document.getElementById("currentCheckboxValue").value);
+        FD.append("SeriesID", document.getElementById(selectedID + "SeriesID").value);
+
+        FD.append("TwitterKeyID", document.getElementById(selectedID + "TwitterKeyID").value);
+        $.ajax({
+            type: "POST",
+            contentType: false,
+            processData: false,
+            url: '../../Handlers/SaveHandler?handler=UpdateTweet',
+            data: FD,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+            },
+            success: function (resp) {
+                switch (resp) {
+                    case "OK": alert("Saved!");
+                        SaveLocalChanges();
+                        break;
+                    case "Forbidden": alert("You are not allowed to save changes.");
+                        break;
+                    case "NotFound": alert("That Splash News was not found.");
+                        break;
+                }
+
+
+            }
+        });
+    }
+
+    function SaveLocalChanges() {
 
     }
 </script>

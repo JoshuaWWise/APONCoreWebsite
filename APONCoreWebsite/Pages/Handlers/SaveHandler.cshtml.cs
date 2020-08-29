@@ -73,19 +73,13 @@ namespace APONCoreWebsite.Pages.Handlers
             tweet.TweetDate = DateTime.Parse(Request.Form["TweetDate"]);
             tweet.Text = Request.Form["TweetText"];
             tweet.MediaURL = Request.Form["MediaURL"];
-
-
-            if (!string.IsNullOrEmpty(Request.Form["sent"]) && Request.Form["sent"] == "on")
-            {
-                tweet.Sent = true;
-            }
-            else
-            {
-                tweet.Sent = false;
-            }
+            tweet.SeriesID = int.Parse(Request.Form["SeriesID"]);
+         
+            tweet.TwitterKeyID = int.Parse(Request.Form["TwitterKeyID"]);
+            tweet.Sent = bool.Parse(Request.Form["currentCheckboxValue"]);
 
             HttpResponseMessage Result = await DS.PutAsync(tweet, "Twitter/UpdateTweet");
-            return new JsonResult(Result.StatusCode);
+            return new JsonResult(Result.StatusCode.ToString());
         }
 
 

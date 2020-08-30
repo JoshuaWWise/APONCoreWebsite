@@ -82,6 +82,17 @@ namespace APONCoreWebsite.Pages.Handlers
             return new JsonResult(Result.StatusCode.ToString());
         }
 
+        public async Task<IActionResult> OnPostResetPassword()
+        {
+            ResetPW resetPW = new ResetPW();
+            resetPW.ResetLink = Request.Form["LinkInfo"];
+            resetPW.Password = Request.Form["firstPassword"];
+
+            HttpResponseMessage Result = await DS.PostAsync(resetPW, "user/ResetPassword");
+
+            return new JsonResult(Result.StatusCode.ToString());
+        }
+
 
     }
 }

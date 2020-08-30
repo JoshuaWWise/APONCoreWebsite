@@ -48,13 +48,16 @@ namespace APONCoreWebsite.Pages
         public IFormFile UploadFile { get; set; }
 
         public string ResponseMessage { get; set; }
-        public AddEpisodeModel(IAuthService authService,  IMetaTagService imts, ITagService ts, IDataService ds) : base(authService, imts, ds)
+
+        ISeriesService SS { get; set; }
+        public AddEpisodeModel(IAuthService authService,  IMetaTagService imts, ITagService ts, IDataService ds, ISeriesService ss) : base(authService, imts, ds)
         {
             this.tagService = ts;
             SavedEpisodeID = -1;
 
               Episode = new EpisodeWithTags();
             Episode.episode = new Episode();
+            SS = ss;
         }
 
 
@@ -204,13 +207,10 @@ namespace APONCoreWebsite.Pages
             }
             //Populate to restore page
 
-            string Response = await DS.GetAsync("Series/" + SeriesID);
-
-        
-
-            EpSeries = Newtonsoft.Json.JsonConvert.DeserializeObject<APONCoreLibrary.Models.Series>(Response);
+         
             AttemptedSave = true;
             EpisodeSaved = "True";
+            EpSeries = await SS.GetSeriesByID(SeriesID);
 
         
             return Page();

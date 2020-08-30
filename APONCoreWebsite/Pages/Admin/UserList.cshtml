@@ -1,0 +1,62 @@
+﻿@page "/Admin/UserList"
+@model APONCoreWebsite.Pages.Admin.UserListModel
+@{
+    ViewData["Title"] = "UserList";
+}
+
+
+@{
+    if (Model.UserAuthLevel < 3)
+    {
+
+        <table>
+            <tr>
+                <th>User ID</th>
+                <th>User Name</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Last Login</th>
+                <th>Image</th>
+                <th>Creation Date</th>
+                <th>Email</th>
+                <th>Access Level</th>
+            </tr>
+            @{
+                foreach (APONCoreLibrary.Models.User U in Model.Users)
+                {
+                    <tr>
+                        <td>@U.UserID</td>
+                        <td>@U.UserName</td>
+                        <td>@U.FirstName</td>
+                        <td>@U.LastName</td>
+                        <td>@U.LastLogin.ToShortDateString()</td>
+                        <td><img src="@U.ImageURL" style="width: 50px;" /></td>
+                        <td>@U.CreationDate.ToShortDateString()</td>
+
+                        <td>@U.Email</td>
+                        <td>@U.AccessLevel</td>
+                    </tr>
+                }
+            }
+
+        </table>
+
+
+
+    }
+
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+    $(document).ready(function () {
+
+        CheckIfAdmin(@Model.UserAuthLevel);
+    });
+
+    </script>
+
+}
+
+

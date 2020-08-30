@@ -6,7 +6,7 @@ using APONCoreWebsite.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -41,6 +41,13 @@ namespace APONCoreWebsite
             services.AddScoped<IMetaTagService, MetaTagService>();
             services.AddScoped<ITagService, TagService>();
             services.AddScoped<IAuthService, AuthService>();
+
+            //Sets form size limit
+            services.Configure<FormOptions>(x =>
+            {
+                x.ValueLengthLimit = int.MaxValue;
+                x.MultipartBodyLengthLimit = int.MaxValue; // In case of multipart
+            });
 
             services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
         }

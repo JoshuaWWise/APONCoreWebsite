@@ -11,7 +11,7 @@
             <img class="top-banner-image"
                  src=@Model.Episode.EpImageURL
                  id="ShowImage" />
-         
+
             <partial name="_TagList" model=@Model.Tags />
         </div>
         <div class="col-1-of-2 episodeInfoColumn">
@@ -23,8 +23,19 @@
                     <div class="grid-row">
                         <h4>@Model.Episode.ShowDate.ToShortDateString()</h4>
                     </div>
-                    <div >
-                        <audio id="player" class="player"  controls>
+                    <div class="grid-row">
+                        <div class="col-1-of-3">
+                            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a>
+                            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                        </div>
+                        <div class="col-1-of-3">
+                            <div class="fb-like" data-href='@("https://www.allportsopen.com/series/episode/" + Model.EpisodeID.ToString())' data-width="" data-layout="standard" data-action="like" data-size="small" data-share="true"></div>
+                           
+                        </div>
+
+                    </div>
+                    <div>
+                        <audio id="player" class="player" controls>
                             <source id="audioSource" src=@Model.FileURL />
                         </audio>
                     </div>
@@ -61,7 +72,9 @@
                         <div class="col-1-of-2">
                             <partial name="_AuthorShield" model=@Model.Author.User />
                         </div>
+
                     </div>
+
                     <div class="grid-row mt-3">
                         <div class="episodeInfoColumn__description"
                              id="episodeDescription">
@@ -74,10 +87,11 @@
                     <a href='@("../../" + Model.epSeries.NavLinkName )'>
                         <img class="img-fluid img EpisodeSeriesImage" style="float:right" src="@Model.epSeries.ImageURL" />
                     </a>
+
                 </div>
             </div>
-            
-           
+
+
 
         </div>
     </div>
@@ -86,7 +100,7 @@
 @Html.HiddenFor(model => model.FileURL, new { id = "audioFileURL" });
 <partial name="_ForumView" model=@Model.fvm />
 
-@section Scripts{ 
+@section Scripts{
     <script type="text/javascript">
 
     function GoToEpEdit() {

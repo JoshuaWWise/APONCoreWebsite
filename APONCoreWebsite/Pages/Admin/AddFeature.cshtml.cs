@@ -135,7 +135,7 @@ namespace APONCoreWebsite.Pages.Admin
             Feature.News.LongText = Request.Form["tinymcetextarea"];
             Feature.News.Text = Request.Form["shortDescription"];
             Feature.News.PostDate = DateTime.Parse(Request.Form["myDatePicker"]);
-            Feature.News.TempTweet = Request.Form["addToTweet"];
+            Feature.News.TempTweet = "";  //Removed and filled with nothing.
             Feature.News.ImageURL = Request.Form["smallImageInput"];
             Feature.News.SplashImageURL = Request.Form["splashImageInput"];
 

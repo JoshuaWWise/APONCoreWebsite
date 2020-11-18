@@ -9,6 +9,7 @@ var charlist;
 var charcount;
 var determiningEpLength;
 var btnAddEpSubmit;
+var MBSize;
 var KVP = /** @class */ (function () {
     function KVP(k, v) {
         this.key = k;
@@ -21,6 +22,7 @@ function startAudioFileProcessing(uploadFile) {
     btnAddEpSubmit = document.getElementById("btnAddEpSubmit");
     btnAddEpSubmit.style.visibility = "hidden";
     determiningEpLength = document.getElementById("determiningEpLength");
+    MBSize = document.getElementById("fileSizeInMB");
     determiningEpLength.style.visibility = "visible";
     charcount = 0;
     getArrayBuffer(uploadFile).then(function (result) {
@@ -39,7 +41,14 @@ function fillInFormData(ab) {
     rawString = getString(dv, 0, bufferSize);
     episodeSize = dv.byteLength.toString();
     episodeSize = episodeSize.substr(0, episodeSize.length - 2);
+    var epsizenum = parseInt(episodeSize);
+    var mb = epsizenum / 10240;
+    var kb = epsizenum % 102400;
+    var episodeSizeText = mb.toString();
+    var decplace = episodeSizeText.indexOf('.');
+    episodeSizeText = episodeSizeText.substring(0, (decplace + 2));
     document.getElementById("epSize").value = episodeSize;
+    MBSize.innerHTML = "(" + episodeSizeText + " MB)";
     //get locations of value pairs for the MP3 ID3 tags.
     getKeyValuePairs();
     //PUT BACK
@@ -48,15 +57,18 @@ function fillInFormData(ab) {
     headlineObj.value = episodeTitle;
     episodeDescription = getSection("COMM");
     document.getElementById("shortDescription").value = episodeDescription;
-    document.getElementById("tinyMCETextArea").innerText = episodeDescription;
+    document.getElementById("tinyMCETextArea").innerHTML = episodeDescription;
+    tinymce.get("tinyMCETextArea").setContent(episodeDescription);
+
+
     webDescription = episodeDescription;
     var a = new AudioContext();
     //Set Fields
     getAudioBuffer(ab).then(function (result) {
-        getDuration(result);
+        getDuration(result, parseInt(episodeSize));
     });
 }
-function getDuration(aBuff) {
+function getDuration(aBuff, dvByteLength) {
     var dur = aBuff.duration;
     var hours = Math.floor(dur / 3600);
     dur = dur - hours * 3600;
@@ -69,8 +81,14 @@ function getDuration(aBuff) {
             ":" +
             getTimeNum(seconds);
     document.getElementById("epTime").value = episodeTime;
-    determiningEpLength.style.visibility = "hidden";
-    btnAddEpSubmit.style.visibility = "visible";
+    if (dvByteLength < 1024000) {
+        determiningEpLength.style.visibility = "hidden";
+        btnAddEpSubmit.style.visibility = "visible";
+    }
+    else {
+        alert("File size over 100MB and therefore too large! Try exporting the file with a lower bit rate to shrink the size.");
+        determiningEpLength.innerHTML = "File size over 100MB and therefore too large! Try exporting the file with a lower bit rate to shrink the size.";
+    }
 }
 function getTimeNum(n) {
     if (n < 10) {

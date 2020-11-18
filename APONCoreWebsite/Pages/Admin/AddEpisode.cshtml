@@ -41,7 +41,7 @@
                     <div class="full-width">
 
                         <div class="grid-row">
-                            <div class="col-1-of-2">
+                            <div class="col-1-of-2" style="border-right: solid 1px">
                                 <div class="form-group">
                                     <label for="title">Title</label>
                                     <input type="text"
@@ -95,22 +95,22 @@
                                            asp-for="Episode.episode.Keywords"
                                            name="keywords" />
                                 </div>
-                                <div class="form-group">
-                                    <label for="addToTweet">Add To Tweet</label>
-                                    <input type="text"
-                                           class="form-control"
-                                           id="addToTweet"
-                                           name="addToTweet"
-                                           asp-for="Episode.TweetText" />
-                                </div>
+                                @*<div class="form-group">
+                                        <label for="addToTweet">Add To Tweet</label>
+                                        <input type="text"
+                                               class="form-control"
+                                               id="addToTweet"
+                                               name="addToTweet"
+                                               asp-for="Episode.TweetText" />
+                                    </div>
 
-                                <div class="form-group">
-                                    <label for="tweetPreview">Tweet Preview</label>
-                                    <input type="text"
-                                           class="form-control"
-                                           id="tweetPreview" />
-                                    {{ tweetLength }} / 280
-                                </div>
+                                    <div class="form-group">
+                                        <label for="tweetPreview">Tweet Preview</label>
+                                        <input type="text"
+                                               class="form-control"
+                                               id="tweetPreview" />
+                                        {{ tweetLength }} / 280
+                                    </div>*@
 
                                 <partial name="_tagConsole" model=@Model.TCM />
                             </div>
@@ -121,8 +121,9 @@
                                     <input type="text" id="epTime" name="epTime" asp-for="Episode.episode.Time" />
                                 </div>
                                 <div class="form-group">
-                                    <label for="epSize">Episode Size in kb: </label>
+                                    <label for="epSize">Episode Size in bytes: </label>
                                     <input type="text" id="epSize" name="epSize" asp-for="Episode.episode.Size" />
+                                    <label id="fileSizeInMB">In MB: </label>
                                 </div>
 
                                 <label class="mt-2" for="imageURL">Image Location</label>
@@ -140,6 +141,7 @@
                                        accept=".png,.jpg"
                                        #imgURLInput
                                        onchange="startImageSubmit(event, 'imgFileInput', 'imgURLtextbox', 'imgMainImage');" />
+                                <br />
 
                                 <img id="imgMainImage" src='@Model.EpSeries.ImageURL'
                                      class="editorImage" />
@@ -170,7 +172,8 @@
                         </div>
                         <button id="btnAddEpSubmit"
                                 type="submit"
-                                class="btn btn-success">
+                                class="btn btn-success"
+                                style="visibility:hidden">
                             Submit
                         </button>
 
@@ -201,7 +204,7 @@
 
             let saved = document.getElementById("EpisodeSaved").value;
 
-           
+
 
 
          if (saved == "True") {
@@ -211,7 +214,7 @@
 
         var myTinyMCE = new tinymce.Editor('tinyMCETextArea', {
             selector: 'tinyMCETextArea',
-            width: 450, height: 500,
+            width: 500, height: 500,
             menubar: false,
             toolbar: 'undo redo | bold italic underline strikethrough |  image media  link   | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print  | ltr rtl',
             toolbar_sticky: true,
@@ -265,7 +268,7 @@
 
         }
 
-  
+
 
     </script>
 }

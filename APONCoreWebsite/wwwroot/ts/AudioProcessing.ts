@@ -9,6 +9,7 @@ let charlist: string;
 let charcount: number;
 let determiningEpLength: HTMLElement;
 let btnAddEpSubmit: HTMLButtonElement;
+let MBSize: HTMLElement;
 
 class KVP {
     key: string;
@@ -26,20 +27,21 @@ function startAudioFileProcessing(uploadFile: File) {
     btnAddEpSubmit = <HTMLButtonElement>document.getElementById("btnAddEpSubmit");
     btnAddEpSubmit.style.visibility = "hidden";
     determiningEpLength = document.getElementById("determiningEpLength");
+    MBSize = document.getElementById("fileSizeInMB");
     determiningEpLength.style.visibility = "visible";
 
     charcount = 0;
     getArrayBuffer(uploadFile).then((result: any) => {
-     
+
         fillInFormData(result);
     });
 
 
-    
+
 }
 
 function fillInFormData(ab: ArrayBuffer) {
-  
+
 
     let dv = new DataView(ab);
     let bufferSize: number = 0;
@@ -49,50 +51,59 @@ function fillInFormData(ab: ArrayBuffer) {
     } else {
         bufferSize = dv.byteLength - 1;
     }
-  
+
     rawString = getString(dv, 0, bufferSize);
  
+
     episodeSize = dv.byteLength.toString();
     episodeSize = episodeSize.substr(0, episodeSize.length - 2);
+    let epsizenum: number = parseInt(episodeSize);
+    let mb: number = epsizenum / 10240;
+    let kb: number = epsizenum % 102400;
+
+    let episodeSizeText = mb.toString();
+    let decplace = episodeSizeText.indexOf('.');
+    episodeSizeText = episodeSizeText.substring(0,(decplace + 2));
     (<HTMLInputElement>document.getElementById("epSize")).value = episodeSize;
+    MBSize.innerHTML = "(" + episodeSizeText + " MB)";
     //get locations of value pairs for the MP3 ID3 tags.
     getKeyValuePairs();
 
-    
+
     //PUT BACK
     episodeTitle = getSection("TIT2");
-    let headlineObj  = <HTMLInputElement>document.getElementById("episodeTitle");
+    let headlineObj = <HTMLInputElement>document.getElementById("episodeTitle");
     headlineObj.value = episodeTitle;
 
-   
+
     episodeDescription = getSection("COMM");
 
     (<HTMLInputElement>document.getElementById("shortDescription")).value = episodeDescription;
-    (<HTMLInputElement>document.getElementById("tinyMCETextArea")).innerText = episodeDescription;
-    
+    (<HTMLInputElement>document.getElementById("tinyMCETextArea")).innerHTML = episodeDescription;
+
     webDescription = episodeDescription;
- 
+
     let a: AudioContext = new AudioContext();
     //Set Fields
-
+    
 
     getAudioBuffer(ab).then((result: any) => {
 
-        getDuration(result);
+        getDuration(result, parseInt(episodeSize));
     });
 }
 
 
-function getDuration(aBuff: AudioBuffer) {
+function getDuration(aBuff: AudioBuffer, dvByteLength: number) {
     let dur: number = aBuff.duration;
     let hours: number = Math.floor(dur / 3600);
 
-
+ 
     dur = dur - hours * 3600;
 
     let minutes: number = Math.floor(dur / 60);
     let seconds: number = Math.floor(dur % 60);
-   episodeTime =
+    episodeTime =
         getTimeNum(hours) +
         ":" +
         getTimeNum(minutes) +
@@ -101,8 +112,14 @@ function getDuration(aBuff: AudioBuffer) {
 
 
     (<HTMLInputElement>document.getElementById("epTime")).value = episodeTime;
-    determiningEpLength.style.visibility = "hidden";
-    btnAddEpSubmit.style.visibility = "visible";
+    if (dvByteLength < 1024000) {
+        determiningEpLength.style.visibility = "hidden";
+        btnAddEpSubmit.style.visibility = "visible";
+    }
+    else {
+        alert("File size over 100MB and therefore too large! Try exporting the file with a lower bit rate to shrink the size.");
+        determiningEpLength.innerHTML = "File size over 100MB and therefore too large! Try exporting the file with a lower bit rate to shrink the size.";
+    }
 
 }
 
@@ -115,26 +132,26 @@ function getTimeNum(n: number): string {
         return n.toString();
     }
 }
-function getArrayBuffer(f: File): Promise < ArrayBuffer > {
+function getArrayBuffer(f: File): Promise<ArrayBuffer> {
     return f.arrayBuffer();
 }
 
-function getAudioBuffer(ab: ArrayBuffer): Promise < AudioBuffer > {
+function getAudioBuffer(ab: ArrayBuffer): Promise<AudioBuffer> {
     let a: AudioContext = new AudioContext();
     return a.decodeAudioData(ab);
 }
-  function getString(dv: DataView, start: number, length: number) {
+function getString(dv: DataView, start: number, length: number) {
     for (var i = 0, v = ""; i < length; ++i) {
         v += getChar(dv, start + i);
     }
     return v;
 }
 
-  function getChar(dv: DataView, start: number) {
+function getChar(dv: DataView, start: number) {
     let character: string = "";
     let ignoreNums: number[] = [0, 1, 254, 255];
 
-    if (ignoreNums.indexOf(dv.getUint8(start))==-1) {
+    if (ignoreNums.indexOf(dv.getUint8(start)) == -1) {
         character = String.fromCharCode(dv.getUint8(start));
         charlist +=
             charcount.toString() +
@@ -178,14 +195,14 @@ function getKeyValuePairs() {
 
 }
 
-  function getIndexOf(s: string): void {
+function getIndexOf(s: string): void {
     let index: number = rawString.indexOf(s);
-    if(index != -1) {
-    tagLocations.push(new KVP(s, index));
+    if (index != -1) {
+        tagLocations.push(new KVP(s, index));
+    }
 }
-  }
 
-  function getSection(sectionTitle: string): string {
+function getSection(sectionTitle: string): string {
     let index: number = -1;
     let startIndex: number = -1;
     let endIndex: number = -1;
@@ -204,7 +221,7 @@ function getKeyValuePairs() {
 
     let returnString = rawString.substr(startIndex, endIndex - startIndex);
 
-   
+
 
     if (sectionTitle == "COMM" && returnString.substr(0, 3) == "eng") {
         returnString = returnString.substr(3, returnString.length - 3);

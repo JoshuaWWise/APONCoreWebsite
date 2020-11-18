@@ -183,9 +183,17 @@ namespace APONCoreWebsite.Pages
 
                     if (taglistarray[i] != "")
                     {
-                        Tag t = new Tag();
-                        t.TagID = int.Parse(taglistarray[i]);
-                        Tags.Add(t);
+                        int TID = -1;
+                        if (int.TryParse(taglistarray[i], out TID))
+                        {
+                            Tag t = new Tag();
+                            t.TagID = TID;
+                            Tags.Add(t);
+                        }
+
+                        //Tag t = new Tag();
+                        //t.TagID = int.Parse(taglistarray[i]);
+                        //Tags.Add(t);
                     }
                 }
             }

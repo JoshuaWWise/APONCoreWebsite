@@ -42,7 +42,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="webDescription">News Text</label>
+                                        <label for="webDescription">Feature Text (Don't forget to highlight your text and click the "remove formatting" button---it's under the three dots on the right of menu bar right below this.)</label>
 
                                         <textarea id="tinyMCETextArea" name="tinyMCETextArea" asp-for="Feature.News.LongText">
 
@@ -72,21 +72,6 @@
 
                                     </div>
 
-                                    <div class="form-group">
-                                        <label for="addToTweet">Add To Tweet</label>
-                                        <input type="text"
-                                               class="form-control"
-                                               id="addToTweet"
-                                               name="addToTweet"
-                                               asp-for="Feature.News.TempTweet"
-                                               oninput="UpdateTweet()" />
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="tweetPreview">Tweet Preview</label>
-                                        <span id="tweetPreview"></span>
-                                        <span id="tweetCharCount"></span>/280
-                                    </div>
 
                                     TAGS
                                     <partial name="_tagConsole" model=@Model.TCM />
@@ -197,30 +182,30 @@
 
     });
 
-        function UpdateTweet() {
+        //function UpdateTweet() {
 
-            var headline = document.getElementById('headline').value;
-            var headlineLength = headline.length;
-            var addToTweet = document.getElementById('addToTweet').value;
-            console.log(addToTweet);
-            var addToTweetLength = addToTweet.length;
+        //    var headline = document.getElementById('headline').value;
+        //    var headlineLength = headline.length;
+        //    var addToTweet = document.getElementById('addToTweet').value;
+        //    console.log(addToTweet);
+        //    var addToTweetLength = addToTweet.length;
 
-            var URLLength = 52;
+        //    var URLLength = 52;
 
-            var TweetLength = headlineLength + addToTweetLength + URLLength;
+        //    var TweetLength = headlineLength + addToTweetLength + URLLength;
 
-            if (TweetLength > 280) {
-                var difference = TweetLength - 280;
+        //    if (TweetLength > 280) {
+        //        var difference = TweetLength - 280;
 
-                var keepAddToTweet = addToTweetLength - difference;
-                addToTweet = addToTweet.substring(0, keepAddToTweet);
-                document.getElementById('addToTweet').value = addToTweet;
-                addToTweetLength = addToTweet.length;
-            }
+        //        var keepAddToTweet = addToTweetLength - difference;
+        //        addToTweet = addToTweet.substring(0, keepAddToTweet);
+        //        document.getElementById('addToTweet').value = addToTweet;
+        //        addToTweetLength = addToTweet.length;
+        //    }
 
-            document.getElementById("tweetPreview").innerHTML = headline + " " + addToTweet + " https://media.allportsopen.com/series/episode/samp";
-                document.getElementById("tweetCharCount").innerHTML = (headlineLength + addToTweetLength + URLLength);
-        }
+        //    document.getElementById("tweetPreview").innerHTML = headline + " " + addToTweet + " https://media.allportsopen.com/series/episode/samp";
+        //        document.getElementById("tweetCharCount").innerHTML = (headlineLength + addToTweetLength + URLLength);
+        //}
 
 
     function startImageSubmit(evt, senderObj, txtUpdateField, imgUpdateField) {

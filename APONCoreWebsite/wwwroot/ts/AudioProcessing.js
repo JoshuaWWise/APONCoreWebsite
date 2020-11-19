@@ -58,9 +58,6 @@ function fillInFormData(ab) {
     episodeDescription = getSection("COMM");
     document.getElementById("shortDescription").value = episodeDescription;
     document.getElementById("tinyMCETextArea").innerHTML = episodeDescription;
-    tinymce.get("tinyMCETextArea").setContent(episodeDescription);
-
-
     webDescription = episodeDescription;
     var a = new AudioContext();
     //Set Fields

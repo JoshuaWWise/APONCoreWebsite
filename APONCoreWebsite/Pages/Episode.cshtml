@@ -4,7 +4,8 @@
     ViewData["Title"] = Model.Episode.Title;
 }
 
-
+@if (Model.Episode.EpisodeID != -1)
+{
 <div class="top-banner">
     <div class="grid-row">
         <div class="col-1-of-2">
@@ -99,7 +100,7 @@
 </div>
 @Html.HiddenFor(model => model.FileURL, new { id = "audioFileURL" });
 <partial name="_ForumView" model=@Model.fvm />
-
+}
 @section Scripts{
     <script type="text/javascript">
 

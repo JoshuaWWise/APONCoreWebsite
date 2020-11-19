@@ -35,26 +35,40 @@ namespace APONCoreWebsite.Pages.Series
         public string FileURL { get; set; }
 
         public ISeriesService SS { get; set; }
-     
+
         [BindProperty]
         public APONCoreLibrary.Models.Series epSeries { get; set; }
 
         public Shared._ForumViewModel fvm { get; set; }
-        public EpisodeModel( IDataService ds, IAuthService authService,  IMetaTagService imts, ISeriesService ss) : base(authService, imts, ds)
+        public EpisodeModel(IDataService ds, IAuthService authService, IMetaTagService imts, ISeriesService ss) : base(authService, imts, ds)
         {
             SS = ss;
-         
+
         }
 
         public async Task<IActionResult> OnGetAsync()
         {
-           if (EpisodeID == 0)
+            if (EpisodeID == 0)
             {
                 return Page();
             }
+            string result = "";
+            try
+            {
+                result = await DS.GetAsync("Episodes/GetEpisodePageData/" + EpisodeID);
 
-            string result = await DS.GetAsync("Episodes/GetEpisodePageData/" + EpisodeID);
-
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Contains("404"))
+                {
+                    Response.Redirect("/");
+                    Episode = new Episode();
+                    Episode.Title = "No Episode Found";
+                    Episode.EpisodeID = -1;
+                    return Page();
+                }
+            }
             EpisodeData = Newtonsoft.Json.JsonConvert.DeserializeObject<EpisodePageData>(result);
 
             FileURL = "https://media.allportsopen.org/Podcasts/" + EpisodeData.Series.Folder + EpisodeData.EpWithTag.episode.FileURL;
@@ -67,7 +81,7 @@ namespace APONCoreWebsite.Pages.Series
             Tags = EpisodeData.EpWithTag.tags;
             SeriesName = EpisodeData.Series.Name;
             Author = EpisodeData.Author;
-            
+
             //TODO: add current user ID to forum post page and compare with forum post info
 
             fvm = new Shared._ForumViewModel();

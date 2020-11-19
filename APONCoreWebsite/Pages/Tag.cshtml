@@ -1,0 +1,55 @@
+﻿@page "/Tag/{TagID}"
+@model APONCoreWebsite.Pages.TagModel
+@{
+    ViewData["Title"] = "Tag";
+}
+
+<h1>Tag: @Model.TB.Name</h1>
+<br />
+<br />
+
+<div class="grid-row">
+    <div class="col-1-of-2">
+        <h3>Podcast Episodes</h3>
+        <br />
+        <br />
+        @for (int i = 0; i < Model.TB.Eps.Count; i++)
+        {
+            <div class="grid-row">
+                <a href="../../series/episode/@Model.TB.Eps[i].EpisodeID">
+                    <div class="col-1-of-3">
+                        <img src="@Model.TB.Eps[i].EpImageURL" style="width:10vw" />
+                    </div>
+                    <div class="col-2-of-3">
+                        <label> @Model.TB.Eps[i].Title</label>
+                    </div>
+
+                </a>
+            </div>
+            <br />
+        }
+    </div>
+
+    <div class="col-1-of-2">
+        <h3>Features</h3>
+        @for (int j = 0; j < Model.TB.News.Count; j++)
+        {
+            <div class="grid-row">
+                <a href="../../feature/@Model.TB.News[j].NewsID">
+                    <div class="col-1-of-3">
+                        <img src="@Model.TB.News[j].ImageURL" style="width:10vw" />
+                    </div>
+                    <div class="col-2-of-3">
+                        <label> @Model.TB.News[j].Headline</label>
+                    </div>
+
+                </a>
+            </div>
+            <br />
+
+            <label></label>
+            <br />
+        }
+    </div>
+</div>
+

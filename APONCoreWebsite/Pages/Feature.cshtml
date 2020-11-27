@@ -42,14 +42,17 @@
 
                             </div>
                         </div>
-                    }
+                                    }
                 }
                 <div class="row grid-row">
                     <div class="col-1-of-1">
                         <img class="img-fluid" src="@Model.Feature.News.ImageURL" />
                     </div>
-                    <div class="news-text col-1-of-1" id="FeatureText" innerHTML=@Html.Raw(Model.Feature.News.LongText)>  </div>
-                </div>
+                    @{ var myHTMLString = new Microsoft.AspNetCore.Html.HtmlString(Model.Feature.News.LongText);
+                        @myHTMLString
+                    }
+                
+              </div>
             </div>
             <div class="col-1-of-1">
                 <partial name="_TagList" model=@Model.Feature.tags />

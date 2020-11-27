@@ -71,8 +71,14 @@ namespace APONCoreWebsite.Pages.Series
             }
             EpisodeData = Newtonsoft.Json.JsonConvert.DeserializeObject<EpisodePageData>(result);
 
-            FileURL = "https://media.allportsopen.org/Podcasts/" + EpisodeData.Series.Folder + EpisodeData.EpWithTag.episode.FileURL;
-
+            if (EpisodeData.EpWithTag.episode.Local)
+            {
+                FileURL = "https://media.allportsopen.org/Podcasts/" + EpisodeData.Series.Folder + EpisodeData.EpWithTag.episode.FileURL;
+            }
+            else
+            {
+                FileURL = EpisodeData.EpWithTag.episode.FileURL;
+            }
 
             //
             IMTS.setParams("https://www.allportsopen.com/Series/Episode/" + EpisodeData.EpWithTag.episode.EpisodeID, "article", EpisodeData.EpWithTag.episode.Title, EpisodeData.EpWithTag.episode.Description, EpisodeData.EpWithTag.episode.EpImageURL);

@@ -104,7 +104,7 @@
         }
 
         <hr />
-        @Html.HiddenFor(model => Model.EpCount, new { id = "epCount" });
+        @Html.HiddenFor(model => Model.EpCount, new { id = "epCount" })
         <input type="hidden" id="pageNum" value="0" />
         <input type="hidden" id="pageCount" value="1" />
         @for (int i = 0; i < Model.SPD.Episodes.Count; i++)

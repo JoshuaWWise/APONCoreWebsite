@@ -116,11 +116,11 @@
                             </div>
 
                             <div class="col-1-of-2">
-                                <div class="form-group">
+                                <div id="diveptime" class="form-group">
                                     <label for="epTime">Episode Length (HH:MM:SS): </label>
                                     <input type="text" id="epTime" name="epTime" asp-for="Episode.episode.Time" />
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" id="filesizeGroup">
                                     <label for="epSize">Episode Size in bytes: </label>
                                     <input type="text" id="epSize" name="epSize" asp-for="Episode.episode.Size" />
                                     <label id="fileSizeInMB">In MB: </label>
@@ -255,9 +255,20 @@
             if (chk.checked == true) {
 
                 chkSection.style.visibility = "visible";
+                document.getElementById("filesizeGroup").style.visibility = "hidden";
+                document.getElementById("btnAddEpSubmit").style.visibility = "visible";
+                document.getElementById("determiningEpLength").style.visibility = "hidden";
+                document.getElementById("diveptime").style.visibility = "hidden";
+                
+                
+
             }
             else {
                 chkSection.style.visibility = "hidden";
+                document.getElementById("filesizeGroup").style.visibility = "visible";
+                document.getElementById("btnAddEpSubmit").style.visibility = "hidden";
+                document.getElementById("determiningEpLength").style.visibility = "visible";
+                document.getElementById("diveptime").style.visibility = "visible";
             }
 
         }

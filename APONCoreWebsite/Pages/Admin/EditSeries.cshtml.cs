@@ -22,6 +22,8 @@ namespace APONCoreWebsite.Pages.Admin
 
         public APONCoreLibrary.Models.Series Series { get; set; }
 
+       public string SubseriesIDs { get; set; }
+
 
         [BindProperty]
         public string SaveStatus { get; set; }
@@ -43,12 +45,23 @@ namespace APONCoreWebsite.Pages.Admin
             //First, see if the user can edit the series
 
             string response = await DS.GetAsync("Series/GetEditSeriesForUser/" + SeriesID);
-            Series = Newtonsoft.Json.JsonConvert.DeserializeObject<APONCoreLibrary.Models.Series>(response);
-
+            SeriesWithSubseries SWS = new SeriesWithSubseries();
+            SWS = Newtonsoft.Json.JsonConvert.DeserializeObject<APONCoreLibrary.Models.SeriesWithSubseries>(response);
+            Series = SWS.Series;
             
             SaveStatus = "NotSaved";
 
-            //Populate TCM
+            for (int i = 0; i < SWS.SubseriesIDs.Count; i++)
+            {
+                if (i == 0)
+                {
+                    SubseriesIDs = SWS.SubseriesIDs[i].ToString();
+                }
+                else
+                {
+                    SubseriesIDs = SubseriesIDs + "," + SWS.SubseriesIDs[i].ToString();
+                }
+            }
 
          
 
@@ -59,10 +72,10 @@ namespace APONCoreWebsite.Pages.Admin
 
         public async Task<IActionResult> OnPostSeriesAsync()
         {
-
+            SeriesWithSubseries SWS = new SeriesWithSubseries();
             string response = await DS.GetAsync("Series/GetEditSeriesForUser/" + SeriesID);
-            Series = Newtonsoft.Json.JsonConvert.DeserializeObject<APONCoreLibrary.Models.Series>(response);
-
+            SWS = Newtonsoft.Json.JsonConvert.DeserializeObject<APONCoreLibrary.Models.SeriesWithSubseries>(response);
+            Series = SWS.Series;
 
             Series.Name = Request.Form["seriesName"];
             Series.Subtitle = Request.Form["Subtitle"];
@@ -79,11 +92,27 @@ namespace APONCoreWebsite.Pages.Admin
             Series.Email = Request.Form["Email"];
             Series.TwitterFeedURL = Request.Form["Twitter"];
             Series.Copyright = Request.Form["Copyright"];
+            string ssids = Request.Form["SubseriesIDList"];
+            SWS.SubseriesIDs.Clear();
+            try
+            {
+                char[] c = { ',' };
+                ssids = ssids.Trim().Replace(" ", "");
+                string[] slist = ssids.Split(c);
+                for (int i = 0; i < slist.Length; i++)
+                {
+                    SWS.SubseriesIDs.Add(int.Parse(slist[i]));
+                }
+
+            }
+            catch(Exception ex)
+            {
+
+            }
 
 
 
-
-            HttpResponseMessage message = await DS.PutAsync(Series, "Series/UpdateSeries/" + Series.SeriesID);
+            HttpResponseMessage message = await DS.PutAsync(SWS, "Series/UpdateSeriesWithSubseries/" + Series.SeriesID);
 
             switch (message.StatusCode)
             {

@@ -1,18 +1,19 @@
 @media screen and (max-width: 767px) {
   .authorShield {
     height: 4rem;
-    width: 16rem;
+    width: 20rem;
   }
 }
+
 .authorShield {
-    height: 4rem;
+    height: 6rem;
     border-width: 2px;
     border-style: solid;
     border-color: white;
     background-color: var(--primary-color);
     border-radius: 10px;
     color: white;
-    width: 16rem;
+    width: 30rem;
     clear: both;
 
     &:hover {
@@ -22,20 +23,20 @@
 
     &__imageCol {
         float: left;
-
+        border-right: 2px white;
         &--image {
-            width: 4rem;
-            height: 3.7rem;
+            top: .2rem;
+            width: 6rem;
+            height: 5.4rem;
             border-radius: 10px 0px 0px 10px;
-            position: relative;
-            left: -1px;
-            border-right: solid 1px;
+
+           
         }
     }
 
     &__rightCol {
         float: left;
-        width: 12rem;
-        background-color: #c25e2c;
+        width: 23rem;
+       
     }
 }

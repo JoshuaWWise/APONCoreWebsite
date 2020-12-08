@@ -11,7 +11,7 @@
         <div class="row APONText">
             <div class="col-6 mb-2">
                 <h3>Add a Podcast Episode</h3>
-                <select id="SeriesList" name="SeriesList" >
+                <select id="SeriesList" name="SeriesList">
                     @for (int i = 0; i < Model.SeriesForUser.Count; i++)
                     {
                         <option value="@Model.SeriesForUser[i].SeriesID"> @Model.SeriesForUser[i].Name</option>
@@ -26,7 +26,7 @@
                     <div class="col-xs-12 col-md-12 mb-2">
                         <button type="button"
                                 class="APONbtn APONbtnBlue"
-                                 onclick="window.location.href='../Admin/EditSplashNews'">
+                                onclick="window.location.href='../Admin/EditSplashNews'">
                             Edit Splash News
                         </button>
                     </div>
@@ -42,8 +42,17 @@
                 </div>
                 <div class="w-100">
                     <button class="APONbtn APONbtnBlue" onclick="window.location.href='../Admin/TwitterAdmin'">
-                        Eidt Tweets
+                        Edit Tweets
                     </button>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-12 mb-2">
+                        <button type="button"
+                                class="APONbtn APONbtnBlue"
+                                onclick="window.location.href='../Admin/EditSubseries'">
+                            Edit Subseries
+                        </button>
+                    </div>
                 </div>
                 @if (Model.UserAuthLevel == 1)
                 {

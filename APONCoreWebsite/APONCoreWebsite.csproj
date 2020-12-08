@@ -32,18 +32,39 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="APONCoreLibrary">
-      <HintPath>..\..\..\..\..\Programming\APONCoreLibrary\APONCoreLibrary\bin\Debug\netcoreapp3.1\APONCoreLibrary.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
     <TypeScriptCompile Include="wwwroot\ts\TSMain.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Pages\ActionPages\" />
     <Folder Include="Pages\PartialViews\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="APONCoreLibrary">
+      <HintPath>G:\Programming\APONCoreLibrary\bin\Debug\netcoreapp3.1\APONCoreLibrary.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\scss\app.component.css">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>app.component.scss</DependentUpon>
+    </Content>
+    <Content Update="wwwroot\scss\app.component.scss">
+      <Generator>SassTranspiler</Generator>
+      <LastGenOutput>app.component.css</LastGenOutput>
+    </Content>
+    <Content Update="wwwroot\scss\components\_authorShield.css">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>_authorShield.scss</DependentUpon>
+    </Content>
+    <Content Update="wwwroot\scss\components\_authorShield.scss">
+      <Generator>SassTranspiler</Generator>
+      <LastGenOutput>_authorShield.css</LastGenOutput>
+    </Content>
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">

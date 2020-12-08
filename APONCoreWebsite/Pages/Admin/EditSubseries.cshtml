@@ -1,0 +1,142 @@
+﻿@page "/Admin/EditSubseries"
+@model APONCoreWebsite.Pages.Admin.EditSubseriesModel
+@using APONCoreLibrary.ReturnModels
+@{
+    ViewData["Title"] = "Edit Subseries";
+}
+
+<h1>Edit Subseries</h1>
+
+<div id="editSeriesRow" class="grid-row">
+    <label>@Model.ErrorMessage</label>
+    <div class="col-1-of-3">
+        <select id="lstSubseries" Name="lstSubseries" Size=@Model.subseriesList.Count onchange="selectSubSeries()">
+            @foreach (SubseriesPageInfo spi in Model.subseriesList)
+            {
+
+                <option value=@spi.Subseries.SubseriesID> @spi.Subseries.Title </option>
+            }
+
+
+        </select>
+    </div>
+    <form method="post" asp-page-handler="Episode" id="mainForm">
+
+
+        <div class="col-2-of-3">
+            <div>
+                <input type="text" id="subseriesID" name="subseriesID" readonly/>
+            </div>
+            <div>
+                <label>Subseries Title</label>
+                <br />
+                <input id="ssTitle" name="ssTitle" type="text" />
+            </div>
+            <div>
+                <label>Subseries Description</label>
+                <br />
+                <textarea  id="ssDescription" name="ssDescription" cols="50" rows="6"></textarea>
+            </div>
+            <div>
+                <label>List of episode IDS. (Separate by comma, no spaces, should be in the order you want them to appear on the page).</label>
+                <br />
+                <input id="epListIDs" name="epListIDs" type="text" />
+            </div>
+            <div>
+                <label>Subseries Image URL</label>
+                <br />
+                <input id="ssImageURL" name="ssImageURL" type="text" />
+                <br />
+                <img style="width: 50%" id="ssImage" />
+            </div>
+
+            <button type="submit">Update Subseries</button>
+        </div>
+    </form>
+    <br />
+    <form method="post" asp-page-handler="AddSubseries" id="addForm">
+        <div class="col-1-of-1">
+            <h3>
+                Add a new subseries.
+
+            </h3>
+            <br />
+            You'll add the name here and then edit it once it's been added.
+            <br />
+            Subseries Title
+            <br />
+            <input type="text" id="addSSTitle" name="addSSTitle" />
+            <button type="submit">Add New Subseries</button>
+        </div>
+
+
+    </form>
+</div>
+
+@for (int i = 0; i < Model.subseriesList.Count; i++)
+{
+    @Html.HiddenFor(model => model.subseriesList[i].Subseries.SubseriesID, new { id = "Subseries[" + i + "].SubseriesID" });
+    @Html.HiddenFor(model => model.subseriesList[i].Subseries.Title, new { id = "Subseries[" + i + "].Title" });
+    @Html.HiddenFor(model => model.subseriesList[i].Subseries.ImageURL, new { id = "Subseries[" + i + "].ImageURL" });
+    @Html.HiddenFor(model => model.subseriesList[i].Subseries.Description, new { id = "Subseries[" + i + "].Description" });
+    @Html.HiddenFor(model => model.subseriesList[i].Episodes.Count, new { id = "Subseries[" + i + "].EpisodeCount" });
+    string s = "";
+
+    for (int j = 0; j < Model.subseriesList[i].Episodes.Count; j++)
+    {
+        string t = Model.subseriesList[i].Episodes[j].EpisodeID.ToString();
+        if (j > 0)
+        {
+            s += "," + t;
+        }
+        else
+        {
+            s = t;
+        }
+        @*@Html.HiddenFor(model => model.subseriesList[i].Episodes[j].EpisodeID, new { id = "Subseries[" + i + "].Episode[" + j + "].EpisodeID" });
+            @Html.HiddenFor(model => model.subseriesList[i].Episodes[j].Title, new { id = "Subseries[" + i + "].Episode[" + j + "].Title" });
+            @Html.HiddenFor(model => model.subseriesList[i].Episodes[j].EpImageURL, new { id = "Subseries[" + i + "].Episode[" + j + "].EpImageURL" });*@
+
+    }
+    <input type="hidden" id=@("Subseries" + i + ".Eplist") value="@s">
+
+    //TODO: Add partial view that shows episode.
+
+}
+
+<div id="addSeriesRow" class="grid-row">
+
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        function selectSubSeries() {
+
+            var ssIndex = document.getElementById("lstSubseries").value - 1;
+            document.getElementById("subseriesID").value = document.getElementById("Subseries[" + ssIndex + "].SubseriesID").value;
+            document.getElementById("ssTitle").value = document.getElementById("Subseries[" + ssIndex + "].Title").value;
+            document.getElementById("ssImageURL").value = document.getElementById("Subseries[" + ssIndex + "].ImageURL").value;
+            document.getElementById("ssImage").src = document.getElementById("Subseries[" + ssIndex + "].ImageURL").value;
+            document.getElementById("ssDescription").value = document.getElementById("Subseries[" + ssIndex + "].Description").value;
+
+
+            //Add episodes back to list, showing their Titles
+            document.getElementById("epListIDs").value = document.getElementById("Subseries" + ssIndex + ".Eplist").value;
+
+
+            //create list of
+            //for (var j = 0; j < epCount; j++) {
+            //    var opt = document.createElement('option');
+            //    opt.value = j;
+            //    opt.innerHTML = document.getElementById("Subseries[" + ssIndex + "].Episode[" + j + "].Title").value;
+            //    selectElement.appendChild(opt);
+            //}
+
+
+        }
+
+
+    </script>
+}

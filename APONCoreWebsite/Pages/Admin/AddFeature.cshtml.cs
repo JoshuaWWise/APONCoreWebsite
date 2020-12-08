@@ -56,7 +56,7 @@ namespace APONCoreWebsite.Pages.Admin
                     Feature = new NewsWithTags();
                     Feature.News = new News();
                     Feature.tags = new List<Tag>();
-                    Feature.News.PostDate = DateTime.Now;
+                    Feature.News.PostDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
                 }
                 else
                 {

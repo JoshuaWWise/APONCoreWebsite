@@ -1,5 +1,6 @@
 ﻿@page "/Admin/EditSeries/{SeriesID}"
 @model APONCoreWebsite.Pages.Admin.EditSeriesModel
+
 @{
     ViewData["Title"] = "Edit " + Model.Series.Name;
 }
@@ -167,6 +168,14 @@
                            name="Copyright"
                            asp-for="Series.Copyright" />
                 </div>
+                <div class="form-group">
+                    <label for="SubseriesIDList">Subseries IDs (separated in the order you want them to display in with commas and no spaces i.e. 15,3,18)</label>
+                    <input type="text"
+                           class="form-control"
+                           id="SubseriesIDList"
+                           name="SubseriesIDList"
+                           asp-for="SubseriesIDs" />
+                </div>
 
 
             </div>
@@ -211,7 +220,7 @@
 
 
             updateImg('splashImageInput', 'imgSplashImage');
-            updateImg('imgURLtext', 'imgMainImage');
+            updateImg('imgURLtextbox', 'imgMainImage');
 
 
 

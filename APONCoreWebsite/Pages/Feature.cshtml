@@ -15,10 +15,11 @@
         <div class="grid-row ">
             <div class="col-1-of-1">
                 <div class="grid-row">
-                    <div class="col-1-of-3">
-                        <partial name="_AuthorShield" model=@Model.Feature.AUthor />
+                        <div class="col-1-of-3">
+                            <partial name="_AuthorShield" model=@Model.Feature.AUthor />
+                        </div>
                     </div>
-                </div>
+              
                 <div class="grid-row">
                     <div class="col-1-of-3">
                         @Model.Feature.News.PostDate.ToShortDateString()
@@ -42,7 +43,7 @@
 
                             </div>
                         </div>
-                                    }
+                    }
                 }
                 <div class="row grid-row">
                     <div class="col-1-of-1">
@@ -51,8 +52,8 @@
                     @{ var myHTMLString = new Microsoft.AspNetCore.Html.HtmlString(Model.Feature.News.LongText);
                         @myHTMLString
                     }
-                
-              </div>
+
+                </div>
             </div>
             <div class="col-1-of-1">
                 <partial name="_TagList" model=@Model.Feature.tags />

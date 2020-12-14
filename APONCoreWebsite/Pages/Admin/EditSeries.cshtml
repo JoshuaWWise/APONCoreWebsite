@@ -1,12 +1,14 @@
 ﻿@page "/Admin/EditSeries/{SeriesID}"
 @model APONCoreWebsite.Pages.Admin.EditSeriesModel
 
-@{
-    ViewData["Title"] = "Edit " + Model.Series.Name;
-}
+
 
 @if (Model.UserAuthLevel < 4)
 {
+   
+        ViewData["Title"] = "Edit " + Model.Series.Name;
+    
+
     <input type="hidden" id="SaveStatus" value=@Model.SaveStatus>
 
     <h1>Edit @Model.Series.Name</h1>
@@ -175,6 +177,16 @@
                            id="SubseriesIDList"
                            name="SubseriesIDList"
                            asp-for="SubseriesIDs" />
+                </div>
+                <div class="form-group">
+                    <label for="pageLayout">Series Page Layout: 0 = Subseries before Episodes, 1 = Episodes before Subseries</label>
+                    <input type="number"
+                           min="0"
+                           max="1"
+                           class="form-control"
+                           id="PageLayoutID"
+                           name="PageLayoutID"
+                           asp-for="Series.PageLayout" />
                 </div>
 
 

@@ -92,6 +92,7 @@ namespace APONCoreWebsite.Pages.Admin
             Series.Email = Request.Form["Email"];
             Series.TwitterFeedURL = Request.Form["Twitter"];
             Series.Copyright = Request.Form["Copyright"];
+            Series.PageLayout = int.Parse(Request.Form["PageLayoutID"]);
             string ssids = Request.Form["SubseriesIDList"];
             SWS.SubseriesIDs.Clear();
             try

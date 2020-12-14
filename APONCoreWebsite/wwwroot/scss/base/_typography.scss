@@ -26,3 +26,11 @@
     margin-bottom: 1.6rem;
   }
 }
+
+.SectionHeader {
+    width: 100%;
+    font-size: $subsection-font-size;
+    line-height: $subsection-font-size;
+    background-color: var(--primary-color);
+    color: white;
+}

@@ -72,38 +72,46 @@
         }
         <hr />
 
-        @for (int i = 0; i < Model.SPD.SeriesLinks.Count; i++)
+        @if (Model.SPD.Series.PageLayout == 0)
         {
-            if (i % 3 == 0)
-            {
-                <div class="grid-row">
-
-                    @if (Model.SPD.SeriesLinks.Count > i)
+            @if (Model.SPD.SeriesLinks.Count > 0)
+                {
+                    <div class="SectionHeader"> Check out Our Subseries!</div>
+                }
+                @for (int i = 0; i < Model.SPD.SeriesLinks.Count; i++)
+                {
+                    if (i % 3 == 0)
                     {
-                        <div class="col-1-of-3">
-                            @{ await Html.RenderPartialAsync("_SeriesLink", Model.SPD.SeriesLinks[i]);}
+                        <div class="grid-row">
+
+                            @if (Model.SPD.SeriesLinks.Count > i)
+                            {
+                                <div class="col-1-of-3">
+                                    @{ await Html.RenderPartialAsync("_SeriesLink", Model.SPD.SeriesLinks[i]);}
+                                </div>
+                            }
+                            @if (Model.SPD.SeriesLinks.Count > i + 1)
+                            {
+                                <div class="col-1-of-3">
+                                    @{ await Html.RenderPartialAsync("_SeriesLink", Model.SPD.SeriesLinks[i + 1]);}
+                                </div>
+                            }
+                            @if (Model.SPD.SeriesLinks.Count > i + 2)
+                            {
+                                <div class="col-1-of-3">
+                                    @{ await Html.RenderPartialAsync("_SeriesLink", Model.SPD.SeriesLinks[i + 2]);}
+                                </div>
+                            }
+
                         </div>
                     }
-                    @if (Model.SPD.SeriesLinks.Count > i + 1)
-                    {
-                        <div class="col-1-of-3">
-                            @{ await Html.RenderPartialAsync("_SeriesLink", Model.SPD.SeriesLinks[i + 1]);}
-                        </div>
-                    }
-                    @if (Model.SPD.SeriesLinks.Count > i + 2)
-                    {
-                        <div class="col-1-of-3">
-                            @{ await Html.RenderPartialAsync("_SeriesLink", Model.SPD.SeriesLinks[i + 2]);}
-                        </div>
-                    }
-
-                </div>
-            }
 
 
+                }
+
+                <hr />
         }
-
-        <hr />
+        <div class="SectionHeader"> Episodes</div>
         @Html.HiddenFor(model => Model.EpCount, new { id = "epCount" })
         <input type="hidden" id="pageNum" value="0" />
         <input type="hidden" id="pageCount" value="1" />
@@ -163,19 +171,58 @@
             }
         }
 
+        @if (Model.SPD.Series.PageLayout == 1)
+        {
+            @if (Model.SPD.SeriesLinks.Count > 0)
+            {
+                <div class="SectionHeader"> Check out Our Subseries!</div>
+            }
+            @for (int i = 0; i < Model.SPD.SeriesLinks.Count; i++)
+            {
+                if (i % 3 == 0)
+                {
+                    <div class="grid-row">
+
+                        @if (Model.SPD.SeriesLinks.Count > i)
+                        {
+                            <div class="col-1-of-3">
+                                @{ await Html.RenderPartialAsync("_SeriesLink", Model.SPD.SeriesLinks[i]);}
+                            </div>
+                        }
+                        @if (Model.SPD.SeriesLinks.Count > i + 1)
+                        {
+                            <div class="col-1-of-3">
+                                @{ await Html.RenderPartialAsync("_SeriesLink", Model.SPD.SeriesLinks[i + 1]);}
+                            </div>
+                        }
+                        @if (Model.SPD.SeriesLinks.Count > i + 2)
+                        {
+                            <div class="col-1-of-3">
+                                @{ await Html.RenderPartialAsync("_SeriesLink", Model.SPD.SeriesLinks[i + 2]);}
+                            </div>
+                        }
+
+                    </div>
+                }
+
+
+            }
+
+            <hr />
+        }
 
     </div>
     <input id="twitterFeedURL" type="hidden" value="@Model.SPD.Series.TwitterFeedURL" />
     @if (Model.SPD.Series.TwitterFeedURL != "...")
     {
-    <div id="twitterSection" class="col-1-of-4">
-        <button onclick="switchTwitter()" class="APONbtn APONbtnBlue mt-2">
-            Hide Feed
-        </button>
-        <a class="twitter-timeline" href="@Model.SPD.Series.TwitterFeedURL">
-            Twitter Feed
-        </a>
-    </div>
+        <div id="twitterSection" class="col-1-of-4">
+            <button onclick="switchTwitter()" class="APONbtn APONbtnBlue mt-2">
+                Hide Feed
+            </button>
+            <a class="twitter-timeline" href="@Model.SPD.Series.TwitterFeedURL">
+                Twitter Feed
+            </a>
+        </div>
     }
 </div>
 

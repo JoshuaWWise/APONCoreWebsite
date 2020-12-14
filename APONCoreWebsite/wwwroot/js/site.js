@@ -151,7 +151,7 @@ function submitImage(evt, formdata, targetFolder, InputUpdateField, ImageUpdateF
     switch (targetFolder) {
         case "news":
             imageURL += "News/" + filename;
-            url = '../ImageHandler?handler=' + handler;
+            url = '../../ImageHandler?handler=' + handler;
             fd.append("imageType", "news");
             break;
         case "episode":

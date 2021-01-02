@@ -4,6 +4,9 @@
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 
+
+
+
 <div class="grid-row forum-outer forum-post-top">
     <div *ngIf="!saving">
         <div class="col-1-of-4">
@@ -24,45 +27,16 @@
         <div class="col-3-of-4">
 
             <div class="mt-5" id=@("forumPostText" + @Model.FPI.forumPost.ForumPostID)>@Html.Raw(Model.FPI.forumPost.Text)</div>
-            <div id=@("forumPostEditor" + @Model.FPI.forumPost.ForumPostID) style="visibility:hidden;">
-                <textarea id=@("ForumPostTextEditorTextArea" + @Model.FPI.forumPost.ForumPostID)>@Html.Raw(Model.FPI.forumPost.Text)</textarea>
-            </div>
-            @if (Model.FPI.CurrentUserID == Model.FPI.lastUpdatedInfo.LastUpdatedBy)
-            {
+          
 
-                <button type="button" id=@("btnSwitchToForumPostEdit" + @Model.FPI.forumPost.ForumPostID) onclick="SwitchForumPostToEdit(@Model.FPI.forumPost.ForumPostID)">Edit</button>
-                <button type="button" id=@("btnSaveForumPost" + @Model.FPI.forumPost.ForumPostID) onclick="SaveForumPost(@Model.FPI.forumPost.ForumPostID)" style="visibility:hidden">Save</button>
+            @if (Model.CurrentUserID == Model.FPI.lastUpdatedInfo.LastUpdatedBy)
+            {<div><button type="button" onclick="window.location.href='@("../../EditComment/" + @Model.FPI.forumPost.ForumPostID)'">Edit</button></div>}
 
-            }
 
         </div>
     </div>
 </div>
 
-<input type="hidden" value="false" id=@("editMode" + @Model.FPI.forumPost.ForumPostID) />
 
 
 
-
-
-<script type="text/javascript">
-
-    
-    function SaveForumPost(id) {
-
-        //tinymce.get("ForumPostTextEditorTextArea" + id).setContent("<p><img src='https://thumbs.gfycat.com/PointedDampApisdorsatalaboriosa-size_restricted.gif' /></p>")
-
-        
-        var myContent = tinymce.get("ForumPostTextEditorTextArea" + id).getContent();
-
-        //Save the Content
-
-        //Update the field
-
-        //Hide and Show Fields
-
-        //Remove the TINYMCE
-
-        RemoveTinyMCE(id);
-    }
-</script>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using APONCoreLibrary.Models;
 using APONCoreLibrary.Models.RequestModels;
-using APONCoreLibrary.Models.ReturnModels;
+using APONCoreLibrary.ReturnModels;
 using APONCoreWebsite.Models;
 using APONCoreWebsite.Pages.Shared;
 using APONCoreWebsite.Pages.ViewModels;
@@ -35,6 +35,8 @@ namespace APONCoreWebsite.Pages.Series
         public string FileURL { get; set; }
 
         public ISeriesService SS { get; set; }
+
+        public int CurrentUserID { get; set; }
 
         [BindProperty]
         public APONCoreLibrary.Models.Series epSeries { get; set; }
@@ -97,10 +99,11 @@ namespace APONCoreWebsite.Pages.Series
             foreach (ForumPostInfo fpi in EpisodeData.Posts)
             {
                 fpi.CurrentUserID = myAuthService.getUserID();
-                _Forum__PostModel f = new _Forum__PostModel(fpi);
+                _Forum__PostModel f = new _Forum__PostModel(fpi, myAuthService.getUserID());
                 fvm.Posts.Add(f);
 
             }
+            CurrentUserID = myAuthService.getUserID();
             fvm.CurrentUserID = myAuthService.getUserID();
             fvm.ShowTop = false;
 

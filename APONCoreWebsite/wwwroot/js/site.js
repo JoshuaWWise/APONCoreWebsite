@@ -131,6 +131,54 @@ function RemoveTinyMCE(fpID) {
 
 }
 
+function SubmitComment() {
+
+    var content = (tinymce.get("commentTinyMCE").getContent());
+    let fd = new FormData;
+   
+    fd.append("ForumID", document.getElementById("commentForumID").value);
+    fd.append("Text", content);
+    fd.append("ForumIndex", document.getElementById("ForumHighestIndex").value);
+  
+   // evt.preventDefault();
+    $.ajax({
+        type: "POST",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+        },
+        url: window.location.protocol + "//" + window.location.host + "/Handlers/SaveHandler?handler=AddForumComment",
+        data: fd,
+        contentType: false,
+        processData: false,
+
+        success: function (resp) {
+
+            if (resp == "OK") {
+
+                alert("Comment Saved");
+                location.reload();
+
+            }
+            else {
+                alert(resp);
+            }
+        }
+    });
+
+}
+
+function renderCommentTinyMCE() {
+    var myTinyMCE = new tinymce.Editor("commentTinyMCE", {
+        selector: "commentTinyMCE",
+        width: 700, height: 200,
+        menubar: false,
+        toolbar: 'undo redo | bold italic underline strikethrough |  image media  link   | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print  | ltr rtl',
+        toolbar_sticky: true,
+        plugins: 'image link media'
+    }, tinymce.EditorManager);
+    myTinyMCE.render();
+}
+
 function updateImg(senderObjectID, targetObjectID) {
     console.log("target: " + targetObjectID + ": " + document.getElementById(targetObjectID).src);
     console.log(document.getElementById(senderObjectID).value);
@@ -141,9 +189,6 @@ function submitImage(evt, formdata, targetFolder, InputUpdateField, ImageUpdateF
     var handler = "NewsImage";
     var imageURL = "https://media.allportsopen.org/images/";
     let url = "";
-    console.log(evt);
-    console.log(targetFolder);
-    console.log(filename);
     let fd = new FormData;
     fd = formdata;
 
@@ -159,6 +204,15 @@ function submitImage(evt, formdata, targetFolder, InputUpdateField, ImageUpdateF
             url = '../../ImageHandler?handler=' + handler;
             fd.append("imageType", "episode");
             break;
+        case "comic":
+            imageURL += "Comics/" + filename;
+            url = '../../ImageHandler?handler=' + handler;
+            fd.append("imageType", "comic");
+         
+            break;
+
+        
+
     }
 
     evt.preventDefault();

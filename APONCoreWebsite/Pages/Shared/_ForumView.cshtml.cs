@@ -7,7 +7,7 @@ using APONCoreLibrary.Models.ReturnModels;
 using APONCoreWebsite.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-
+using APONCoreLibrary.ReturnModels;
 namespace APONCoreWebsite.Pages.Shared
 {
     public class _ForumViewModel : PageModel

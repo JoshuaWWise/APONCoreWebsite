@@ -26,6 +26,7 @@ namespace APONCoreWebsite.Pages.Admin
         public async Task<IActionResult> OnGetAsync()
         {
             base.Init();
+
             try
             {
                 

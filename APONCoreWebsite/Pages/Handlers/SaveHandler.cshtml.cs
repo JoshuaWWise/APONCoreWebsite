@@ -93,6 +93,19 @@ namespace APONCoreWebsite.Pages.Handlers
             return new JsonResult(Result.StatusCode.ToString());
         }
 
+        public async Task<IActionResult> OnPostAddForumComment()
+        {
+            ForumPost FP = new ForumPost();
+            FP.ForumID = int.Parse(Request.Form["ForumID"]);
+            FP.Text = Request.Form["Text"];
+            FP.Blocked = false;
+            FP.Flagged = false;
+            FP.ReplyToCommentID = -1;
+            FP.ForumIndex = int.Parse(Request.Form["ForumIndex"]);
+            HttpResponseMessage Result = await DS.PostAsync(FP, "forum/AddForumPost");
+            return new JsonResult(Result.StatusCode.ToString());
+        }
+
 
     }
 }

@@ -10,37 +10,57 @@
 
 <div class="w-100 block">
     <div class="forum-frame">
-       
+
 
         <div>
-
+            <input type="hidden" id="commentForumID" name="commentForumID" asp-for="Forum.ForumID" />
+            @{ 
+                int LastForumPostIndex;
+                LastForumPostIndex = (Model.Posts[Model.Posts.Count - 1].FPI.forumPost.ForumIndex ?? 0) + 1;
+                <input type="hidden" id="ForumHighestIndex" name="ForumHighestIndex" value=@LastForumPostIndex />
+            }
             @foreach (_Forum__PostModel fp in Model.Posts)
             {
                 <partial name="_Forum__Post" model=fp />
 
             }
-            @*<div class="row">
-                <div class="col-md-12">
-                    Add a comment!
+
+            @if (Model.CurrentUserID > 0)
+            {
+                <div class="grid-row">
+
+                    <div class="col-1-of-1">
+
+                        <textarea id="commentTinyMCE" name="commentTinyMCE"> Add a comment!</textarea>
+                    </div>
                 </div>
-                <div class="col-md-12">
-                    Please sign in to comment.
-                </div>
-            </div>
-            <div class="row" *ngIf="!saving">
-                <div class="col-md-12">
+                <div class="grid-row">
+                    <div class="col-1-of-3">
 
 
-                    <button [hidden]="userID == null || userID == -1"
-                            (click)="onSubmit()"
-                            class="APONbtn APONbtnBlue">
-                        Submit
-                    </button>
+                        <button onClick="SubmitComment()"
+                                class="APONbtn APONbtnBlue">
+                            Submit
+                        </button>
+
+                    </div>
                 </div>
-            </div>*@
-           Comments returning soon!
+
+
+
+            }
+            else
+            {
+
+
+                <a href="/Login">Please sign in to comment.</a>
+
+
+            }
+
+
         </div>
 
-    
+
     </div>
 </div>

@@ -1,0 +1,120 @@
+﻿@page  "/Admin/AddComic/"
+@model APONCoreWebsite.Pages.Admin.AddComicModel
+@{
+
+    if (Model.EditorLoggedIn)
+    { 
+
+    <form method="post" asp-page-handler="Comic" id="mainForm" enctype="multipart/form-data">
+        <div class="grid-row">
+            <div class="col-1-of-2" style="border-right: solid 1px">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text"
+                           class="form-control w100"
+                           id="Name"
+                           required
+                           name="Name" />
+                </div>
+                <div class="form-group">
+                    <label for="title">Description</label>
+                    <input type="text"
+                           class="form-control w100"
+                           id="description"
+                           required
+                           name="description" />
+                </div>
+                <div class="form-group">
+                    <label for="title">Default Width</label>
+                    <input type="text"
+                           class="form-control w100"
+                           id="DefaultWidth"
+                           required
+                           name="DefaultWidth" />
+                </div>
+                <div class="form-group">
+                    <label for="title">Default Height</label>
+                    <input type="text"
+                           class="form-control w100"
+                           id="DefaultHeight"
+                           required
+                           name="DefaultHeight" />
+                </div>
+                <div class="form-group">
+                    <label for="title">Status</label>
+                    <select name="enabledStatus" id="enabledStatus">
+                        <option value="0">Disabled</option>
+                        <option value="1">Enabled</option>
+
+                    </select>
+                </div>
+                <label class="mt-2" for="imageURL">Image Location</label>
+                <input type="text"
+                       class="form-control"
+                       id="imgURLtextbox"
+                       required
+                       name="imgURLtextbox"
+                       oninput="updateImg('imgURLtextbox', 'imgMainImage')" />
+
+                <input type="file"
+                       id="imgFileInput"
+                       name="imgFileInput"
+                       accept=".png,.jpg"
+                       #imgURLInput
+                       onchange="startImageSubmit(event, 'imgFileInput', 'imgURLtextbox', 'imgMainImage');" />
+                <br />
+                <img id="imgMainImage"
+                     name="imgMainImage"
+                     class="editorImage" />
+
+            </div>
+            <div class="col-1-of-2">
+
+
+                <button id="btnAddComicSubmit"
+                        type="submit"
+                        class="btn btn-success"
+                       >
+                    Submit
+                </button>
+            </div>
+        </div>
+
+    </form>
+    }
+}
+@section Scripts
+{
+    <script type="text/javascript">
+
+          $(document).ready(function () {
+
+            let LoggedIn = "@Model.EditorLoggedIn";
+            
+            if (LoggedIn == "False") {
+             
+                logoutFromSession();
+              }
+
+              if (@Model.SavedStripID != -1) {
+                  window.location.href = "../ComicStrips";
+              }
+
+         });
+
+        function startImageSubmit(evt, senderObj, txtUpdateField, imgUpdateField) {
+            let fd = new FormData();
+
+            fd.append("File", document.getElementById(senderObj).files[0])
+            var filename = document.getElementById(senderObj).files[0].name;
+          
+
+
+
+            submitImage(evt, fd, "comic", txtUpdateField, imgUpdateField, filename);
+
+
+        }
+    </script>
+
+}

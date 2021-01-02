@@ -32,9 +32,10 @@ namespace APONCoreWebsite.Pages
         {
             IFormFile FileData = Request.Form.Files[0];
             string type = Request.Form["imageType"];
-
+       
             string Message = "";
             string path = "";
+       
             if (type == "episode")
             {
                 path = "Episodes/UploadEpisodeImage";
@@ -42,6 +43,10 @@ namespace APONCoreWebsite.Pages
             else if (type == "news")
             {
                 path = "News/UploadNewsImage";
+            }
+            else if (type == "comic")
+            {
+                path = "Comic/UploadComicImage";
             }
 
             HttpResponseMessage response = await DS.PostImageAsync(FileData, path);

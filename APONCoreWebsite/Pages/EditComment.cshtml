@@ -1,0 +1,38 @@
+﻿@page "/EditComment/{ForumPostID}"
+@model APONCoreWebsite.Pages.EditCommentModel
+@{
+    <form method="post" id="frmMain" asp-page-handler="Comment" style="display:none">
+        <textarea id="tinyMCETextArea" name="tinyMCETextArea" asp-for="FP.Text"></textarea>
+        <button type="submit">Save</button>
+        <button type="button" onclick="window.location.href='@Model.ReturnURL'">Cancel</button>
+        <input type="hidden" id="returnURL" name="returnURL" asp-for="ReturnURL" />
+    </form>
+ 
+}
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            if ("@Model.Mode" == "Edit") {
+                var myTinyMCE = new tinymce.Editor('tinyMCETextArea', {
+                    selector: 'tinyMCETextArea',
+                    width: 1000, height: 500,
+                    menubar: false,
+                    toolbar: 'code undo redo | bold italic underline strikethrough |  image media  link   | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print  | ltr rtl',
+                    toolbar_sticky: true,
+                    plugins: 'image link media code'
+                }, tinymce.EditorManager);
+
+                myTinyMCE.render();
+                document.getElementById("frmMain").style.display = "block";
+            }
+            else {
+                alert("Comment saved!");
+                window.location.href = '@Model.ReturnURL';
+            }
+
+        }
+        );
+    </script>
+}

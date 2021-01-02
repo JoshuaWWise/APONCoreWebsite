@@ -56,28 +56,33 @@
                 </div>
                 @if (Model.UserAuthLevel == 1)
                 {
-                    <div class="row">
-                        <div class="col-xs-12 col-md-12 mb-2">
-                            <button class="APONbtn APONbtnBlue" onclick="window.location.href='../Admin/AddCast'">
-                                Add Cast
-                            </button>
-                        </div>
-                        <div class="col-xs-12 col-md-12 mb-2">
-                            <button class="APONbtn APONbtnBlue" (click)="onAddCastToSeries()">
-                                Add Cast To Series
-                            </button>
-                        </div>
-                        <div class="col-xs-12 col-md-12 mb-2">
-                            <button class="APONbtn APONbtnBlue" (click)="onEditCastMembers()">
-                                Edit Cast Members
-                            </button>
-                        </div>
-                        <div class="col-xs-12 col-md-12 mb-2">
-                            <button class="APONbtn APONbtnBlue" onclick="window.location.href = '../Admin/UserList'">
-                                View All Users
-                            </button>
-                        </div>
-                    </div>
+            <div class="row">
+                <div class="col-xs-12 col-md-12 mb-2">
+                    <button class="APONbtn APONbtnBlue" onclick="window.location.href='../Admin/AddCast'">
+                        Add Cast
+                    </button>
+                </div>
+                <div class="col-xs-12 col-md-12 mb-2">
+                    <button class="APONbtn APONbtnBlue" (click)="onAddCastToSeries()">
+                        Add Cast To Series
+                    </button>
+                </div>
+                <div class="col-xs-12 col-md-12 mb-2">
+                    <button class="APONbtn APONbtnBlue" (click)="onEditCastMembers()">
+                        Edit Cast Members
+                    </button>
+                </div>
+                <div class="col-xs-12 col-md-12 mb-2">
+                    <button class="APONbtn APONbtnBlue" onclick="window.location.href = '../Admin/UserList'">
+                        View All Users
+                    </button>
+                </div>
+                <div class="col-xs-12 col-md-12 mb-2">
+                    <button class="APONbtn APONbtnBlue" onclick="window.location.href='../Admin/AddComic'">
+                        Add ComicStrip
+                    </button>
+                </div>
+            </div>
                 }
             </div>
         </div>

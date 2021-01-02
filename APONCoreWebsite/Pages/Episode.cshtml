@@ -103,7 +103,13 @@
 }
 @section Scripts{
     <script type="text/javascript">
+        $(document).ready(function () {
 
+
+             renderCommentTinyMCE();
+
+        });
+      
     function GoToEpEdit() {
         let i = @Model.EpisodeID;
         window.location.href = "../../admin/EditEpisode/" + i;

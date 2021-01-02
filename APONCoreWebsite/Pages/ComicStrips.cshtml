@@ -1,0 +1,10 @@
+﻿@page "/ComicStrips"
+@model APONCoreWebsite.Pages.ComicStripsModel
+@using APONCoreLibrary.Models; 
+@{
+    foreach(ComicStrip CS in Model.Strips)
+    {
+        <div>@CS.Name</div>
+        <div><img src="@CS.ImageURL" /></div>
+    }
+}

@@ -1,0 +1,18 @@
+﻿
+@model APONCoreWebsite.Pages.Shared._BadgeGridSmallModel
+@using APONCoreLibrary.Models; 
+@{ 
+    int i = 0;
+    <div class="row ml-3">
+        
+        @foreach(Badge s in Model.BadgeURLS)
+        {
+            
+            
+                <img style="width:2vw" src="@s.ImageURL" title="@s.Name" />
+           
+                
+        }
+    </div>
+ 
+}

@@ -168,15 +168,18 @@ function SubmitComment() {
 }
 
 function renderCommentTinyMCE() {
+    var screnW = document.getElementById("forumOuterDiv").width;
     var myTinyMCE = new tinymce.Editor("commentTinyMCE", {
         selector: "commentTinyMCE",
-        width: 700, height: 200,
+        width: screnW, height: 200,
+
         menubar: false,
         toolbar: 'undo redo | bold italic underline strikethrough |  image media  link   | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print  | ltr rtl',
         toolbar_sticky: true,
         plugins: 'image link media'
     }, tinymce.EditorManager);
     myTinyMCE.render();
+  
 }
 
 function updateImg(senderObjectID, targetObjectID) {

@@ -103,7 +103,12 @@ namespace APONCoreWebsite.Pages.Handlers
             FP.ReplyToCommentID = -1;
             FP.ForumIndex = int.Parse(Request.Form["ForumIndex"]);
             HttpResponseMessage Result = await DS.PostAsync(FP, "forum/AddForumPost");
-            return new JsonResult(Result.StatusCode.ToString());
+            string resultText = Result.StatusCode.ToString();
+            if (resultText == "BadRequest")
+            {
+                resultText = "It looks like your sign-in session has expired. Please sign in again to comment.";
+            }
+            return new JsonResult(resultText);
         }
 
 

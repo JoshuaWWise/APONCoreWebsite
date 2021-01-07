@@ -8,7 +8,7 @@
 *@
 
 
-<div class="w-100 block">
+<div id="forumOuterDiv" class="w-100 block">
     <div class="forum-frame">
 
 
@@ -16,7 +16,14 @@
             <input type="hidden" id="commentForumID" name="commentForumID" asp-for="Forum.ForumID" />
             @{ 
                 int LastForumPostIndex;
-                LastForumPostIndex = (Model.Posts[Model.Posts.Count - 1].FPI.forumPost.ForumIndex ?? 0) + 1;
+                if (Model.Posts.Count > 0)
+                {
+                    LastForumPostIndex = (Model.Posts[Model.Posts.Count - 1].FPI.forumPost.ForumIndex ?? 0) + 1;
+                }
+                else
+                {
+                    LastForumPostIndex = 0;
+                }
                 <input type="hidden" id="ForumHighestIndex" name="ForumHighestIndex" value=@LastForumPostIndex />
             }
             @foreach (_Forum__PostModel fp in Model.Posts)
@@ -29,9 +36,9 @@
             {
                 <div class="grid-row">
 
-                    <div class="col-1-of-1">
+                    <div class="col-1-of-1" >
 
-                        <textarea id="commentTinyMCE" name="commentTinyMCE"> Add a comment!</textarea>
+                        <textarea id="commentTinyMCE" name="commentTinyMCE" style="margin-left: auto; margin-right:auto"> Add a comment!</textarea>
                     </div>
                 </div>
                 <div class="grid-row">

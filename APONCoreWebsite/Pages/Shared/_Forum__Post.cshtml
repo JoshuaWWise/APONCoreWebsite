@@ -10,24 +10,30 @@
 <div class="grid-row forum-outer forum-post-top">
     <div *ngIf="!saving">
         <div class="col-1-of-4">
-            <div class="grid-row">
+            <div class="grid-row ">
+                <div class="col-full">
+                    <img class="forumUser-image" style="margin: 0 auto;" src=@Model.FPI.lastUpdatedInfo.LastUpdatedByImageURL />
+                </div>
                 <div class="col-full">
                     @Model.FPI.lastUpdatedInfo.LastUpdatedByName
                 </div>
+              
+                <div class="col-full border-top">
 
-                <div class="col-full">
-                    @Model.FPI.forumPost.PostDate.ToShortDateString()
+                    <partial name="_BadgeGridSmall" model="@new _BadgeGridSmallModel(Model.FPI.lastUpdatedInfo.Badges)" />
                 </div>
 
-                <div class="col-full">
-                    <img class="forumUser-image" src=@Model.FPI.lastUpdatedInfo.LastUpdatedByImageURL />
-                </div>
+
+
             </div>
         </div>
         <div class="col-3-of-4">
-
-            <div class="mt-5" id=@("forumPostText" + @Model.FPI.forumPost.ForumPostID)>@Html.Raw(Model.FPI.forumPost.Text)</div>
+            <div class="col-full">
+                @Model.FPI.forumPost.PostDate.ToShortDateString()
+            </div>
           
+            <div class="mt-5 border-top" id=@("forumPostText" + @Model.FPI.forumPost.ForumPostID)>@Html.Raw(Model.FPI.forumPost.Text)</div>
+
 
             @if (Model.CurrentUserID == Model.FPI.lastUpdatedInfo.LastUpdatedBy)
             {<div><button type="button" onclick="window.location.href='@("../../EditComment/" + @Model.FPI.forumPost.ForumPostID)'">Edit</button></div>}

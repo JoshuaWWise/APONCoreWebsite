@@ -34,6 +34,8 @@ namespace APONCoreWebsite.Pages.Admin
         public ITagService tagService { get; set; }
 
 
+        public int CurUserID { get; set; }
+        public List<User> Editors { get; set; }
 
         public _tagConsoleModel TCM { get; set; }
 
@@ -49,6 +51,7 @@ namespace APONCoreWebsite.Pages.Admin
             TCM = new _tagConsoleModel(tagService);
             TCM.Tags = await tagService.GetTags(false);
 
+            CurUserID = myAuthService.getUserID();
             if (int.Parse(myAuthService.getUser().AuthLevel) < 4)
             {
                 if (FeatureID == 0)
@@ -57,6 +60,7 @@ namespace APONCoreWebsite.Pages.Admin
                     Feature.News = new News();
                     Feature.tags = new List<Tag>();
                     Feature.News.PostDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+                    Feature.News.AuthorID = CurUserID;
                 }
                 else
                 {
@@ -73,6 +77,9 @@ namespace APONCoreWebsite.Pages.Admin
                 }
                 //Otherwise Get the feature to be populated in the form.
 
+             
+                string EditorsResult = await DS.GetAsync("crewmembers/geteditors");
+                Editors = Newtonsoft.Json.JsonConvert.DeserializeObject<List<User>>(EditorsResult);
 
                 if (FeatureID == 0)
                 {
@@ -139,7 +146,14 @@ namespace APONCoreWebsite.Pages.Admin
             Feature.News.ImageURL = Request.Form["smallImageInput"];
             Feature.News.SplashImageURL = Request.Form["splashImageInput"];
 
-            Feature.News.AuthorID = myAuthService.getUserID();
+            if (myAuthService.getUserAuthLevel() > 2)
+            {
+                Feature.News.AuthorID = myAuthService.getUserID();
+            }
+        else
+            {
+                Feature.News.AuthorID = int.Parse(Request.Form["editor"]);
+            }
             //If the ID is 0, add them.
             Feature.News.Status = 4;
 
@@ -166,7 +180,10 @@ namespace APONCoreWebsite.Pages.Admin
                     }
                 }
             }
+            CurUserID = myAuthService.getUserID();
 
+            string EditorsResult = await DS.GetAsync("crewmembers/geteditors");
+            Editors = Newtonsoft.Json.JsonConvert.DeserializeObject<List<User>>(EditorsResult);
             HttpResponseMessage Response;
 
             if (FeatureID == 0)

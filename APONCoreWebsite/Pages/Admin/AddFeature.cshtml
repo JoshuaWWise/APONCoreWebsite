@@ -1,5 +1,6 @@
 ﻿@page "/Admin/AddFeature/{FeatureID:int?}"
 @model APONCoreWebsite.Pages.Admin.AddFeatureModel
+@using APONCoreLibrary.Models;
 @{
     ViewData["Title"] = "AddFeature";
 }
@@ -27,10 +28,21 @@
                                                id="headline"
                                                required
                                                asp-for="Feature.News.Headline"
-                                               name="headline"
-                                               oninput="UpdateTweet()" />
+                                               name="headline" />
                                     </div>
+                                    @if (Model.Editors.Count > 0)
+                                    {
+                                        <div class="form-group">
+                                            <label for="editor">Author</label>
 
+                                            <select id="editor" name="editor" asp-for="Feature.News.AuthorID">
+                                                @foreach (User u in Model.Editors)
+                                                {
+                                                    <option value="@u.UserID">@u.UserName</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    }
                                     <div class="form-group">
                                         <label for="shortDescription">Short Description</label>
 
@@ -68,8 +80,7 @@
                                         <input type="datetime-local"
                                                asp-for="Feature.News.PostDate"
                                                name="myDatePicker"
-                                               step="10"
-                                                />
+                                               step="10" />
 
                                     </div>
 
@@ -221,7 +232,7 @@
 
         }
 
-     
+
 
 
     </script>

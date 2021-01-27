@@ -10,14 +10,34 @@
 }
 
 
+<div class="SplashGrid">
+    <div class="SplashGrid__Image">
+        <a id="MainImageLink" href=@Model.SplashNews[0].PostURL + @Model.SplashNews[0].LinkID>
+            <img class="splashImage" id="mainImage" src=@Model.SplashNews[Model.index].ImageURL />
+        </a>
+        <button type="button" onclick="javascript:Previous()" class="frontPageImageViewerImageCol__Button frontPageImageViewerImageCol__Button--back">
+            &lt;
+        </button>
 
 
 
+        <button type="button" onclick="javascript:Next()" class="frontPageImageViewerImageCol__Button frontPageImageViewerImageCol__Button--forward">
 
+            >
+        </button>
+    </div>
+    <div class="SplashGrid__Text">                <div class="pt-3 m-3"><p id="Headline">@Model.SplashNews[Model.index].Headline</p></div></div>
+</div>
+@for (int i = 0; i < Model.SplashNews.Count; i++)
+{
+    @Html.HiddenFor(model => model.SplashNews[i].Headline, new { id = "SplashNews[" + i + "].Headline" });
+    @Html.HiddenFor(model => model.SplashNews[i].PostURL, new { id = "SplashNews[" + i + "].PostURL" });
+    @Html.HiddenFor(model => model.SplashNews[i].ImageURL, new { id = "SplashNews[" + i + "].ImageURL" });
+    @Html.HiddenFor(model => model.SplashNews[i].LinkID, new { id = "SplashNews[" + i + "].LinkID" });
+}
+<!--<div>
 
-<div>
-
-    @if (Model.SplashNews != null)
+ <!--  @*  @if (Model.SplashNews != null)
     {
 
         <div>
@@ -44,95 +64,86 @@
                 </div>
 
                 <div class="grid-row">
-                    @*<div class="col-1-of-1">
+<!--         @*<div class="col-1-of-1">
                             <app-frontpage-image-picker *ngFor="let i of numbers"
                                                         [cardIndex]="i"></app-frontpage-image-picker>
-                        </div>*@
-                </div>
+                        </div>
+                <!--</div>
             </div>
         </div>
+*@
 
 
-        @for (int i = 0; i < Model.SplashNews.Count; i++)
-        {
-            @Html.HiddenFor(model => model.SplashNews[i].Headline, new { id = "SplashNews[" + i + "].Headline" });
-            @Html.HiddenFor(model => model.SplashNews[i].PostURL, new { id = "SplashNews[" + i + "].PostURL" });
-            @Html.HiddenFor(model => model.SplashNews[i].ImageURL, new { id = "SplashNews[" + i + "].ImageURL" });
-            @Html.HiddenFor(model => model.SplashNews[i].LinkID, new { id = "SplashNews[" + i + "].LinkID" });
-        }
 
     }
-</div>
-
-
+</div>-->
 @section Scripts{
     <script type="text/javascript">
 
-        var myTimer;
+    var myTimer;
 
-        $(document).ready(function () {
-            UpdateSplash();
+    $(document).ready(function () {
+        UpdateSplash();
 
-        });
+    });
 
-        function StartTimer() {
-            myTimer = setTimeout(function () { Next() }, 3000);
-        }
+    function StartTimer() {
+        myTimer = setTimeout(function () { Next() }, 3000);
+    }
 
-        function CancelTimer() {
-            clearTimeout(myTimer);
-        }
+    function CancelTimer() {
+        clearTimeout(myTimer);
+    }
 
-        function Next() {
+    function Next() {
 
-            var count = @Model.SplashNews.Count;
-            var index = document.getElementById("index").value;
-       
-
-            index++;
-
-           if (index > count - 1) {
-                index = 0;
-            }
+        var count = @Model.SplashNews.Count;
+        var index = document.getElementById("index").value;
 
 
-           
-            document.getElementById("index").value = index;
-            UpdateSplash();
-           
+        index++;
+
+        if (index > count - 1) {
+            index = 0;
         }
 
 
-                function Previous() {
 
-            var count = @Model.SplashNews.Count;
-            var index = document.getElementById("index").value;
+        document.getElementById("index").value = index;
+        UpdateSplash();
+
+    }
 
 
-           if (index - 1 < 0) {
-                index = count -1;
-            }
-            else {
-                index--;
-            }
+    function Previous() {
 
-                    document.getElementById("index").value = index;
-                    UpdateSplash();
+        var count = @Model.SplashNews.Count;
+        var index = document.getElementById("index").value;
 
+
+        if (index - 1 < 0) {
+            index = count - 1;
+        }
+        else {
+            index--;
         }
 
-        function UpdateSplash()
-        {
-            CancelTimer();
-            StartTimer();
-            var index = document.getElementById("index").value;
+        document.getElementById("index").value = index;
+        UpdateSplash();
 
-            var name = 'SplashNews[' + index + '].';
+    }
 
-            document.getElementById("mainImage").src = document.getElementById(name + 'ImageURL').value;
-            document.getElementById("MainImageLink").href = document.getElementById(name + 'PostURL').value + document.getElementById(name + 'LinkID').value;
-            document.getElementById("Headline").innerHTML = document.getElementById(name + 'Headline').value;
-            }
+    function UpdateSplash() {
+        CancelTimer();
+        StartTimer();
+        var index = document.getElementById("index").value;
+
+        var name = 'SplashNews[' + index + '].';
+
+        document.getElementById("mainImage").src = document.getElementById(name + 'ImageURL').value;
+        document.getElementById("MainImageLink").href = document.getElementById(name + 'PostURL').value + document.getElementById(name + 'LinkID').value;
+        document.getElementById("Headline").innerHTML = document.getElementById(name + 'Headline').value;
+    }
     </script>
 }
 

@@ -1,0 +1,101 @@
+
+
+@media screen and (max-width: 600px) {
+    .loginWindow {
+      width: 90vw;
+      height: 70vh;
+    }
+    .loginWindow .loginWindowTextbox {
+      width: 50vw;
+    }
+    .loggedout-image {
+      height: 50%;
+      width: 50%;
+      z-index: 1;
+    }
+    .login-box {
+      height: 5rem;
+      width: 5rem;
+      left: 93vw;
+      position: fixed;
+      z-index: 2;
+    }
+    .loggedin-image {
+      height: 110%;
+      width: 110%;
+      -webkit-clip-path: circle(1.5rem);
+      clip-path: circle(1.5rem);
+      margin-left: -3rem;
+      margin-top: -1rem;
+    }
+  }
+  @media screen and (min-width: 600px) {
+    .loggedout-image {
+      height: 50%;
+      width: 50%;
+      z-index: 1;
+    }
+    .login-box {
+      height: 5rem;
+      width: 5rem;
+      left: 93vw;
+      position: fixed;
+      z-index: 2;
+    }
+    .loggedin-image {
+      height: 110%;
+      width: 110%;
+      -webkit-clip-path: circle(2rem);
+      clip-path: circle(2rem);
+      margin-left: -4rem;
+    }
+  }
+  @media only screen and (min-width: 768px) {
+    .loggedout-image {
+      height: 50%;
+      width: 50%;
+      z-index: 1;
+      margin-top: 0;
+      margin-left: -0;
+    }
+    .login-box {
+      height: 5rem;
+      width: 5rem;
+      top: 0;
+      left: 95vw;
+      position: fixed;
+      z-index: 2;
+    }
+  }
+  @media only screen and (min-width: 992px) {
+    .loggedout-image {
+      height: 50%;
+      width: 50%;
+      z-index: 1;
+    }
+    .login-box {
+      height: 6rem;
+      width: 6rem;
+      top: 0;
+      left: 96vw;
+      position: fixed;
+      z-index: 2;
+    }
+    .loggedin-image {
+      height: 110%;
+      width: 110%;
+      -webkit-clip-path: circle(3rem);
+      clip-path: circle(3rem);
+      margin-left: -4rem;
+    }
+  }
+  .loggedin-image {
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    border: 2px solid var(--primary-color);
+    box-shadow: 1rem 1rem 1rem rgba(44, 141, 194, 0.5);
+  }
+  

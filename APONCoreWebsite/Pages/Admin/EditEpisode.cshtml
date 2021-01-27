@@ -48,6 +48,14 @@
                            asp-for="Episode.episode.ShowDate"
                            name="showDate" />
                 </div>
+                <div class="form-group">
+                    <label for="postDate">Episode Length (time hh:mm:ss include 0's such as 01:03:05)</label>
+                    <input type="text"
+                           id="showTime"
+                           class="form-control"
+                           asp-for="Episode.episode.Time"
+                           name="showTime" />
+                </div>
 
                 <div class="form-group">
                     <label for="description">Web Description</label>
@@ -70,7 +78,7 @@
                     Cancel
                 </button>
 
-               
+
 
 
             </form>

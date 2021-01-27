@@ -1,0 +1,22 @@
+.SplashGrid{
+    display: grid;
+    width: 100%;
+    grid-template-rows: auto;
+    grid-template-columns: [imagecol] 80vw [textcol] 20vw;
+
+}
+
+.SplashGrid__Image{
+    grid-column-start: imagecol;
+    grid-column-end: imagecol;
+}
+
+.SplashGrid__Text{
+    grid-column-start: textcol;
+    grid-column-end: textcol;
+}
+
+.splashImage
+{
+    width: 100%;
+}

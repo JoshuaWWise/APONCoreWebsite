@@ -57,50 +57,60 @@
                 </div>
                 @if (Model.UserAuthLevel == 1)
                 {
-                    <div class="row">
-                        <div class="col-xs-12 col-md-12 mb-2">
-                            <button class="APONbtn APONbtnBlue" onclick="window.location.href='../Admin/AddCast'">
-                                Add Cast
-                            </button>
-                        </div>
-                        <div class="col-xs-12 col-md-12 mb-2">
-                            <button class="APONbtn APONbtnBlue" (click)="onAddCastToSeries()">
-                                Add Cast To Series
-                            </button>
-                        </div>
-                        <div class="col-xs-12 col-md-12 mb-2">
-                            <button class="APONbtn APONbtnBlue" (click)="onEditCastMembers()">
-                                Edit Cast Members
-                            </button>
-                        </div>
-                        <div class="col-xs-12 col-md-12 mb-2">
-                            <button class="APONbtn APONbtnBlue" onclick="window.location.href = '../Admin/UserList'">
-                                View All Users
-                            </button>
-                        </div>
-                        <div class="col-xs-12 col-md-12 mb-2">
-                            <button class="APONbtn APONbtnBlue" onclick="window.location.href='../Admin/AddComic'">
-                                Add ComicStrip
-                            </button>
-                        </div>
-                        <div class="col-xs-12 col-md-12 mb-2">
-                            Forum Posts from the last week
-                            <table>
-                                <tr><th>Post Date</th><th>Text</th><th>Forum ID</th><th>User ID</th></tr>
+            <div class="row">
+                <div class="col-xs-12 col-md-12 mb-2">
+                    <button class="APONbtn APONbtnBlue" onclick="window.location.href='../Admin/AddSeries'">
+                        Add Series
+                    </button>
+                </div>
+                <div class="col-xs-12 col-md-12 mb-2">
+                    <button class="APONbtn APONbtnBlue" onclick="window.location.href='../Admin/RefreshSeries'">
+                        Refresh Series
+                    </button>
+                </div>
+                <div class="col-xs-12 col-md-12 mb-2">
+                    <button class="APONbtn APONbtnBlue" onclick="window.location.href='../Admin/AddCast'">
+                        Add Cast
+                    </button>
+                </div>
+                <div class="col-xs-12 col-md-12 mb-2">
+                    <button class="APONbtn APONbtnBlue" (click)="onAddCastToSeries()">
+                        Add Cast To Series
+                    </button>
+                </div>
+                <div class="col-xs-12 col-md-12 mb-2">
+                    <button class="APONbtn APONbtnBlue" (click)="onEditCastMembers()">
+                        Edit Cast Members
+                    </button>
+                </div>
+                <div class="col-xs-12 col-md-12 mb-2">
+                    <button class="APONbtn APONbtnBlue" onclick="window.location.href = '../Admin/UserList'">
+                        View All Users
+                    </button>
+                </div>
+                <div class="col-xs-12 col-md-12 mb-2">
+                    <button class="APONbtn APONbtnBlue" onclick="window.location.href='../Admin/AddComic'">
+                        Add ComicStrip
+                    </button>
+                </div>
+                <div class="col-xs-12 col-md-12 mb-2">
+                    Forum Posts from the last week
+                    <table>
+                        <tr><th>Post Date</th><th>Text</th><th>Forum ID</th><th>User ID</th></tr>
 
-                                @foreach (ForumPost fp in Model.ForumPosts)
-                                {
-                                    <tr>
-                                        <td>@fp.PostDate</td>
-                                        <td>@fp.Text</td>
-                                        <td>@fp.ForumID</td>
-                                        <td>@fp.UserID</td>
+                        @foreach (ForumPost fp in Model.ForumPosts)
+                        {
+                            <tr>
+                                <td>@fp.PostDate</td>
+                                <td>@fp.Text</td>
+                                <td>@fp.ForumID</td>
+                                <td>@fp.UserID</td>
 
-                                    </tr>
-                                }
-                            </table>
-                        </div>
-                    </div>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
                 }
             </div>
         </div>

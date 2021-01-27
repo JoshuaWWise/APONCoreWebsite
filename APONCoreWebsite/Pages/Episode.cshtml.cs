@@ -83,7 +83,7 @@ namespace APONCoreWebsite.Pages.Series
             }
 
             //
-            IMTS.setParams("https://www.allportsopen.com/Series/Episode/" + EpisodeData.EpWithTag.episode.EpisodeID, "article", EpisodeData.EpWithTag.episode.Title, EpisodeData.EpWithTag.episode.Description, EpisodeData.EpWithTag.episode.EpImageURL);
+            IMTS.setParams("https://www.allportsopen.com/Series/Episode/" + EpisodeData.EpWithTag.episode.EpisodeID, "article", EpisodeData.Series.Name + " Podcast " + EpisodeData.EpWithTag.episode.Title, EpisodeData.EpWithTag.episode.Description, EpisodeData.EpWithTag.episode.EpImageURL);
 
             Episode = EpisodeData.EpWithTag.episode;
             Tags = EpisodeData.EpWithTag.tags;

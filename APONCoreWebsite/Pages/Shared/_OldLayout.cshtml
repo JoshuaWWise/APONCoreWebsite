@@ -1,0 +1,164 @@
+﻿@model ViewModels.ViewModelBase
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/css/styles.min.css" />
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.6.2/plyr.css" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+
+    <script async
+            src="https://platform.twitter.com/widgets.js"
+            charset="utf-8"></script>
+
+
+    <link rel="stylesheet"
+          type="text/css"
+          href="//fonts.googleapis.com/css?family=Lato:300,400,500,700,900" />
+    <partial name="_metaTags" model=@Model.MetaTagsModel />
+</head>
+<body>
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v8.0&appId=301958664210545&autoLogAppEvents=1" nonce="F9cjreQ7"></script>
+
+    <div class=""
+    <!--<div class="page-container">
+        <header>
+
+            <div>
+                <div class="top-bar fixed-top">
+                    <div class="logo-box">
+                        <a asp-page="/Index">
+                            <img class="SiteLogo"
+                                 alt="All Ports Open Network Logo"
+                                 src="https://media.allportsopen.org/Images/LogoSmWText.png" />
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+            @await Component.InvokeAsync("nav")
+
+            @await Component.InvokeAsync("auth")
+
+
+
+
+
+            <div class="social-media-bar-box">
+                <div class="small-grid-row">
+                    <div class="col-1-of-4-small">
+                        <a href="https://twitter.com/allportsopen" target="_blank">
+                            <img class="socialMediaIcon"
+                                 src="https://media.allportsopen.org/images/siteimages/TwitterWB.png" />
+                        </a>
+                    </div>
+                    <div class="col-1-of-4-small">
+                        <a href="https://www.facebook.com/AllPortsOpenNetwork/"
+                           target="_blank">
+                            <img class="socialMediaIcon"
+                                 src="https://facebookbrand.com/wp-content/uploads/2019/04/f_logo_RGB-Hex-Blue_512.png?w=512&h=512" />
+                        </a>
+                    </div>
+                    <div class="col-1-of-4-small">
+                        <a href="https://discord.gg/pQSgzuY" target="_blank">
+                            <img class="socialMediaIcon"
+                                 src="https://discord.com/assets/2c21aeda16de354ba5334551a883b481.png" />
+                        </a>
+                    </div>
+                    <div class="col-1-of-4-small">
+                        <a href="https://www.instagram.com/allportsopen/" target="_blank">
+                            <img class="socialMediaIcon"
+                                 src="https://media.allportsopen.org/images/siteimages/InstaColor.png" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div>
+            <main class="center-main-box NewAPONText">
+
+                <div class="outlet">
+
+
+                    @RenderBody()
+
+
+                </div>
+                <div class="site-bottom">
+
+                    <div class="grid-row">
+                        <div class="col-1-of-4 left-footer-column">
+                            This site uses tokens to store information, no sensitive information is stored in these tokens.
+                        </div>
+                        <div class="col-2-of-4 center-footer-column">
+                            <span class="site-name-top">The All Ports Open Network</span>
+                            <span class="site-name-bottom">Take Play Seriously</span>
+                        </div>
+                        <div class="col-1-of-4 right-footer-column">
+                            <p> &copy; 2018-2021 The All Ports Open Network</p>
+                      @*      @if (2 == 3)
+                            {-->
+                                <p>site version 3.1.8-27-20.2</p>
+            <p>site version 3.1.9.11-18-20</p> 11-18-20 Update fixed some bugs, streamlined add episode
+                                <p>site version 3.1.10.11-19-20</p> 11-19-20 Updated to fix editors' vision of episodes not posted yet, added Tags page
+                                <p>site version 3.1.11.11-27-20</p> 11-27-20 fixed affiliate submission. Fixed errant characters on Series and Features pages.
+                                <p>site version 3.1.12.11-28-20</p> 11-28-20 Added Edit SEries Page
+                                <p>site version 3.1.13.12-07-20</p> 11-28-20 Added Edit SEries Page
+                                <p>site version 3.1.14.12-14-20</p> 12-14-20 Updated Edit series page and Series page to allow for ordering of subseries/episodes
+                                <p>site version 3.1.15.01-05-21</p> 1-05-21 Added Comments back
+                                <p>site version 3.1.16.01-05-21</p> @*1-05-21 Fixxed comment errors
+                                <p>site version 3.1.17.01-07-21</p> @*1-07-21 Added Badges to forum posts. Added forum post list for admin.
+                                <p>site version 3.1.18.01-09-21</p> @*1-09-21 Added admin change author for Features.*@
+
+                            <!--}
+                            <p>site version 3.1.19.01-10-21</p>--> @*1-10-21 Added Add Series page and updated Series Refresh.*@
+                        <!--</div>
+                    </div>
+
+                </div>
+            </main>
+        </div>
+
+
+        <input type="hidden" id="copyToClipText" />
+
+        <div *ngIf="showRightAd" class="right-general-box">
+            <app-advertisement [Location]="1"></app-advertisement>
+        </div>-->
+
+        @*<div *ngIf="showTopAd" class="ad-bar">
+                <app-ad-horizontal [Delay]="0" [Location]="2"></app-ad-horizontal>
+            </div>*@
+
+
+
+
+        <!--<form method="post" id="layoutJWTForm" data-ajax="true" data-ajax-method="POST" data-ajax-url="\AutoLogin" data-ajax-confirm="Are you sure?">
+            <input type="hidden" id="layoutJWT" name="layoutJWT" value="test" />
+        </form>
+    </div>-->
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/tags.js" asp-append-version="true"></script>
+    <script src="~/ts/TSMain.js"></script>
+    <script src="~/ts/AudioProcessing.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.unobtrusive-ajax/3.2.5/jquery.unobtrusive-ajax.js"></script>
+    <script src="https://cdn.tiny.cloud/1/ujgllac16mc23ozg3ajgb2k8aylj36wgpjbmx5bgeycpnofe/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.plyr.io/3.6.2/plyr.polyfilled.js"></script>
+    <script src="path/to/plyr.js"></script>
+    <script>
+        const player = new Plyr('#player');
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
+

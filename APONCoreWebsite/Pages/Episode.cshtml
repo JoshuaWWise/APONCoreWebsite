@@ -1,7 +1,7 @@
 ﻿@page "/Series/Episode/{EpisodeID}"
 @model APONCoreWebsite.Pages.Series.EpisodeModel
 @{
-    ViewData["Title"] = Model.Episode.Title;
+    ViewData["Title"] = Model.SeriesName + " Podcast " + Model.Episode.Title;
 }
 
 @if (Model.Episode.EpisodeID != -1)
@@ -24,17 +24,7 @@
                     <div class="grid-row">
                         <h4>@Model.Episode.ShowDate.ToShortDateString()</h4>
                     </div>
-                    <div class="grid-row">
-                        <div class="col-1-of-3">
-                            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a>
-                            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                        </div>
-                        <div class="col-1-of-3">
-                            <div class="fb-like" data-href='@("https://www.allportsopen.com/series/episode/" + Model.EpisodeID.ToString())' data-width="" data-layout="standard" data-action="like" data-size="small" data-share="true"></div>
-                           
-                        </div>
-
-                    </div>
+                   
                     <div>
                         <audio id="player" class="player" controls>
                             <source id="audioSource" src=@Model.FileURL />
@@ -88,7 +78,20 @@
                     <a href='@("../../" + Model.epSeries.NavLinkName )'>
                         <img class="img-fluid img EpisodeSeriesImage" style="float:right" src="@Model.epSeries.ImageURL" />
                     </a>
+                    <div class="row">
+                        <div class="cm-lg-12 text-lg-right">
+                            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a>
+                            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                        </div>
+                     </div>
+                    <div clasws="row">
+                        <div class="cm-lg-12">
+                            <div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width="" data-layout="box_count" data-action="like" data-size="small" data-share="true"></div>
 
+                        </div>
+
+
+                    </div>
                 </div>
             </div>
 

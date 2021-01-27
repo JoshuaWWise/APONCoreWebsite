@@ -118,7 +118,7 @@ namespace APONCoreWebsite.Pages.Admin
             E.WebDescription = Request.Form["tinyMCETextArea"];
             E.Description = Request.Form["shortDescription"];
             E.EpisodeID = EpisodeID;
-
+            E.Time = Request.Form["showTime"];
             List<Tag> Tags = new List<Tag>();
 
             string TagList = Request.Form["selectedTagIDs"];

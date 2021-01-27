@@ -1,0 +1,25 @@
+.mainGrid-container {
+  display: grid;
+  grid-template-rows: [header] 6vh [body] auto [footer] 5vh;
+  grid-template-columns: [col1] 25vw [col2] 25vw [col3] 25vw [col4] 25vw;
+
+}
+
+.mainGrid-container__header {
+  grid-row-start: header;
+  grid-row-end: header;
+  grid-column-start: col1;
+  grid-column-end: -1;
+
+}
+
+.mainGrid-container__body{
+
+    grid-row-start: body;
+    grid-row-end: body;
+    grid-column-start: col1;
+    grid-column-end: -1;
+
+}
+
+

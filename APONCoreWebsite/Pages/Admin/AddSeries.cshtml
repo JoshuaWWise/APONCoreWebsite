@@ -1,0 +1,267 @@
+﻿@page "/Admin/AddSeries"
+@model APONCoreWebsite.Pages.Admin.AddSeriesModel
+
+
+
+@if (Model.UserAuthLevel < 4)
+{
+   
+        ViewData["Title"] = "Add New Series";
+    
+
+    <input type="hidden" id="SaveStatus" value=@Model.SaveStatus>
+
+    <h1>Edit @Model.Series.Name</h1>
+
+    <form method="post" asp-page-handler="Series">
+        <div class="grid-row">
+            <div class="col-1-of-2">
+                <div class="form-group">
+                    <label for="seriesName">Series Name</label>
+                    <input type="text" id="seriesName"
+                           name="seriesName"
+                           asp-for="Series.Name" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="Subtitle">Subtitle</label>
+                    <input type="text"
+                           class="form-control"
+                           id="Subtitle"
+                           name="Subtitle"
+                           asp-for="Series.Subtitle" />
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input class="form-control" type="text"
+                           id="description"
+                           name="description"
+                           asp-for="Series.Description" />
+                </div>
+                <div class="form-group">
+                    <label for="ShortDescription">Short Description</label>
+                    <input type="text"
+                           class="form-control"
+                           id="ShortDescription"
+                           name="ShortDescription"
+                           asp-for="Series.ShortDescription" />
+                </div>
+                <div class="form-group">
+                    <label for="Folder">Folder</label>
+                    <input type="text"
+                           class="form-control"
+                           id="Folder"
+                           name="Folder"
+                           asp-for="Series.Folder" />
+                </div>
+                <div class="form-group">
+                    <label for="Authors">Authors</label>
+                    <input type="text"
+                           class="form-control"
+                           id="authors"
+                           name="authors"
+                           asp-for="Series.Authors" />
+                </div>
+                <div class="form-group">
+                    <label for="DefaultKeywords">Default Keywords</label>
+                    <input type="text"
+                           class="form-control"
+                           id="DefaultKeywords"
+                           name="DefaultKeywords"
+                           asp-for="Series.Keywords" />
+                </div>
+
+                <div class="form-group">
+                    <label for="ShowDate">Show Day of the Week</label>
+                    <input type="number"
+                           min="1"
+                           max="7"
+                           class="form-control"
+                           id="ShowDate"
+                           name="ShowDate"
+                           asp-for="Series.ShowDate" />
+                    1 = Monday, 2 = Tuesday, etc.
+                </div>
+
+
+
+                <div class="form-group">
+                    <label for="categoreis">iTunes Category List</label>
+                    <input type="text"
+                           class="form-control"
+                           id="Categories"
+                           name="Categories"
+                           asp-for="Series.CategoryList" />
+                    <br />
+                    <br />These should be separated by a semicolon with no spaces, and look like "Arts/Books;Business/Careers". The list can be found  <a href='https://help.apple.com/itc/podcasts_connect/#/itc9267a2f12'> here.</a>
+                    <br />
+                </div>
+                <div class="form-group">
+                    <label for="iTunesLink">iTunes Link</label>
+                    <input type="text"
+                           class="form-control"
+                           id="iTunesLink"
+                           name="iTunesLink"
+                           asp-for="Series.ITunes" />
+                </div>
+                <div class="form-group">
+                    <label for="SpotifyLink">Spotify Link</label>
+                    <input type="text"
+                           class="form-control"
+                           id="SpotifyLink"
+                           name="SpotifyLink"
+                           asp-for="Series.Spotify" />
+                </div>
+
+            </div>
+            <div class="col-1-of-2">
+                <label class="mt-2" for="imageURL">Default Image Location</label>
+                <input type="text"
+                       class="form-control"
+                       id="imgURLtextbox"
+                       required
+                       name="imgURLtextbox"
+                       asp-for="Series.ImageURL"
+                       oninput="updateImg('imgURLtextbox', 'imgMainImage')" />
+
+                <input type="file"
+                       id="imgFileInput"
+                       name="imgFileInput"
+                       accept=".png,.jpg"
+                       #imgURLInput
+                       onchange="startImageSubmit(event, 'imgFileInput', 'imgURLtextbox', 'imgMainImage');" />
+                <br />
+
+                <img id="imgMainImage" src='@Model.Series.ImageURL'
+                     class="editorImage" />
+
+                <hr />
+                <label for="splashImageURL">Splash Image Location</label>
+
+                <input type="text"
+                       class="form-control"
+                       id="splashImageInput"
+                       name="splashImageInput"
+                       asp-for="Series.SplashImageURL"
+                       oninput="updateImg('splashImageInput', 'imgSplashImage')" />
+                <input type="file"
+                       id="splashImgURLInput"
+                       accept=".png,.jpg"
+                       #splashImgURLInput
+                       onchange="startImageSubmit(event, 'splashImgURLInput', 'splashImageInput', 'imgSplashImage');" />
+                />
+                <img id="imgSplashImage" src='@Model.Series.SplashImageURL' class="editorSplashImage" />
+
+
+                <div class="form-group">
+                    <label for="Email">Email</label>
+                    <input type="text"
+                           class="form-control"
+                           id="Email"
+                           name="Email"
+                           asp-for="Series.Email" />
+                </div>
+                <div class="form-group">
+                    <label for="Twitter">Twitter Feed (full URL, i.e. https://twitter.com/NoAvatarsPod) </label>
+                    <input type="text"
+                           class="form-control"
+                           id="Twitter"
+                           name="Twitter"
+                           asp-for="Series.TwitterFeedURL" />
+                </div>
+
+                <div class="form-group">
+                    <label for="Copyright">Copyright Info</label>
+                    <input type="text"
+                           class="form-control"
+                           id="Copyright"
+                           name="Copyright"
+                           asp-for="Series.Copyright" />
+                </div>
+                <div class="form-group">
+                    <label for="SubseriesIDList">Subseries IDs (separated in the order you want them to display in with commas and no spaces i.e. 15,3,18)</label>
+                    <input type="text"
+                           class="form-control"
+                           id="SubseriesIDList"
+                           name="SubseriesIDList"
+                           asp-for="SubseriesIDs" />
+                </div>
+                <div class="form-group">
+                    <label for="pageLayout">Series Page Layout: 0 = Subseries before Episodes, 1 = Episodes before Subseries</label>
+                    <input type="number"
+                           min="0"
+                           max="1"
+                           class="form-control"
+                           id="PageLayoutID"
+                           name="PageLayoutID"
+                           asp-for="Series.PageLayout" />
+                </div>
+
+
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Save</button>
+        <button class="btn btn-warning" type="button" onclick="CancelEdit()">
+            Cancel
+        </button>
+    </form>
+}
+
+
+@section Scripts
+{
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+         CheckIfEditor("Auth Level: " & @Model.UserAuthLevel);
+
+
+
+
+
+
+            switch (document.getElementById("SaveStatus").value) {
+                case "Saved":
+                      alert("Series Saved");
+                     window.location.href= "/@Model.Series.NavLinkName";
+                    break;
+                case "Unauthorized":
+                case "Forbidden":
+                    alert("You do not have permission to edit this series information. If you think this is incorrect, please log out and back in again.");
+                    window.location.href = "/";
+                    break;
+                case "Error":
+                    alert("There was an error saving your series. Please contact the administrator with the name of the series you were trying to edit.");
+
+                    break;
+            }
+
+
+            updateImg('splashImageInput', 'imgSplashImage');
+            updateImg('imgURLtextbox', 'imgMainImage');
+
+
+
+        }
+        );
+
+        function startImageSubmit(evt, senderObj, txtUpdateField, imgUpdateField) {
+            let fd = new FormData();
+
+            fd.append("File", document.getElementById(senderObj).files[0])
+            var filename = document.getElementById(senderObj).files[0].name;
+
+
+            submitImage(evt, fd, "episode", txtUpdateField, imgUpdateField, filename);
+
+
+        }
+
+        function CancelEdit() {
+            window.location.href= "/@Model.Series.NavLinkName";
+        }
+
+
+    </script>
+}

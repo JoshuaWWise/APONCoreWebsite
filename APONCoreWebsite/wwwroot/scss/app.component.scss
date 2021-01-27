@@ -1,35 +1,37 @@
-@import "styles.scss";
+@import "styles";
 @import "base/base";
 @import "base/animations";
 @import "base/typography";
 @import "base/utilities";
 
 
+@import "components/newLayout";
 @import "components/about-us";
 @import "components/ad-styles";
-@import "components/auth";
-@import "components/authorShield.scss";
+@import "components/_authorShield";
 @import "components/badges";
 @import "components/buttons";
 @import "components/cast";
 @import "components/editor";
 @import "components/episode";
-@import "components/features.scss";
+@import "components/features";
 @import "components/fourms";
 @import "components/front-image-rotation";
 @import "components/frontPage";
 @import "components/login";
-@import "components//_paging.scss";
+@import "components/paging";
+@import "components/profileImage";
 @import "components/rotatorCards";
 @import "components/series";
 @import "components/seriesList";
 @import "components/social-media";
+@import "components/splashPage";
 @import "components/tags";
 @import "components/twitterAdmin";
 @import "themes/themes";
 @import "components/user";
 
-@import "nav-styles.scss";
+@import "nav-styles";
 @import "abstracts/mixins";
 @import "abstracts/functions";
 @import "abstracts/variables";
@@ -38,9 +40,9 @@
 @import "layout/grid";
 @import "layout/tableLayouts";
 
-@import "images-styles.scss";
+@import "images-styles";
 
-@import "social-media.scss";
+@import "social-media";
 
 h2 {
   color: var(--text-color);
